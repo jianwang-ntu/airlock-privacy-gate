@@ -1,0 +1,67 @@
+{
+  "generated_at": "2026-09-06T08:04:50Z",
+  "question": "Does the gate need the detector's per-token POSTERIOR, or would its binary decision (or the token count alone) rank documents just as well?",
+  "split": "test (never used for training or calibration)",
+  "documents": 2891,
+  "redaction_threshold": 0.2,
+  "base_leak_rate": 0.1003,
+  "surviving_tokens_per_document_mean": 367.83,
+  "statistics": [
+    {
+      "statistic": "posterior",
+      "auc": 0.7498,
+      "distinct_values": 2890,
+      "leak_rate_at_coverage_0.6365": 0.0467,
+      "leak_rate_at_coverage_0.0948": 0.0182
+    },
+    {
+      "statistic": "count",
+      "auc": 0.4531,
+      "distinct_values": 611,
+      "leak_rate_at_coverage_0.6365": 0.112,
+      "leak_rate_at_coverage_0.0948": 0.0912
+    },
+    {
+      "statistic": "flag@0.01",
+      "auc": 0.7337,
+      "distinct_values": 86,
+      "leak_rate_at_coverage_0.6365": 0.0522,
+      "leak_rate_at_coverage_0.0948": 0.0292
+    },
+    {
+      "statistic": "flag@0.05",
+      "auc": 0.7077,
+      "distinct_values": 48,
+      "leak_rate_at_coverage_0.6365": 0.0484,
+      "leak_rate_at_coverage_0.0948": 0.0511
+    },
+    {
+      "statistic": "flag@0.2",
+      "auc": 0.5207,
+      "distinct_values": 3,
+      "leak_rate_at_coverage_0.6365": 0.0951,
+      "leak_rate_at_coverage_0.0948": 0.1095
+    },
+    {
+      "statistic": "random ranking (20 seeds)",
+      "auc": null,
+      "distinct_values": null,
+      "leak_rate_at_coverage_0.6365": 0.101,
+      "sd_at_coverage_0.6365": 0.005,
+      "leak_rate_at_coverage_0.0948": 0.1035,
+      "sd_at_coverage_0.0948": 0.0168
+    }
+  ],
+  "auc_delta_posterior_minus_count": 0.2967,
+  "best_flag_statistic": "flag@0.01",
+  "auc_delta_posterior_minus_best_flag": 0.0161,
+  "worst_flag_statistic": "flag@0.2",
+  "auc_delta_posterior_minus_worst_flag": 0.2291,
+  "coverages_compared": [
+    0.6365,
+    0.0948
+  ],
+  "method": "One forward pass, one set of redaction spans. Each statistic is a different reading of the SAME detector output. Coverage is fixed across statistics: forward the k lowest-scoring documents, same k, and measure the leak rate among them.",
+  "caveat": "'Leak' means an identifier the CORPUS annotates survived redaction. The corpus's annotation is incomplete, so every rate here is a lower bound on the true rate. The comparison between statistics is unaffected: all of them are scored against the same labels.",
+  "seconds": 28.7
+}

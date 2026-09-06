@@ -19,12 +19,14 @@ def load(name):
         return json.load(f)
 
 
-def claims(det, gate, gaps, checks_total, deploy):
+def claims(det, gate, gaps, checks_total, deploy, abl):
     h = det["by_threshold_hybrid"]["0.2"]
     m = det["by_threshold_model_only"]["0.2"]
     rx, val = det["regex_baseline"], det["checksum_validators_only"]
     rows = {r["budget"]: r for r in gate["risk_coverage"]}
     runs = {(r["device"], r["torch_threads"]): r for r in deploy["runs"]}
+    ab = {r["statistic"]: r for r in abl["statistics"]}
+    cov = "leak_rate_at_coverage_0.6365"
     dep = lambda k: f"{runs[k]['docs_per_second']:.2f}"
     b12, b045 = rows[0.12], rows[0.045]
     pct = lambda x: f"{x * 100:.2f}%"
@@ -76,7 +78,7 @@ def claims(det, gate, gaps, checks_total, deploy):
         ("`last_name` alone is 52.56%",
          f"`last_name` alone is {pct(h['per_type']['last_name']['recall'])}"),
         ("(78 instances)", f"({h['per_type']['last_name']['gold']} instances)"),
-        ("**19/19**", f"**{checks_total}/{checks_total}**"),
+        ("**21/21**", f"**{checks_total}/{checks_total}**"),
         # deployment cost -- the runs are keyed by (device, threads), not by order
         ("| CPU, 1 thread | **1.59** |", f"| CPU, 1 thread | **{dep(('cpu', 1))}** |"),
         ("| CPU, 4 threads | **4.18** |", f"| CPU, 4 threads | **{dep(('cpu', 4))}** |"),
@@ -89,12 +91,46 @@ def claims(det, gate, gaps, checks_total, deploy):
         ("peaked at\n**1,485.4 MiB** resident",
          f"peaked at\n**{runs[('cpu', 4)]['peak_rss_mib']:,.1f} MiB** resident"),
         ("same 200 test\ndocuments", f"same {deploy['documents']} test\ndocuments"),
+        # ---- the posterior ablation
+        ("distilbert-base-cased, **29**\n  PII types as **59** BIO labels",
+         f"distilbert-base-cased, **{(det['model']['labels'] - 1) // 2}**\n"
+         f"  PII types as **{det['model']['labels']}** BIO labels"),
+        ("| **sum of per-token posterior — shipped** | **0.7498** | **4.67%** |",
+         f"| **sum of per-token posterior — shipped** | **{ab['posterior']['auc']}** | "
+         f"**{pct(ab['posterior'][cov])}** |"),
+        ("| count of surviving tokens (uncertainty discarded) | 0.4531 | 11.20% |",
+         f"| count of surviving tokens (uncertainty discarded) | {ab['count']['auc']} | "
+         f"{pct(ab['count'][cov])} |"),
+        ("| flag at 0.01 (posterior → a yes/no) | 0.7337 | 5.22% |",
+         f"| flag at 0.01 (posterior → a yes/no) | {ab['flag@0.01']['auc']} | "
+         f"{pct(ab['flag@0.01'][cov])} |"),
+        ("| flag at 0.05 | 0.7077 | 4.84% |",
+         f"| flag at 0.05 | {ab['flag@0.05']['auc']} | {pct(ab['flag@0.05'][cov])} |"),
+        ("| flag at the redaction threshold, 0.20 | 0.5207 | 9.51% |",
+         f"| flag at the redaction threshold, 0.20 | {ab['flag@0.2']['auc']} | "
+         f"{pct(ab['flag@0.2'][cov])} |"),
+        ("| random ranking, 20 seeds | — | 10.10% |",
+         f"| random ranking, 20 seeds | — | "
+         f"{pct(ab['random ranking (20 seeds)'][cov])} |"),
+        ("collapses to a coin flip: AUC 0.5207, three distinct values across 2,891\ndocuments",
+         f"collapses to a coin flip: AUC {ab['flag@0.2']['auc']}, "
+         f"three distinct values across {abl['documents']:,}\ndocuments"),
+        ("against a 10.03% base rate", f"against a {pct(abl['base_leak_rate'])} base rate"),
+        ("Token count alone scores 0.4531", f"Token count alone scores {ab['count']['auc']}"),
+        ("a flag at 0.01 reaches 0.7337 and 5.22%",
+         f"a flag at 0.01 reaches {ab['flag@0.01']['auc']} and {pct(ab['flag@0.01'][cov])}"),
+        ("ahead by 0.0161 AUC and 0.55 points",
+         f"ahead by {abl['auc_delta_posterior_minus_best_flag']} AUC and "
+         f"{abs(ab['flag@0.01'][cov] - ab['posterior'][cov]) * 100:.2f} points"),
+        ("lands on the same 0.7498 and the same 4.67% as the",
+         f"lands on the same {gate['ranking_auc_raw_statistic']} and the same "
+         f"{pct(rows[0.12]['observed_leak_rate_forwarded'])} as the"),
     ]
 
 
-def run(readme_text, det, gate, gaps, checks_total, deploy):
+def run(readme_text, det, gate, gaps, checks_total, deploy, abl):
     bad = []
-    for quoted, derived in claims(det, gate, gaps, checks_total, deploy):
+    for quoted, derived in claims(det, gate, gaps, checks_total, deploy, abl):
         if quoted != derived:
             bad.append((quoted, derived, "value moved"))
         elif quoted not in readme_text:
@@ -106,19 +142,20 @@ def main():
     readme = open(os.path.join(ROOT, "README.md")).read()
     det, gate, gaps = load("detector_eval.json"), load("gate_eval.json"), load("corpus_gaps.json")
     deploy = load("deploy_cost.json")
+    abl = load("posterior_ablation.json")
     sys.path.insert(0, ROOT)
     from tests.run_checks import CHECKS
-    bad = run(readme, det, gate, gaps, len(CHECKS), deploy)
+    bad = run(readme, det, gate, gaps, len(CHECKS), deploy, abl)
     for quoted, derived, why in bad:
         print(f"MISMATCH ({why}): README says {quoted!r}, evidence gives {derived!r}")
-    total = len(claims(det, gate, gaps, len(CHECKS), deploy))
+    total = len(claims(det, gate, gaps, len(CHECKS), deploy, abl))
     print(f"{total - len(bad)}/{total} README claims match the evidence files")
 
     # negative control: corrupt one evidence value and require a mismatch
     import copy
     corrupted = copy.deepcopy(gate)
     corrupted["forward_everything_leak_rate"] = round(gate["forward_everything_leak_rate"] / 2, 4)
-    ctrl = run(readme, det, corrupted, gaps, len(CHECKS), deploy)
+    ctrl = run(readme, det, corrupted, gaps, len(CHECKS), deploy, abl)
     if not ctrl:
         print("CONTROL FAILED: halving the measured leak rate did not trip the checker")
         return 1
@@ -129,11 +166,26 @@ def main():
     dep_corrupt = copy.deepcopy(deploy)
     dep_corrupt["runs"] = [{**r, "docs_per_second": round(r["docs_per_second"] * 2, 2)}
                            for r in dep_corrupt["runs"]]
-    ctrl2 = run(readme, det, gate, gaps, len(CHECKS), dep_corrupt)
+    ctrl2 = run(readme, det, gate, gaps, len(CHECKS), dep_corrupt, abl)
     if not ctrl2:
         print("CONTROL FAILED: doubling every measured throughput did not trip the checker")
         return 1
     print(f"control: doubling every device throughput trips {len(ctrl2)} claim(s)")
+
+    # a third control, sited on the ABLATION rows: neither control above touches
+    # posterior_ablation.json, so both would pass vacuously over the new claims.
+    # This one inverts the finding -- it makes the discarded-uncertainty variant
+    # rank BETTER than the shipped statistic.
+    abl_corrupt = copy.deepcopy(abl)
+    for r in abl_corrupt["statistics"]:
+        if r["statistic"] == "count":
+            r["auc"] = 0.9111
+            r["leak_rate_at_coverage_0.6365"] = 0.0101
+    ctrl3 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl_corrupt)
+    if not ctrl3:
+        print("CONTROL FAILED: inverting the ablation finding did not trip the checker")
+        return 1
+    print(f"control: inverting the count-statistic ablation trips {len(ctrl3)} claim(s)")
     return 1 if bad else 0
 
 

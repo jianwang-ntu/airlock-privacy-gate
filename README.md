@@ -136,7 +136,7 @@ the 106.85 above on a 200-document subset, and lands within 3% of it. Forward
 pass only: no HTTP, no queueing, no quantisation, on a host that was not
 idle-guaranteed.
 
-`python3 tests/run_checks.py` → **19/19**, each accepting check paired with a
+`python3 tests/run_checks.py` → **21/21**, each accepting check paired with a
 control that must fail for it to mean anything.
 
 ## What this is *not*
@@ -202,9 +202,10 @@ including the answers and the integrity report.
 
 AI is the mechanism, not a wrapper around someone else's:
 
-- a **fine-tuned transformer token classifier** (distilbert-base-cased, 29
-  identifier types, 59 BIO labels) trained here from the base checkpoint — it is
-  the only component that can find an identifier with no fixed shape;
+- a **fine-tuned transformer token classifier** (distilbert-base-cased, **29**
+  PII types as **59** BIO labels, **25** of them treated as identifying and
+  redacted) trained here from the base checkpoint — it is the only component
+  that can find an identifier with no fixed shape;
 - its **per-token posterior** is the input to the risk statistic, so the model's
   uncertainty is used as a quantity rather than thresholded away;
 - **isotonic calibration** turns that statistic into a probability with a
@@ -214,6 +215,37 @@ AI is the mechanism, not a wrapper around someone else's:
 
 Remove the learned model and the system collapses to the regex control in the
 table above: 38.45% recall, 90.39% of documents leaking.
+
+### Is the posterior load-bearing, or just the decision?
+
+`scripts/ablate_posterior.py` reads the *same* forward pass and the *same*
+redaction spans five ways and ranks the test split by each, at fixed coverage —
+forward the k lowest-risk documents, same k — because only the shipped
+statistic has a calibrator and comparing budgets would compare calibrations
+instead of rankings.
+
+| how the model's output is read | AUC | leak rate among the 63.65% forwarded |
+|---|---|---|
+| **sum of per-token posterior — shipped** | **0.7498** | **4.67%** |
+| count of surviving tokens (uncertainty discarded) | 0.4531 | 11.20% |
+| flag at 0.01 (posterior → a yes/no) | 0.7337 | 5.22% |
+| flag at 0.05 | 0.7077 | 4.84% |
+| flag at the redaction threshold, 0.20 | 0.5207 | 9.51% |
+| random ranking, 20 seeds | — | 10.10% |
+
+**The gate runs on what is below the redaction threshold.** Use only the tokens
+the model chose to mask — the output any redaction API hands you — and it
+collapses to a coin flip: AUC 0.5207, three distinct values across 2,891
+documents, against a 10.03% base rate. Token count alone scores 0.4531, *below*
+chance, so the length objection to a length-sensitive statistic does not hold on
+this corpus. Against us: a flag at 0.01 reaches 0.7337 and 5.22%, so the
+continuous posterior is ahead by 0.0161 AUC and 0.55 points, not by an order of
+magnitude. The AUCs are single-run point estimates with no interval attached and
+the flag thresholds were not tuned.
+
+This script never loads the calibrator; it re-sums the surviving-token
+posteriors itself, and lands on the same 0.7498 and the same 4.67% as the
+calibrated gate — an independent reproduction of both by a second code path.
 
 ## Attribution
 

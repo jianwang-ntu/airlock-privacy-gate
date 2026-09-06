@@ -258,6 +258,32 @@ def c_gate_decision_shape():
         f"a document stuffed with identifiers scored below a clean one ({risky.risk} < {clean.risk})"
 
 
+def c_coverage_selects_the_lowest_risk():
+    """The ablation table rests on this: forward the k LOWEST-scoring documents.
+
+    Selecting the highest instead would invert every row while still producing
+    a plausible-looking table, so the direction is asserted rather than assumed.
+    """
+    from scripts.ablate_posterior import leak_rate_at_coverage
+    scores = [0.0, 0.1, 0.2, 0.9, 1.0]
+    labels = [0, 0, 0, 1, 1]           # the leaks are the high scorers
+    if leak_rate_at_coverage(scores, labels, 3) != 0.0:
+        return "the three lowest-risk documents were not leak-free"
+    if leak_rate_at_coverage(scores, labels, 5) != 0.4:
+        return "full coverage did not return the base rate"
+    return True
+
+
+def c_coverage_control_reversed_scores():
+    """CONTROL: negate the scores and the same call must find every leak."""
+    from scripts.ablate_posterior import leak_rate_at_coverage
+    scores = [0.0, 0.1, 0.2, 0.9, 1.0]
+    labels = [0, 0, 0, 1, 1]
+    rate = leak_rate_at_coverage([-x for x in scores], labels, 3)
+    return abs(rate - 2 / 3) < 1e-9 or \
+        f"reversing the ranking did not surface the leaks (got {rate})"
+
+
 def c_evidence_matches_disk():
     """Every headline number the README quotes is re-read from evidence/."""
     ev = os.path.join(ROOT, "evidence", "gate_eval.json")
@@ -294,6 +320,10 @@ CHECKS = [
     ("model/CONTROL-clean-document-is-barely-masked", c_clean_document_control),
     ("model/sub-word-span-snaps-to-the-word", c_snapping_widens_to_word),
     ("model/gate-ranks-a-stuffed-doc-above-a-clean-one", c_gate_decision_shape),
+    ("ablation/fixed-coverage-takes-the-lowest-risk-documents",
+     c_coverage_selects_the_lowest_risk),
+    ("ablation/CONTROL-reversed-ranking-surfaces-the-leaks",
+     c_coverage_control_reversed_scores),
     ("evidence/README-numbers-are-on-disk", c_evidence_matches_disk),
 ]
 
