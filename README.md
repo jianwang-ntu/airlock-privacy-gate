@@ -136,6 +136,49 @@ the 106.85 above on a 200-document subset, and lands within 3% of it. Forward
 pass only: no HTTP, no queueing, no quantisation, on a host that was not
 idle-guaranteed.
 
+### Sustained, on the path a sidecar actually runs
+
+The table above times `Detector._token_scores` at batch 8, and the
+documents-per-day figure extrapolates it. A deployed Airlock runs neither:
+`Gate.process` takes **one** document -- a request arrives on its own and
+cannot wait for seven more to fill a batch -- and then also runs the checksum
+validators, the redaction, the residual-risk sum over surviving tokens and the
+calibrator. So that figure was an extrapolation from a path nobody runs, with
+no load test behind it. `scripts/measure_sustained_load.py` runs the real one
+for 150 seconds on the same 4 pinned threads over the same 200 documents:
+
+| | |
+|---|---|
+| documents in 150.03 s | **693** |
+| sustained | **4.62 docs/s** = **399,082 / day** |
+| latency p50 / p90 / p99 | **280 / 295 / 443 ms** |
+| first third -> last third | 4.598 -> 4.667 docs/s (**no decay**, 1.015x) |
+| peak resident | **1,256.4 MiB** |
+
+**The published 361,152 / day is conservative, not optimistic** -- the deployed
+path clears **1.105x** it. Batch 8 pads every sequence to the longest in the
+batch, and on documents of uneven length that costs more than it saves: the
+same forward pass at batch 1 runs at **4.42** docs/s against **4.05** at batch 8
+in this run.
+
+Two controls, because a throughput number without them is a number. **Tie-in**:
+the published configuration is replayed inside the same run and lands at
+**4.05** against the published **4.18** (**0.968x**), so the host has not
+moved underneath the comparison. **Within-process attribution**: the
+separate-process arms disagreed by a few percent in a direction that is
+impossible -- a path cannot be faster than the forward pass it contains -- so
+the stages are instead timed against each other inside one process. Per
+document: forward **220.833 ms**, decode and validators **0.302 ms**, redact
+**0.036 ms**, risk **0.104 ms**, calibrate **0.004 ms**. The forward pass is
+**99.799%** of the cost and everything the published figure leaves out is
+**0.201%** of it. That instrumented replica is put against the shipped
+`Gate.process` on every document and decides identically on **200/200**.
+
+Still one process: no HTTP, no concurrent clients, no queueing discipline and
+no quantisation, on a host that was not idle-guaranteed. The answering model is
+not in this path at all, so a document the gate refuses costs far more end to
+end than any number here.
+
 `python3 tests/run_checks.py` → **21/21**, each accepting check paired with a
 control that must fail for it to mean anything.
 

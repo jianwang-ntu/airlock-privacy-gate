@@ -1,0 +1,129 @@
+{
+  "generated_at": "2026-09-06T19:19:29Z",
+  "why": "evidence/deploy_cost.json times the forward pass at batch 8 and the README turns its 4-thread figure into a documents-per-day number. Gate.process -- what a sidecar runs -- is a different path at a different batch. This measures that path, sustained.",
+  "threads": 4,
+  "device": "cpu",
+  "arms": [
+    {
+      "arm": "forward_batch8",
+      "what": "Detector._token_scores only, batch 8, 4 threads -- no validators, no redaction, no risk, no calibration.",
+      "documents": 200,
+      "batch": 8,
+      "characters": 274916,
+      "mean_characters_per_document": 1374.6,
+      "seconds": 49.42,
+      "docs_per_second": 4.047,
+      "peak_rss_mib": 1488.5,
+      "rss_before_model_mib": 806.2
+    },
+    {
+      "arm": "forward_batch1",
+      "what": "Detector._token_scores only, batch 1, 4 threads -- no validators, no redaction, no risk, no calibration.",
+      "documents": 200,
+      "batch": 1,
+      "characters": 274916,
+      "mean_characters_per_document": 1374.6,
+      "seconds": 45.23,
+      "docs_per_second": 4.422,
+      "peak_rss_mib": 1227.7,
+      "rss_before_model_mib": 806.9
+    },
+    {
+      "arm": "gate_sustained",
+      "what": "Gate.process one document at a time -- HybridDetector (model UNION checksum validators), redact, raw_risk over surviving tokens, isotonic calibrator, forward/local decision. 4 threads. This is the deployed path.",
+      "seconds_target": 150.0,
+      "seconds": 150.03,
+      "documents": 693,
+      "corpus_documents": 200,
+      "passes_over_corpus": 3.46,
+      "characters": 953660,
+      "mean_characters_per_document": 1376.1,
+      "docs_per_second": 4.619,
+      "chars_per_second": 6356.3,
+      "latency_seconds": {
+        "mean": 0.2165,
+        "p50": 0.2799,
+        "p90": 0.2954,
+        "p99": 0.4429,
+        "max": 0.4498,
+        "min": 0.0158
+      },
+      "decay_check": {
+        "documents_per_third": 231,
+        "first_third_docs_per_second": 4.598,
+        "last_third_docs_per_second": 4.667,
+        "last_over_first": 1.015,
+        "note": "A throughput number taken over a few seconds does not show thermal or scheduler decay. These two are the same measurement over the first and last third of the run."
+      },
+      "decisions": {
+        "forwarded_to_hosted": 452,
+        "held_local": 241,
+        "note": "Aggregate counts only. No document, span or placeholder is recorded."
+      },
+      "peak_rss_mib": 1256.4,
+      "rss_before_model_mib": 805.6
+    },
+    {
+      "arm": "gate_stage_breakdown",
+      "what": "Gate.process's stages timed against each other in ONE process, so the attribution is not confounded by host load. Wall seconds include a second, untimed gate.process call per document for the equivalence control, so this arm's docs_per_second is NOT a throughput figure.",
+      "documents": 200,
+      "seconds_wall_including_control": 88.42,
+      "seconds_attributed": 44.256,
+      "per_stage_seconds": {
+        "forward": 44.167,
+        "decode_and_validators": 0.06,
+        "redact": 0.007,
+        "risk": 0.021,
+        "calibrate": 0.001
+      },
+      "per_stage_share": {
+        "forward": 0.99799,
+        "decode_and_validators": 0.00136,
+        "redact": 0.00016,
+        "risk": 0.00047,
+        "calibrate": 2e-05
+      },
+      "per_stage_milliseconds_per_document": {
+        "forward": 220.833,
+        "decode_and_validators": 0.302,
+        "redact": 0.036,
+        "risk": 0.104,
+        "calibrate": 0.004
+      },
+      "model_half_share": 0.99935,
+      "gate_half_share": 0.00065,
+      "gate_half_over_model_half": 0.00065,
+      "equivalence_control": {
+        "what": "Every document is also run through the unmodified gate.process; the replica's forward/hold decision must match it.",
+        "documents_compared": 200,
+        "disagreements": 0,
+        "held": true
+      }
+    }
+  ],
+  "tie_in_control": {
+    "what": "Arm A replays the published configuration. Without it a lower number in arm C could be this host being busier today rather than the deployed path being slower.",
+    "published_docs_per_second": 4.18,
+    "published_at": "2026-09-06T07:37:24Z",
+    "replayed_docs_per_second": 4.047,
+    "ratio_replayed_over_published": 0.9682,
+    "reproduced_within_15_percent": true
+  },
+  "decomposition": {
+    "forward_batch8_docs_per_second": 4.047,
+    "forward_batch1_docs_per_second": 4.422,
+    "gate_sustained_docs_per_second": 4.619,
+    "cost_of_batch1_vs_batch8": 0.915,
+    "cost_of_deployed_path_vs_published": 0.876,
+    "cost_of_gate_over_forward_batch1_ACROSS_PROCESSES": 0.957,
+    "why_that_ratio_is_not_used": "It comes out at or below 1.0, and a path that strictly contains the batch-1 forward pass cannot be faster than it. The arms run in separate processes on a shared 384-core host and a few percent between them is host load, not code. The attribution below is measured inside one process instead.",
+    "gate_stages_over_model_stages_WITHIN_PROCESS": 0.00065,
+    "note": "Batch 8 pads every sequence in the batch to the longest one, so on documents of uneven length the batch a sidecar really has -- one -- is not the slower configuration. The redaction, risk and calibration that the published figure leaves out are measured within-process at gate_stages_over_model_stages_WITHIN_PROCESS of the model's own cost."
+  },
+  "documents_per_day": {
+    "published_forward_pass_extrapolation": 361152,
+    "sustained_deployed_path": 399082,
+    "overstatement_factor": 0.9
+  },
+  "not_claimed": "Still one process on one machine. No HTTP server, no concurrent clients, no queueing discipline and no quantisation, on a 384-core shared host pinned to 4 threads by OMP/MKL/OPENBLAS and torch.set_num_threads but not otherwise idle-guaranteed. The answering model is not in this path at all -- neither the local fallback nor the hosted stand-in is invoked, so a document the gate REFUSES costs far more end to end than these numbers show. Documents average 1376.1 characters; longer documents are slower because windows, not documents, are the unit of work."
+}
