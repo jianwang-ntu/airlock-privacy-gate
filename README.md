@@ -250,18 +250,34 @@ calibrated gate — an independent reproduction of both by a second code path.
 
 ## Attribution
 
+The full inventory — every library, model, dataset, binary and font, each with
+the licence read off this machine and off the publisher's own surface — is
+**[`THIRD_PARTY.md`](THIRD_PARTY.md)**, derived by
+`scripts/measure_third_party.py` into `evidence/third_party.json`. The short
+version:
+
 - Training corpus: [`gretelai/synthetic_pii_finance_multilingual`](https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual),
   Apache-2.0, English split only. Synthetic by construction — no real personal
   data was used, held or processed anywhere in this project.
-- Base encoder: `distilbert-base-cased` (Apache-2.0).
+- Base encoder: `distilbert-base-cased` (Apache-2.0). The detector we release
+  is a fine-tune of it, so the released weights are Apache-2.0 too.
 - Answering models: `Qwen/Qwen2.5-0.5B-Instruct` and
-  `Qwen/Qwen3-4B-Instruct-2507` (Apache-2.0).
+  `Qwen/Qwen3-4B-Instruct-2507` (Apache-2.0), downloaded by you, not shipped
+  by us.
 - Libraries, the complete set our own code imports — derived from the import
   graph by `scripts/measure_environment.py`, not typed from memory:
   `torch`, `transformers`, `pyarrow`, `pandas`, `Pillow`. Everything else is
   the Python standard library. `ffmpeg` is a system binary, used only to
-  render the demo video. **No third-party API is called anywhere in this
-  project**: there is no HTTP client in the repository, from any vendor.
+  render the demo video.
+- **No hosted inference API is called anywhere in this project.** Measured, not
+  asserted: 25 vendor client packages were looked for in the import graph and
+  none is present, and no provider endpoint or credential appears in the
+  source. The network is used in three places, all downloads and none of them
+  inference — the corpus from `huggingface.co`, our own release weights from
+  `github.com`, and the licence lookups in `scripts/measure_third_party.py`
+  (`--offline` skips those). `transformers.from_pretrained` also fetches a
+  checkpoint on first use if you hand it a hub id instead of a local path.
+  After `scripts/fetch_model.sh` the gate needs no network at all.
 
 ## Responsible AI
 
@@ -275,4 +291,9 @@ guarantee, and nothing here should be read as legal advice.
 
 ## Licence
 
-MIT — see `LICENSE`.
+MIT for this repository — see `LICENSE`.
+
+The released weights are a different matter and are not covered by it: they are
+a fine-tune of `distilbert-base-cased`, so `airlock-detector-v0.1.0.tar.gz` is
+distributed under **Apache-2.0**, with the modification stated in
+[`THIRD_PARTY.md`](THIRD_PARTY.md#1-what-we-redistribute-and-under-what-licence).

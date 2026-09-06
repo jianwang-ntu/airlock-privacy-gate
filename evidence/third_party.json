@@ -1,0 +1,636 @@
+{
+  "generated_at": "2026-09-06T09:44:09Z",
+  "what": "Third-party inventory for UPAI-Hackdays rule 6 (Intellectual Property), derived from this working tree and this host, not transcribed.",
+  "publisher_licenses_pinned_at": "evidence/publisher_licenses.json",
+  "source_files_parsed": {
+    "py": 29,
+    "sh": 3
+  },
+  "python_libraries": {
+    "PIL": {
+      "module": "PIL",
+      "distributions": [
+        "pillow"
+      ],
+      "name": "pillow",
+      "version": "12.0.0",
+      "license_expression": "MIT-CMU",
+      "license_field": null,
+      "license_classifiers": [],
+      "license_files": [
+        {
+          "declared": "LICENSE",
+          "path": "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/licenses/LICENSE",
+          "present": true,
+          "resolved_by": "licenses/ subdirectory",
+          "candidates_tried": [
+            "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/LICENSE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/licenses/LICENSE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/LICENSE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/licenses/LICENSE"
+          ],
+          "sha256": "17f240ae101143707e5e7303a5d800450d9ccc7475b463cedb555cefdb3c6ece",
+          "bytes": 1453,
+          "first_line": "The Python Imaging Library (PIL) is"
+        }
+      ],
+      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info",
+      "license_field_first_line": null,
+      "license_declared": "MIT-CMU",
+      "license_declared_from": "METADATA License-Expression",
+      "imported_by": [
+        "scripts/render_demo_video.py"
+      ]
+    },
+    "pandas": {
+      "module": "pandas",
+      "distributions": [
+        "pandas"
+      ],
+      "name": "pandas",
+      "version": "2.3.3",
+      "license_expression": null,
+      "license_field": "BSD 3-Clause License\n\n Copyright (c) 2008-2011, AQR Capital Management, LLC, Lambda Foundry, Inc. and PyData Development Team\n All rights reserved.\n\n Copyright (c) 2011-2023, Open source contributors.\n\n Redistribution and use in source and binary forms, with or without\n modification, are permitted provided that the following conditions are met:\n\n * Redistributions of source code must retain the above copyright notice, this\n   list of conditions and the following disclaimer.\n\n * Redistributions in binary form must reproduce the above copyright notice,\n   this list of conditions and the following disclaimer in the documentation\n   and/or other materials provided with the distribution.\n\n * Neither the name of the copyright holder nor the names of its\n   contributors may be used to endorse or promote products derived from\n   this software without specific prior written permission.\n\n THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\n FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "license_files": [],
+      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/pandas-2.3.3.dist-info",
+      "license_field_first_line": "BSD 3-Clause License",
+      "license_declared": "License :: OSI Approved :: BSD License",
+      "license_declared_from": "METADATA Classifier",
+      "imported_by": [
+        "scripts/prepare_data.py"
+      ]
+    },
+    "pyarrow": {
+      "module": "pyarrow",
+      "distributions": [
+        "pyarrow"
+      ],
+      "name": "pyarrow",
+      "version": "21.0.0",
+      "license_expression": null,
+      "license_field": "Apache Software License",
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "license_files": [
+        {
+          "declared": "../LICENSE.txt",
+          "path": "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/LICENSE.txt",
+          "present": true,
+          "resolved_by": "dist-info basename",
+          "candidates_tried": [
+            "/data/wj/anaconda/lib/python3.13/site-packages/LICENSE.txt",
+            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/LICENSE.txt",
+            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/LICENSE.txt",
+            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/licenses/LICENSE.txt"
+          ],
+          "sha256": "82f5f9b0e6592da7f79022fc930add132a76c56727d29813f94058157a2b2d11",
+          "bytes": 113409,
+          "first_line": "Apache License"
+        },
+        {
+          "declared": "../NOTICE.txt",
+          "path": "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/NOTICE.txt",
+          "present": true,
+          "resolved_by": "dist-info basename",
+          "candidates_tried": [
+            "/data/wj/anaconda/lib/python3.13/site-packages/NOTICE.txt",
+            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/NOTICE.txt",
+            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/NOTICE.txt",
+            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/licenses/NOTICE.txt"
+          ],
+          "sha256": "c946470d6b024c77feebdfb686bf92a828402c0ffc27c769bca7d8bef08e1db7",
+          "bytes": 2916,
+          "first_line": "Apache Arrow"
+        }
+      ],
+      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info",
+      "license_field_first_line": "Apache Software License",
+      "license_declared": "Apache Software License",
+      "license_declared_from": "METADATA License",
+      "imported_by": [
+        "airlock/__init__.py"
+      ]
+    },
+    "torch": {
+      "module": "torch",
+      "distributions": [
+        "torch"
+      ],
+      "name": "torch",
+      "version": "2.10.0",
+      "license_expression": null,
+      "license_field": "BSD-3-Clause",
+      "license_classifiers": [],
+      "license_files": [
+        {
+          "declared": "LICENSE",
+          "path": "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/LICENSE",
+          "present": true,
+          "resolved_by": "licenses/ subdirectory",
+          "candidates_tried": [
+            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/LICENSE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/LICENSE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/LICENSE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/LICENSE"
+          ],
+          "sha256": "2e311cbf8c7646e764a54621ab15663bbfcfeb5bb94f1d634d79adfd49ae3191",
+          "bytes": 505053,
+          "first_line": "From PyTorch:"
+        },
+        {
+          "declared": "NOTICE",
+          "path": "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/NOTICE",
+          "present": true,
+          "resolved_by": "licenses/ subdirectory",
+          "candidates_tried": [
+            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/NOTICE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/NOTICE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/NOTICE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/NOTICE"
+          ],
+          "sha256": "c2cc7bf0caec7652c2b460a8a470bea1677f241e4ab8e431df34cf17f5a9fec0",
+          "bytes": 23632,
+          "first_line": "======================================================================="
+        }
+      ],
+      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info",
+      "license_field_first_line": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_declared_from": "METADATA License",
+      "imported_by": [
+        "airlock/detect.py",
+        "airlock/route.py",
+        "airlock/train.py",
+        "scripts/measure_deploy_cost.py"
+      ]
+    },
+    "transformers": {
+      "module": "transformers",
+      "distributions": [
+        "transformers"
+      ],
+      "name": "transformers",
+      "version": "5.5.4",
+      "license_expression": null,
+      "license_field": "Apache 2.0 License",
+      "license_classifiers": [],
+      "license_files": [
+        {
+          "declared": "LICENSE",
+          "path": "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/licenses/LICENSE",
+          "present": true,
+          "resolved_by": "licenses/ subdirectory",
+          "candidates_tried": [
+            "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/LICENSE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/licenses/LICENSE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/LICENSE",
+            "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/licenses/LICENSE"
+          ],
+          "sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049",
+          "bytes": 11418,
+          "first_line": "Copyright 2018- The Hugging Face team. All rights reserved."
+        }
+      ],
+      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info",
+      "license_field_first_line": "Apache 2.0 License",
+      "license_declared": "Apache 2.0 License",
+      "license_declared_from": "METADATA License",
+      "imported_by": [
+        "airlock/detect.py",
+        "airlock/route.py",
+        "airlock/train.py",
+        "tests/run_checks.py"
+      ]
+    }
+  },
+  "external_binaries": {
+    "bash": {
+      "command": "bash",
+      "path": "/usr/bin/bash",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)",
+      "used_by": [
+        "scripts/record_demo.py"
+      ]
+    },
+    "curl": {
+      "command": "curl",
+      "path": "/data/wj/anaconda/bin/curl",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "curl 8.16.0 (Linux) libcurl/8.16.0 OpenSSL/3.0.18 zlib/1.3.1 zstd/1.5.7 libidn2/2.3.8 libssh2/1.11.1 nghttp2/1.67.1",
+      "used_by": [
+        "scripts/fetch_model.sh",
+        "scripts/train_all.sh"
+      ]
+    },
+    "cut": {
+      "command": "cut",
+      "path": "/usr/bin/cut",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "cut (GNU coreutils) 8.32",
+      "distro_package": "coreutils",
+      "copyright_file": "/usr/share/doc/coreutils/copyright",
+      "copyright_file_licenses": [],
+      "copyright_files_star_license": null,
+      "used_by": [
+        "scripts/fetch_model.sh"
+      ]
+    },
+    "dpkg": {
+      "command": "dpkg",
+      "path": "/usr/bin/dpkg",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "Debian 'dpkg' package management program version 1.21.1 (amd64).",
+      "distro_package": "dpkg",
+      "copyright_file": "/usr/share/doc/dpkg/copyright",
+      "copyright_file_licenses": [
+        "BSD-2-clause",
+        "GPL-2",
+        "GPL-2+",
+        "public-domain-md5",
+        "public-domain-s-s-d"
+      ],
+      "copyright_files_star_license": "GPL-2+",
+      "used_by": [
+        "scripts/measure_third_party.py"
+      ]
+    },
+    "env": {
+      "command": "env",
+      "path": "/usr/bin/env",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "env (GNU coreutils) 8.32",
+      "distro_package": "coreutils",
+      "copyright_file": "/usr/share/doc/coreutils/copyright",
+      "copyright_file_licenses": [],
+      "copyright_files_star_license": null,
+      "used_by": [
+        "scripts/verify_clean_clone.sh"
+      ]
+    },
+    "ffmpeg": {
+      "command": "ffmpeg",
+      "path": "/usr/bin/ffmpeg",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "ffmpeg version 4.4.2-0ubuntu0.22.04.1 Copyright (c) 2000-2021 the FFmpeg developers",
+      "build_configuration_flags": {
+        "enable_gpl": true,
+        "enable_version3": false,
+        "enable_nonfree": false
+      },
+      "distro_package": "ffmpeg",
+      "copyright_file": "/usr/share/doc/ffmpeg/copyright",
+      "copyright_file_licenses": [
+        "BSD-1-clause",
+        "BSD-2-clause",
+        "BSD-3-clause",
+        "BSL",
+        "Expat",
+        "GPL-2+",
+        "GPL-3+",
+        "IJG",
+        "ISC",
+        "LGPL-2+",
+        "LGPL-2.1+",
+        "LGPL-2.1+ and BSD-2-clause",
+        "LGPL-2.1+ and BSD-3-clause",
+        "LGPL-2.1+ and BSL",
+        "LGPL-2.1+ and Expat",
+        "LGPL-2.1+ and Sundry",
+        "Sundry",
+        "Zlib",
+        "man-page",
+        "public-domain"
+      ],
+      "copyright_files_star_license": "LGPL-2.1+",
+      "used_by": [
+        "scripts/render_demo_video.py"
+      ]
+    },
+    "git": {
+      "command": "git",
+      "path": "/usr/bin/git",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "git version 2.34.1",
+      "distro_package": "git",
+      "copyright_file": "/usr/share/doc/git/copyright",
+      "copyright_file_licenses": [
+        "Apache-2.0",
+        "Boost",
+        "EDL-1.0",
+        "Expat",
+        "GPL-1+ or Artistic-1",
+        "GPL-2",
+        "GPL-2+",
+        "ISC",
+        "LGPL-2+",
+        "LGPL-2.1+",
+        "dlmalloc",
+        "mingw-runtime"
+      ],
+      "copyright_files_star_license": "GPL-2",
+      "used_by": [
+        "scripts/measure_contribution.py"
+      ]
+    },
+    "grep": {
+      "command": "grep",
+      "path": "/usr/bin/grep",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "grep (GNU grep) 3.7",
+      "used_by": [
+        "scripts/verify_clean_clone.sh"
+      ]
+    },
+    "mkdir": {
+      "command": "mkdir",
+      "path": "/usr/bin/mkdir",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "mkdir (GNU coreutils) 8.32",
+      "used_by": [
+        "scripts/fetch_model.sh",
+        "scripts/train_all.sh"
+      ]
+    },
+    "python3": {
+      "command": "python3",
+      "path": "/data/wj/anaconda/bin/python3",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "Python 3.13.9",
+      "used_by": [
+        "scripts/train_all.sh",
+        "scripts/verify_clean_clone.sh"
+      ]
+    },
+    "tail": {
+      "command": "tail",
+      "path": "/usr/bin/tail",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "tail (GNU coreutils) 8.32",
+      "distro_package": "coreutils",
+      "copyright_file": "/usr/share/doc/coreutils/copyright",
+      "copyright_file_licenses": [],
+      "copyright_files_star_license": null,
+      "used_by": [
+        "scripts/verify_clean_clone.sh"
+      ]
+    },
+    "tar": {
+      "command": "tar",
+      "path": "/usr/bin/tar",
+      "present": true,
+      "version_flag": "--version",
+      "version_first_line": "tar (GNU tar) 1.34",
+      "used_by": [
+        "scripts/fetch_model.sh"
+      ]
+    }
+  },
+  "fonts": {
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf": {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+      "present": true,
+      "sha256": "d1c3ff99f1e1ce1827a33efd4dad81f40babda06bff9e43bd7591c86662a287b",
+      "distro_package": "fonts-dejavu-core",
+      "copyright_file": "/usr/share/doc/fonts-dejavu-core/copyright",
+      "copyright_file_licenses": [
+        "GPL-2+",
+        "bitstream-vera"
+      ],
+      "copyright_files_star_license": "bitstream-vera",
+      "upstream_source": "https://dejavu-fonts.github.io/",
+      "used_by": [
+        "scripts/render_demo_video.py"
+      ]
+    },
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf": {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+      "present": true,
+      "sha256": "690243adfefe0ce154b547db6205794bd30ac4277275179517a90994f4980648",
+      "distro_package": "fonts-dejavu-core",
+      "copyright_file": "/usr/share/doc/fonts-dejavu-core/copyright",
+      "copyright_file_licenses": [
+        "GPL-2+",
+        "bitstream-vera"
+      ],
+      "copyright_files_star_license": "bitstream-vera",
+      "upstream_source": "https://dejavu-fonts.github.io/",
+      "used_by": [
+        "scripts/render_demo_video.py"
+      ]
+    },
+    "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf": {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf",
+      "present": true,
+      "sha256": "f8aa70b5d4210d77624f5b5b5cf094fadf9fd019caf5b528fa5af42fc4ac43a5",
+      "distro_package": "fonts-dejavu-core",
+      "copyright_file": "/usr/share/doc/fonts-dejavu-core/copyright",
+      "copyright_file_licenses": [
+        "GPL-2+",
+        "bitstream-vera"
+      ],
+      "copyright_files_star_license": "bitstream-vera",
+      "upstream_source": "https://dejavu-fonts.github.io/",
+      "used_by": [
+        "scripts/render_demo_video.py"
+      ]
+    },
+    "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf": {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+      "present": true,
+      "sha256": "39c29931201f08dd89fdba4129c76288e6baeecf7c94fe4f6a757f2b50718b1b",
+      "distro_package": "fonts-dejavu-core",
+      "copyright_file": "/usr/share/doc/fonts-dejavu-core/copyright",
+      "copyright_file_licenses": [
+        "GPL-2+",
+        "bitstream-vera"
+      ],
+      "copyright_files_star_license": "bitstream-vera",
+      "upstream_source": "https://dejavu-fonts.github.io/",
+      "used_by": [
+        "scripts/render_demo_video.py"
+      ]
+    }
+  },
+  "models": [
+    {
+      "id": "distilbert-base-cased",
+      "api_url": "https://huggingface.co/api/models/distilbert-base-cased",
+      "reproduce": "curl -sSL https://huggingface.co/api/models/distilbert-base-cased | python3 -c \"import json,sys; print(json.load(sys.stdin)['cardData']['license'])\"",
+      "verification": "PINNED",
+      "canonical_id": "distilbert/distilbert-base-cased",
+      "license": "apache-2.0",
+      "license_name": null,
+      "license_link": null,
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "gated": false,
+      "private": false,
+      "last_modified": "2024-05-06T13:46:22.000Z",
+      "fetched_at": "2026-09-06T09:43:56Z",
+      "fetched_by": "submission/fetch_publisher_licenses.py",
+      "role": "detector base checkpoint, fine-tuned and redistributed as a release asset",
+      "id_source": "models/detector/train_meta.json:base_model"
+    },
+    {
+      "id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "api_url": "https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct",
+      "reproduce": "curl -sSL https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct | python3 -c \"import json,sys; print(json.load(sys.stdin)['cardData']['license'])\"",
+      "verification": "PINNED",
+      "canonical_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "license": "apache-2.0",
+      "license_name": null,
+      "license_link": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/blob/main/LICENSE",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "gated": false,
+      "private": false,
+      "last_modified": "2024-09-25T12:32:56.000Z",
+      "fetched_at": "2026-09-06T09:43:57Z",
+      "fetched_by": "submission/fetch_publisher_licenses.py",
+      "role": "local answering model behind the redacted prompt",
+      "id_source": "airlock/route.py:LOCAL_DEFAULT"
+    },
+    {
+      "id": "Qwen/Qwen3-4B-Instruct-2507",
+      "api_url": "https://huggingface.co/api/models/Qwen/Qwen3-4B-Instruct-2507",
+      "reproduce": "curl -sSL https://huggingface.co/api/models/Qwen/Qwen3-4B-Instruct-2507 | python3 -c \"import json,sys; print(json.load(sys.stdin)['cardData']['license'])\"",
+      "verification": "PINNED",
+      "canonical_id": "Qwen/Qwen3-4B-Instruct-2507",
+      "license": "apache-2.0",
+      "license_name": null,
+      "license_link": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/blob/main/LICENSE",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "gated": false,
+      "private": false,
+      "last_modified": "2025-09-17T06:56:53.000Z",
+      "fetched_at": "2026-09-06T09:43:57Z",
+      "fetched_by": "submission/fetch_publisher_licenses.py",
+      "role": "larger local stand-in for the model Airlock is protecting the operator from",
+      "id_source": "airlock/route.py:HOSTED_STANDIN_DEFAULT"
+    }
+  ],
+  "dataset": {
+    "id": "gretelai/synthetic_pii_finance_multilingual",
+    "api_url": "https://huggingface.co/api/datasets/gretelai/synthetic_pii_finance_multilingual",
+    "reproduce": "curl -sSL https://huggingface.co/api/datasets/gretelai/synthetic_pii_finance_multilingual | python3 -c \"import json,sys; print(json.load(sys.stdin)['cardData']['license'])\"",
+    "verification": "PINNED",
+    "canonical_id": "gretelai/synthetic_pii_finance_multilingual",
+    "license": "apache-2.0",
+    "license_name": null,
+    "license_link": null,
+    "license_tags": [
+      "license:apache-2.0"
+    ],
+    "gated": false,
+    "private": false,
+    "last_modified": "2024-06-11T03:00:20.000Z",
+    "fetched_at": "2026-09-06T09:43:57Z",
+    "fetched_by": "submission/fetch_publisher_licenses.py",
+    "role": "training and evaluation corpus for the detector",
+    "declared_license_in_repo": "apache-2.0",
+    "declared_license_source": "data_manifest.json written by scripts/prepare_data.py",
+    "publisher_license_agrees": true
+  },
+  "first_party": {
+    "our_license_file": {
+      "path": "LICENSE",
+      "first_line": "MIT License",
+      "sha256": "79449ea854968280a0c1a63d509b6e80c033c789275ea09704a8b774f581772c"
+    },
+    "demo_documents": {
+      "demo/docs/payment_instruction.txt": {
+        "sha256": "61bb3744cbf3e48e60af5b752cc4578727b4610bb8b5219906dc1017ef257fd5",
+        "bytes": 284
+      },
+      "demo/docs/support_ticket.txt": {
+        "sha256": "2cda4d10d455dfe98fd049f7f8ae796d43f3962ff029ba2bc535bf335a97c3ef",
+        "bytes": 210
+      }
+    },
+    "demo_documents_provenance": "demo/docs/README.md"
+  },
+  "network_egress": {
+    "vendor_client_candidates_checked": [
+      "openai",
+      "anthropic",
+      "google",
+      "google_generativeai",
+      "generativeai",
+      "vertexai",
+      "cohere",
+      "mistralai",
+      "together",
+      "replicate",
+      "groq",
+      "boto3",
+      "botocore",
+      "azure",
+      "langchain",
+      "llama_index",
+      "litellm",
+      "ollama",
+      "huggingface_hub",
+      "datasets",
+      "requests",
+      "httpx",
+      "aiohttp",
+      "urllib3",
+      "websockets"
+    ],
+    "vendor_clients_imported": [],
+    "stdlib_network_modules_imported": {},
+    "url_literals": {
+      "https://github.com/jianwang-ntu/airlock-privacy-gate.git": [
+        "scripts/verify_clean_clone.sh"
+      ],
+      "https://github.com/jianwang-ntu/airlock-privacy-gate/releases/download/v0.1.0/airlock-detector-v0.1.0.tar.gz": [
+        "scripts/fetch_model.sh"
+      ],
+      "https://huggingface.co/api/": [
+        "scripts/measure_third_party.py"
+      ],
+      "https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual/resolve/main/data": [
+        "scripts/train_all.sh"
+      ]
+    },
+    "from_pretrained_literal_arguments": {
+      "distilbert-base-cased": [
+        "tests/run_checks.py"
+      ]
+    },
+    "reading": "A hub id passed to from_pretrained downloads from huggingface.co on first use; a path under models/ does not. Neither is a vendor API call, and neither is nothing."
+  },
+  "summary": {
+    "libraries": 5,
+    "libraries_with_no_declared_license": [],
+    "binaries": 12,
+    "binaries_absent": [],
+    "fonts": 4,
+    "fonts_absent": [],
+    "models": 3,
+    "models_license_unresolved": [],
+    "dataset_license_agrees_with_publisher": true,
+    "vendor_clients_imported": [],
+    "vendor_client_candidates_checked": 25
+  }
+}

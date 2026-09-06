@@ -1,0 +1,78 @@
+{
+  "models": {
+    "distilbert-base-cased": {
+      "canonical_id": "distilbert/distilbert-base-cased",
+      "license": "apache-2.0",
+      "license_name": null,
+      "license_link": null,
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "gated": false,
+      "private": false,
+      "last_modified": "2024-05-06T13:46:22.000Z",
+      "api_url": "https://huggingface.co/api/models/distilbert-base-cased",
+      "fetched_at": "2026-09-06T09:46:33Z",
+      "fetched_by": "submission/fetch_publisher_licenses.py",
+      "reproduce": "curl -sSL https://huggingface.co/api/models/distilbert-base-cased | python3 -c \"import json,sys; print(json.load(sys.stdin)['cardData']['license'])\""
+    },
+    "Qwen/Qwen2.5-0.5B-Instruct": {
+      "canonical_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "license": "apache-2.0",
+      "license_name": null,
+      "license_link": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/blob/main/LICENSE",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "gated": false,
+      "private": false,
+      "last_modified": "2024-09-25T12:32:56.000Z",
+      "api_url": "https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct",
+      "fetched_at": "2026-09-06T09:46:34Z",
+      "fetched_by": "submission/fetch_publisher_licenses.py",
+      "reproduce": "curl -sSL https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct | python3 -c \"import json,sys; print(json.load(sys.stdin)['cardData']['license'])\""
+    },
+    "Qwen/Qwen3-4B-Instruct-2507": {
+      "canonical_id": "Qwen/Qwen3-4B-Instruct-2507",
+      "license": "apache-2.0",
+      "license_name": null,
+      "license_link": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/blob/main/LICENSE",
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "gated": false,
+      "private": false,
+      "last_modified": "2025-09-17T06:56:53.000Z",
+      "api_url": "https://huggingface.co/api/models/Qwen/Qwen3-4B-Instruct-2507",
+      "fetched_at": "2026-09-06T09:46:34Z",
+      "fetched_by": "submission/fetch_publisher_licenses.py",
+      "reproduce": "curl -sSL https://huggingface.co/api/models/Qwen/Qwen3-4B-Instruct-2507 | python3 -c \"import json,sys; print(json.load(sys.stdin)['cardData']['license'])\""
+    }
+  },
+  "datasets": {
+    "gretelai/synthetic_pii_finance_multilingual": {
+      "canonical_id": "gretelai/synthetic_pii_finance_multilingual",
+      "license": "apache-2.0",
+      "license_name": null,
+      "license_link": null,
+      "license_tags": [
+        "license:apache-2.0"
+      ],
+      "gated": false,
+      "private": false,
+      "last_modified": "2024-06-11T03:00:20.000Z",
+      "api_url": "https://huggingface.co/api/datasets/gretelai/synthetic_pii_finance_multilingual",
+      "fetched_at": "2026-09-06T09:46:34Z",
+      "fetched_by": "submission/fetch_publisher_licenses.py",
+      "reproduce": "curl -sSL https://huggingface.co/api/datasets/gretelai/synthetic_pii_finance_multilingual | python3 -c \"import json,sys; print(json.load(sys.stdin)['cardData']['license'])\"",
+      "card_license_section": {
+        "url": "https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual/raw/main/README.md",
+        "found": true,
+        "text": "All data in this generated dataset is Apache 2.0 licensed and can be used for any purpose that is not harmful.",
+        "fetched_at": "2026-09-06T09:46:34Z"
+      }
+    }
+  },
+  "what": "Publisher-declared licences, fetched from outside the repository so that the repository keeps its measured NO_NETWORK_CLIENT property.",
+  "generated_at": "2026-09-06T09:46:32Z"
+}

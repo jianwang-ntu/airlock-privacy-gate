@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-06T08:40:28Z",
+  "generated_at": "2026-09-06T09:44:18Z",
   "what": "Requirements 5 (Technology Stack), derived from the source rather than transcribed. Libraries are the third-party top-level modules our own .py files import; each version is read in its own subprocess with that module imported first.",
   "python": {
     "version": "3.13.9",
@@ -11,7 +11,7 @@
     "machine": "x86_64",
     "release": "5.15.0-170-generic"
   },
-  "source_files_parsed": 27,
+  "source_files_parsed": 29,
   "source_files": [
     "airlock/__init__.py",
     "airlock/baseline.py",
@@ -31,9 +31,11 @@
     "scripts/demo_run.py",
     "scripts/eval_gate.py",
     "scripts/fit_gate.py",
+    "scripts/measure_contribution.py",
     "scripts/measure_corpus_gaps.py",
     "scripts/measure_deploy_cost.py",
     "scripts/measure_environment.py",
+    "scripts/measure_third_party.py",
     "scripts/prepare_data.py",
     "scripts/record_demo.py",
     "scripts/render_demo_video.py",
@@ -103,12 +105,28 @@
       "first_line": "GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)",
       "flag": "-version"
     },
+    "dpkg": {
+      "files": [
+        "scripts/measure_third_party.py"
+      ],
+      "present": true,
+      "first_line": "dpkg: error: unknown option -v",
+      "flag": "-version"
+    },
     "ffmpeg": {
       "files": [
         "scripts/render_demo_video.py"
       ],
       "present": true,
       "first_line": "ffmpeg version 4.4.2-0ubuntu0.22.04.1 Copyright (c) 2000-2021 the FFmpeg developers",
+      "flag": "-version"
+    },
+    "git": {
+      "files": [
+        "scripts/measure_contribution.py"
+      ],
+      "present": true,
+      "first_line": "unknown option: -version",
       "flag": "-version"
     }
   },
@@ -231,7 +249,7 @@
       "termios",
       "time"
     ],
-    "files_scanned": 27,
+    "files_scanned": 29,
     "verdict": "NO_NETWORK_CLIENT"
   }
 }
