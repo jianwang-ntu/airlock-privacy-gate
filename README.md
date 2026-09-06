@@ -45,7 +45,7 @@ decision has nothing to decide with.
 That gap is not hypothetical. **Our own detector, at its shipped operating
 point, still leaves an annotated identifier in 13.27% of the documents that
 contain one.** A pipeline that redacts and forwards regardless is a pipeline
-that leaks one document in eight and never says so.
+that leaks more than one document in eight and never says so.
 
 ## What Airlock does
 
