@@ -1,0 +1,66 @@
+{
+ "generated_at": "2026-09-06T10:21:04Z",
+ "what": "Controls for scripts/measure_originality.py -- the rule 2 copy search. Each exercises one outcome of the scanner against a tree built for the run.",
+ "scanner": "scripts/measure_originality.py",
+ "scanner_sha256": "65b0f1de7b790eb1f346ea91290b9ed6ea6449a229b7f67e79eca3db7a6858b2",
+ "near_control_lines_rewritten": 22,
+ "near_control_jaccard": 0.6972,
+ "controls": [
+  {
+   "name": "C1 accept",
+   "expects": "unrelated root -> NO_COPY_FOUND",
+   "passed": true,
+   "detail": "status=NO_COPY_FOUND walked=1"
+  },
+  {
+   "name": "C2 exact",
+   "expects": "verbatim copy -> REVIEW_REQUIRED naming airlock/gate.py",
+   "passed": true,
+   "detail": "status=REVIEW_REQUIRED matches=1"
+  },
+  {
+   "name": "C3 near",
+   "expects": "22 lines rewritten -> flagged as probable copy",
+   "passed": true,
+   "detail": "status=REVIEW_REQUIRED jaccard=0.6972"
+  },
+  {
+   "name": "C3b near-only",
+   "expects": "the edited copy is NOT byte-identical, so EXACT must miss it",
+   "passed": true,
+   "detail": "exact_matches=0"
+  },
+  {
+   "name": "C4 degraded",
+   "expects": "absent roots -> NOT_RUN (not a pass)",
+   "passed": true,
+   "detail": "status=NOT_RUN"
+  },
+  {
+   "name": "C5 licence carve-out",
+   "expects": "MIT licence text appears in matches but keeps NO_COPY_FOUND",
+   "passed": true,
+   "detail": "status=NO_COPY_FOUND licence_matches=1"
+  },
+  {
+   "name": "C6 short-line floor",
+   "expects": "a file of only short lines cannot be flagged",
+   "passed": true,
+   "detail": "status=NO_COPY_FOUND"
+  },
+  {
+   "name": "C7 self carve-out",
+   "expects": "copy inside this job's workspace: listed, verdict unchanged",
+   "passed": true,
+   "detail": "status=NO_COPY_FOUND matches=1 outside=0"
+  },
+  {
+   "name": "C8 self pair",
+   "expects": "the SAME copy, self pointed elsewhere -> REVIEW_REQUIRED",
+   "passed": true,
+   "detail": "status=REVIEW_REQUIRED outside=1"
+  }
+ ],
+ "passed": 9,
+ "total": 9
+}

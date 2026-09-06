@@ -279,6 +279,17 @@ version:
   checkpoint on first use if you hand it a hub id instead of a local path.
   After `scripts/fetch_model.sh` the gate needs no network at all.
 
+## Originality
+
+**[`ORIGINALITY.md`](ORIGINALITY.md)** answers the event's rule 2 sentence by
+sentence, and answers the middle one — *"previously developed projects may not
+be submitted as-is"* — by searching this machine for a copy of every tracked
+file rather than by asserting there isn't one. It reports what the search
+covered, what it found, and what it cannot see. `scripts/measure_originality.py`
+produces it into `evidence/originality.json`;
+`tests/check_originality_scan.py` is the set of controls that has to find a copy
+that *is* there before "none found" is worth reading.
+
 ## Responsible AI
 
 The purpose of this project is data minimisation, and it is built not to

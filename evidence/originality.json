@@ -1,0 +1,419 @@
+{
+ "generated_at": "2026-09-06T10:22:23Z",
+ "what": "Evidence for UPAI-Hackdays rule 2 (Originality), derived from this repository's git history and from a search of this host. Nothing here is transcribed.",
+ "head": "4334c31c2e14a3170f33619417f9caa67c5f6e30",
+ "head_note": "describes the tree at `head`; committing this file produces a new head, so `head` is expected to be an ancestor of the branch tip.",
+ "rule_2": [
+  "All submissions must be original work created by the participating team.",
+  "Previously developed projects may not be submitted as-is.",
+  "Teams may use existing open-source libraries, APIs, and tools, but their contribution and implementation should be clearly demonstrated."
+ ],
+ "hackathon": {
+  "slug": "upai-hackdays",
+  "devpost_id": 31216,
+  "published_at": "2026-09-02T05:52:35Z",
+  "submissions_start_at": "2026-09-07T04:00:00Z",
+  "submissions_end_at": "2026-09-10T11:30:00Z",
+  "source": "Devpost get_key_dates + get_hackathon_overview, captured 2026-09-06T04:34:51Z; the capture is pinned in the workspace at rules_canonical/20260906T0430Z/mcp_surfaces.json"
+ },
+ "repository_timeline": {
+  "commit_count": 12,
+  "commits": [
+   {
+    "sha": "ef265412938e207d43cfd3082d78aec8bddd3d77",
+    "authored_utc": "2026-09-06T06:03:14Z",
+    "committed_utc": "2026-09-06T06:03:14Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Airlock: a calibrated privacy gate in front of hosted AI"
+   },
+   {
+    "sha": "46d28b535f86778c2f0caced0340b9bcd24badcc",
+    "authored_utc": "2026-09-06T06:04:40Z",
+    "committed_utc": "2026-09-06T06:04:40Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Publish the measured weights as a release asset and fetch them by sha256"
+   },
+   {
+    "sha": "4e647a530ab314a51aee79d6f9b107aba295386e",
+    "authored_utc": "2026-09-06T06:06:51Z",
+    "committed_utc": "2026-09-06T06:06:51Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Record the clean-clone verification and the script that produces it"
+   },
+   {
+    "sha": "643baafa313501b1c952d47e1a024d2155a81968",
+    "authored_utc": "2026-09-06T06:46:35Z",
+    "committed_utc": "2026-09-06T06:46:35Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Record the demo run and render it into the demo video"
+   },
+   {
+    "sha": "2f2e83009dd52db0e27edef98a09a217414263a0",
+    "authored_utc": "2026-09-06T07:10:32Z",
+    "committed_utc": "2026-09-06T07:10:32Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "State the measured leak rate without rounding it in our favour"
+   },
+   {
+    "sha": "7b7d57ef3d4fd32c506e069f03d0e6cf585eaaae",
+    "authored_utc": "2026-09-06T07:44:23Z",
+    "committed_utc": "2026-09-06T07:44:23Z",
+    "author_name": "jianwang-ntu",
+    "author_email": "liliquan0118@gmail.com",
+    "subject": "Measure what the detector costs to run, per device"
+   },
+   {
+    "sha": "7555b7f80ee05bfe75e9647436b2dd07d03605dd",
+    "authored_utc": "2026-09-06T08:12:18Z",
+    "committed_utc": "2026-09-06T08:12:18Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Test whether the model's posterior is load-bearing, or only its decision"
+   },
+   {
+    "sha": "ba04b6d254dd857129229e443eae80bc8d2c9ec9",
+    "authored_utc": "2026-09-06T08:47:01Z",
+    "committed_utc": "2026-09-06T08:47:01Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Derive the technology stack from the source, and fix requirements.txt"
+   },
+   {
+    "sha": "cc002d4601b0786a06f7be161585792a1710a02c",
+    "authored_utc": "2026-09-06T09:05:00Z",
+    "committed_utc": "2026-09-06T09:05:00Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Measure who built this repository, out of git rather than from memory"
+   },
+   {
+    "sha": "5bf2bd64e368d80d1b9fad04570ce61fe93c9494",
+    "authored_utc": "2026-09-06T09:09:42Z",
+    "committed_utc": "2026-09-06T09:09:42Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Record the measured provenance of the repository"
+   },
+   {
+    "sha": "1f45ce1f3d75e15ab3d5147ebe1ca4543409b139",
+    "authored_utc": "2026-09-06T09:54:13Z",
+    "committed_utc": "2026-09-06T09:54:13Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Measure what this project is built out of, and who is owed attribution"
+   },
+   {
+    "sha": "4334c31c2e14a3170f33619417f9caa67c5f6e30",
+    "authored_utc": "2026-09-06T10:21:00Z",
+    "committed_utc": "2026-09-06T10:21:00Z",
+    "author_name": "Jian Wang",
+    "author_email": "jornbowrl@gmail.com",
+    "subject": "Search this machine for a copy, instead of asserting there is none"
+   }
+  ],
+  "first_commit_utc": "2026-09-06T06:03:14Z",
+  "last_commit_utc": "2026-09-06T10:21:00Z",
+  "span_seconds": 15466,
+  "root_commit_is_first_content": true,
+  "vs_hackathon": {
+   "hackathon_published_at": "2026-09-02T05:52:35Z",
+   "seconds_after_publication": 346239,
+   "first_commit_after_publication": true,
+   "submissions_open_at": "2026-09-07T04:00:00Z",
+   "seconds_before_submissions_open": 79006,
+   "first_commit_before_submissions_open": true
+  }
+ },
+ "first_party": {
+  "tracked_files": 56,
+  "tracked_bytes": 2262703,
+  "python_files": 31,
+  "python_sloc": 4199,
+  "python_sloc_definition": "tracked .py lines that are neither blank nor comment-only. Volume, not quality.",
+  "python_files_by_area": {
+   "airlock": {
+    "files": 13
+   },
+   "scripts": {
+    "files": 14
+   },
+   "tests": {
+    "files": 4
+   }
+  },
+  "vendored_third_party_source_files": 0,
+  "vendored_note": "No third-party source is vendored into this tree; every library is a declared dependency installed from its publisher. The EXACT scan below includes the site-packages root precisely so that claim can fail."
+ },
+ "reuse_permitted_by_sentence_3": {
+  "derived_from": "evidence/third_party.json (scripts/measure_third_party.py)",
+  "libraries": [
+   {
+    "name": "pillow",
+    "version": "12.0.0",
+    "license": "MIT-CMU"
+   },
+   {
+    "name": "pandas",
+    "version": "2.3.3",
+    "license": "License :: OSI Approved :: BSD License"
+   },
+   {
+    "name": "pyarrow",
+    "version": "21.0.0",
+    "license": "Apache Software License"
+   },
+   {
+    "name": "torch",
+    "version": "2.10.0",
+    "license": "BSD-3-Clause"
+   },
+   {
+    "name": "transformers",
+    "version": "5.5.4",
+    "license": "Apache 2.0 License"
+   }
+  ],
+  "models": [
+   {
+    "id": "distilbert-base-cased",
+    "license": "apache-2.0",
+    "role": "detector base checkpoint, fine-tuned and redistributed as a release asset"
+   },
+   {
+    "id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "license": "apache-2.0",
+    "role": "local answering model behind the redacted prompt"
+   },
+   {
+    "id": "Qwen/Qwen3-4B-Instruct-2507",
+    "license": "apache-2.0",
+    "role": "larger local stand-in for the model Airlock is protecting the operator from"
+   }
+  ],
+  "dataset": {
+   "id": "gretelai/synthetic_pii_finance_multilingual",
+   "license": "apache-2.0",
+   "role": "training and evaluation corpus for the detector"
+  },
+  "external_binaries": [
+   "bash",
+   "curl",
+   "cut",
+   "dpkg",
+   "env",
+   "ffmpeg",
+   "git",
+   "grep",
+   "mkdir",
+   "python3",
+   "tail",
+   "tar"
+  ],
+  "note": "Rule 2 sentence 3 permits exactly these and asks that our own contribution on top of them be demonstrated. The demonstration is the first_party block below plus evidence/detector_eval.json, evidence/gate_eval.json and evidence/posterior_ablation.json."
+ },
+ "search_exact": {
+  "roots": [
+   "/data/wj/wj_code",
+   "/data/wj/anaconda/lib"
+  ],
+  "excluded_prefixes": [
+   "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/upai-hackdays/repo"
+  ],
+  "skipped_dir_names": [
+   ".git",
+   ".mypy_cache",
+   ".pytest_cache",
+   "__pycache__"
+  ],
+  "zero_byte_tracked_files_excluded": [
+   "scripts/__init__.py",
+   "tests/__init__.py"
+  ],
+  "zero_byte_note": "A zero-byte file matches every other zero-byte file on the host and carries no authorship, so it is not a copy question. Both are package markers.",
+  "files_walked": 5484328,
+  "size_collisions_hashed": 23890,
+  "unreadable_count": 21,
+  "unreadable_sample": [
+   "/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__yamadashy__repomix/src/website/server/.compile-cache/v24.15.0-x64-cf738c9d-0/95175bc2: [Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__yamadashy__repomix/src/website/server/.compile-cache/v24.15.0-x64-cf738c9d-0/95175bc2'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.dbus'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/xfce4/xfwm4'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/xfce4/desktop'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/pulse'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/Thunar'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/dconf'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.cache'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.ssh'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.XDG/dconf'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.gnupg'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.local/share'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__sinaptik-ai__pandas-ai/src/pgdata'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__Mai-with-u__MaiBot/src/data/qq/nt_qq/global/nt_data/msf'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__Mai-with-u__MaiBot/src/data/qq/nt_qq/global/nt_temp'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__Mai-with-u__MaiBot/src/data/qq/Crashpad'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__666ghj__BettaFish/src/db_data'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__finaldie__auto-news/base/workspace/milvus/volumes/etcd/member'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__finaldie__auto-news/base/workspace/postgres/data'",
+   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__finaldie__auto-news/src/docker/workspace/milvus/volumes/etcd/member'"
+  ],
+  "self_workspace": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/upai-hackdays",
+  "matches": [
+   {
+    "tracked_file": "LICENSE",
+    "sha256": "79449ea854968280a0c1a63d509b6e80c033c789275ea09704a8b774f581772c",
+    "bytes": 1066,
+    "found_at": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/ai-infra-summit-hackathon/build/LICENSE",
+    "found_mtime_utc": "2026-09-05T05:50:16Z",
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "LICENSE",
+    "sha256": "79449ea854968280a0c1a63d509b6e80c033c789275ea09704a8b774f581772c",
+    "bytes": 1066,
+    "found_at": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/ibm-bob-2-hackathon/evidence_20260905T2130Z/LICENSE",
+    "found_mtime_utc": "2026-09-05T21:36:45Z",
+    "in_this_jobs_own_workspace": false
+   }
+  ],
+  "match_count": 2,
+  "match_count_outside_this_job": 2,
+  "seconds": 64.3
+ },
+ "search_near_duplicate": {
+  "max_jaccard_observed": 0.1,
+  "top_similarities": [
+   {
+    "tracked_file": "scripts/fetch_model.sh",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/lost-in-transcription-sp-nh/build/lost-in-transcription-runtime/examples/minimal/pack_submission.sh",
+    "jaccard": 0.1,
+    "shared_lines": 2,
+    "candidate_lines": 9,
+    "tracked_lines": 13,
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "scripts/fetch_model.sh",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/lost-in-transcription-sp-nh/build/lost-in-transcription-runtime/examples/template/pack_submission.sh",
+    "jaccard": 0.1,
+    "shared_lines": 2,
+    "candidate_lines": 9,
+    "tracked_lines": 13,
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "airlock/__init__.py",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/api-cloud-ai-hackathon-2026/repo/trustlens/__init__.py",
+    "jaccard": 0.0909,
+    "shared_lines": 1,
+    "candidate_lines": 2,
+    "tracked_lines": 10,
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "airlock/__init__.py",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/allthingsagentichackathon/repo/costwarden/__init__.py",
+    "jaccard": 0.0909,
+    "shared_lines": 1,
+    "candidate_lines": 2,
+    "tracked_lines": 10,
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "airlock/__init__.py",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/remedy_AUD-203_20260827T1830Z/tree/royaltyscope/__init__.py",
+    "jaccard": 0.0909,
+    "shared_lines": 1,
+    "candidate_lines": 2,
+    "tracked_lines": 10,
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "airlock/__init__.py",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v3_20260829T1330Z/baseline_tree/royaltyscope/__init__.py",
+    "jaccard": 0.0909,
+    "shared_lines": 1,
+    "candidate_lines": 2,
+    "tracked_lines": 10,
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "airlock/__init__.py",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v3_20260829T1330Z/candidate_tree/royaltyscope/__init__.py",
+    "jaccard": 0.0909,
+    "shared_lines": 1,
+    "candidate_lines": 2,
+    "tracked_lines": 10,
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "airlock/__init__.py",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v3_20260829T1330Z/work/baseline/royaltyscope/__init__.py",
+    "jaccard": 0.0909,
+    "shared_lines": 1,
+    "candidate_lines": 2,
+    "tracked_lines": 10,
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "airlock/__init__.py",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v3_20260829T1330Z/work/candidate/royaltyscope/__init__.py",
+    "jaccard": 0.0909,
+    "shared_lines": 1,
+    "candidate_lines": 2,
+    "tracked_lines": 10,
+    "in_this_jobs_own_workspace": false
+   },
+   {
+    "tracked_file": "airlock/__init__.py",
+    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v4_20260829T1430Z/scratch_X5/control/royaltyscope/__init__.py",
+    "jaccard": 0.0909,
+    "shared_lines": 1,
+    "candidate_lines": 2,
+    "tracked_lines": 10,
+    "in_this_jobs_own_workspace": false
+   }
+  ],
+  "focus_roots": [
+   "/data/wj/wj_code/dl_hackathon"
+  ],
+  "excluded_prefixes": [
+   "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/upai-hackdays/repo"
+  ],
+  "suffixes": [
+   ".md",
+   ".py",
+   ".sh",
+   ".txt"
+  ],
+  "max_candidate_bytes": 524288,
+  "min_normalised_line_chars": 8,
+  "report_threshold": 0.3,
+  "flag_threshold": 0.5,
+  "tracked_text_files": 40,
+  "candidates_walked": 35369,
+  "candidates_sharing_a_line": 20949,
+  "unreadable_count": 0,
+  "unreadable_sample": [],
+  "self_workspace": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/upai-hackdays",
+  "hits": [],
+  "hit_count": 0,
+  "flagged_count": 0,
+  "flagged_count_outside_this_job": 0,
+  "seconds": 11.6
+ },
+ "status": "NO_COPY_FOUND",
+ "status_definition": {
+  "NO_COPY_FOUND": "both searches ran, walked files, and found no match that is not the MIT licence text.",
+  "REVIEW_REQUIRED": "a match was found that a human must read.",
+  "NOT_RUN": "a search walked zero files -- the roots are not on this machine. Never report this as a pass."
+ },
+ "what_this_does_not_establish": [
+  "It searches THIS host. It cannot see a copy taken from somewhere this machine has never held.",
+  "The near-duplicate search covers .py/.md/.sh/.txt under the focus root only, at or below 512 KiB. A copied binary or notebook would be caught by EXACT only if byte-identical.",
+  "It measures copying, not quality, and not whether the idea is new."
+ ]
+}
