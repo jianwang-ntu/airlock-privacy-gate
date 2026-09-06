@@ -1,0 +1,204 @@
+{
+ "version": 1,
+ "what": "A real terminal recording. Each command in `steps` was executed on a pty on the machine named in `host`; every byte it wrote is in `events`, tagged with the step it belongs to and the second at which it arrived. Chunks with src='recorder' are the prompt lines this script printed; chunks with src='program' are the command's own output. Nothing was typed by hand and no output was edited.",
+ "recorded_at": "2026-09-06T06:42:33Z",
+ "host": {
+  "cols": 128,
+  "rows": 34,
+  "term": "dumb"
+ },
+ "duration": 41.96,
+ "steps": [
+  {
+   "index": 0,
+   "section": "the document",
+   "caption": "A payment instruction. Name, e-mail, IBAN, phone, employee id, card number.",
+   "cmd": "cat demo/docs/payment_instruction.txt",
+   "returncode": 0,
+   "started_at": 0.0,
+   "ended_at": 0.005
+  },
+  {
+   "index": 1,
+   "section": "the gate refuses",
+   "caption": "Detect, redact, score what survived -- then decide. Risk above budget: it stays home.",
+   "cmd": "python3 -m airlock.cli --file demo/docs/payment_instruction.txt --ask \"Summarise the instruction and list what must be verified before paying.\"",
+   "returncode": 0,
+   "started_at": 0.005,
+   "ended_at": 11.189
+  },
+  {
+   "index": 2,
+   "section": "the gate forwards",
+   "caption": "A ticket with no personal identifier. Risk inside budget: it goes to the hosted model.",
+   "cmd": "python3 -m airlock.cli --file demo/docs/support_ticket.txt --ask \"What is the customer asking for, and what should the agent check first?\"",
+   "returncode": 0,
+   "started_at": 11.189,
+   "ended_at": 25.726
+  },
+  {
+   "index": 3,
+   "section": "the controls",
+   "caption": "19 checks, each paired with a control that must fail for it to mean anything.",
+   "cmd": "python3 tests/run_checks.py",
+   "returncode": 0,
+   "started_at": 25.726,
+   "ended_at": 36.829
+  },
+  {
+   "index": 4,
+   "section": "the numbers",
+   "caption": "Every number in the README re-read from evidence/, with a control on the checker.",
+   "cmd": "python3 tests/check_readme_numbers.py",
+   "returncode": 0,
+   "started_at": 36.83,
+   "ended_at": 41.96
+  }
+ ],
+ "events": [
+  {
+   "t": 0.0,
+   "step": 0,
+   "src": "recorder",
+   "data": "$ cat demo/docs/payment_instruction.txt\r\n"
+  },
+  {
+   "t": 0.005,
+   "step": 0,
+   "src": "program",
+   "data": "From: Meera Subramanian <meera.s@example.co.uk>\r\nPlease transfer GBP 12,400 to IBAN DE89370400440532013000 held by Hartley Freight Ltd, reference HF-2291. Card on file 4111 1111 1111 1111 should not be charged. Contact me on +44 7700 900123 if the payment fails. Employee id EMP-40221."
+  },
+  {
+   "t": 0.005,
+   "step": 1,
+   "src": "recorder",
+   "data": "$ python3 -m airlock.cli --file demo/docs/payment_instruction.txt --ask \"Summarise the instruction and list what must be verified before paying.\"\r\n"
+  },
+  {
+   "t": 10.171,
+   "step": 1,
+   "src": "program",
+   "data": "input: 284 characters, 7 identifiers detected\r\n  name                       p=0.978  'Meera Subramanian'\r\n  email                      p=1.000  'meera.s@example.co.uk'\r\n  iban                       p=1.000  'DE89370400440532013000'\r\n  company                    p=0.978  'Hartley Freight Ltd'\r\n  credit_card_number         p=1.000  '4111 1111 1111 1111'\r\n  phone_number               p=0.928  '+44 7700 900123'\r\n  employee_id                p=0.900  'EMP-40221'\r\n\r\n--- text that would leave this machine ---\r\nFrom: [NAME_1] <[EMAIL_1]>\r\nPlease transfer GBP 12,400 to IBAN [IBAN_1] held by Hartley Freight Ltd, reference HF-2291. Card on file [CREDIT_CARD_NUMBER_1] should not be charged. Contact me on [PHONE_NUMBER_1] if the payment fails. Employee id [EMPLOYEE_ID_1].\r\n\r\n--- gate ---\r\n"
+  },
+  {
+   "t": 10.171,
+   "step": 1,
+   "src": "program",
+   "data": "  expected surviving identifier tokens : 0.2923\r\n  calibrated residual leak risk        : 0.15056   (budget 0.12)\r\n  route                                : local_model\r\n  residual leak risk 0.151 exceeds the 0.120 budget -- answering locally\r\n\r\n--- answer via local_model (Qwen/Qwen2.5-0.5B-Instruct, 2.22s) ---\r\n**Instruction Summary:** \r\nBefore paying, verify the following:\r\n1. The amount transferred (GBP 12,400) matches the amount listed in the request.\r\n2. The IBAN number provided matches the IBAN held by Hartley Freight Ltd.\r\n3. The card number on file with Hartley Freight Ltd should not be charged.\r\n4. The contact information provided for contacting the employee is valid and relevant.\r\n5. The employee ID is correct.\r\n\r\n**List of Verification Items:**\r\n- Amount transferred: GBP 12,400\r\n- IBAN number: [IBAN_1]\r\n- Card number: [CREDIT_CARD_NUMBER_1]\r\n- Contact phone number: [PHONE_NUMBER_1]\r\n- Employee ID: [EMPLOYEE_ID_1]\r\n\r\n--- re-hydrated locally ---\r\n**Instruction Summary:** \r\nBefore paying, verify the following:\r\n1. The amount transferred (GBP 12,400) matches the amount listed in the request.\r\n2. The IBAN number provided matches the IBAN held by Hartley Freight Ltd.\r\n3. The card number on file with Hartley Freight Ltd should not be charged.\r\n4. The contact information provided for contacting the employee is valid and relevant.\r\n5. The employee ID is correct.\r\n\r\n**List of Verification Items:**\r\n- Amount transferred: GBP 12,400\r\n- IBAN number: DE89370400440532013000\r\n- Card number: 4111 1111 1111 1111\r\n- Contact phone number: +44 7700 900123\r\n- Employee ID: EMP-40221"
+  },
+  {
+   "t": 10.171,
+   "step": 1,
+   "src": "program",
+   "data": "\r\n"
+  },
+  {
+   "t": 10.171,
+   "step": 1,
+   "src": "program",
+   "data": "\r\n  placeholders expected 6, intact 4, missing ['[EMAIL_1]', '[NAME_1]'], trustworthy=False\r\n  WARNING: the answer did not return every placeholder. Do not treat the re-hydrated text as faithful -- a value in it may be invented.\r\n"
+  },
+  {
+   "t": 11.189,
+   "step": 2,
+   "src": "recorder",
+   "data": "$ python3 -m airlock.cli --file demo/docs/support_ticket.txt --ask \"What is the customer asking for, and what should the agent check first?\"\r\n"
+  },
+  {
+   "t": 24.607,
+   "step": 2,
+   "src": "program",
+   "data": "input: 210 characters, 0 identifiers detected\r\n\r\n--- text that would leave this machine ---\r\nTicket 88231 (billing). The caller says the direct debit failed twice this month. Reference INV-2024-0912. Please confirm whether the mandate is still active and what the retry schedule is. No action taken yet.\r\n\r\n--- gate ---\r\n  expected surviving identifier tokens : 0.0489\r\n  calibrated residual leak risk        : 0.1041   (budget 0.12)\r\n  route                                : hosted_model\r\n  residual leak risk 0.104 is within the 0.120 budget\r\n\r\n--- answer via hosted_model_standin (Qwen/Qwen3-4B-Instruct-2507, 2.02s) ---\r\nThe customer is asking for confirmation regarding the status of their active direct debit mandate (specifically referencing **INV-2024-0912**) and wants to know the retry schedule in case the direct debit fails again.\r\n\r\nThe agent should first check whether the mandate referenced in **INV-2024-0912** is still active and valid.\r\n\r\n--- re-hydrated locally ---\r\nThe customer is asking for confirmation regarding the status of their active direct debit mandate (specifically referencing **INV-2024-0912**) and wants to know the retry schedule in case the direct debit fails again.\r\n\r\nThe agent should first check whether the mandate referenced in **INV-2024-0912** is still active and valid.\r\n"
+  },
+  {
+   "t": 24.607,
+   "step": 2,
+   "src": "program",
+   "data": "\r\n  placeholders expected 0, intact 0, missing [], trustworthy=True\r\n"
+  },
+  {
+   "t": 25.726,
+   "step": 3,
+   "src": "recorder",
+   "data": "$ python3 tests/run_checks.py\r\n"
+  },
+  {
+   "t": 31.858,
+   "step": 3,
+   "src": "program",
+   "data": "PASS alignment/char-spans-become-BIO-tags\r\n"
+  },
+  {
+   "t": 34.954,
+   "step": 3,
+   "src": "program",
+   "data": "PASS alignment/CONTROL-shifted-spans-change-tags\r\nPASS redact/every-character-of-a-span-is-removed\r\nPASS redact/CONTROL-no-spans-means-no-redaction\r\nPASS redact/same-surface-same-placeholder\r\nPASS redact/CONTROL-different-surfaces-differ\r\n"
+  },
+  {
+   "t": 34.954,
+   "step": 3,
+   "src": "program",
+   "data": "PASS redact/overlapping-spans-leave-no-tail\r\nPASS vault/rehydration-round-trip\r\nPASS vault/CONTROL-fabricated-value-is-flagged\r\n"
+  },
+  {
+   "t": 34.954,
+   "step": 3,
+   "src": "program",
+   "data": "PASS gate/calibrator-never-returns-zero-risk\r\n"
+  },
+  {
+   "t": 34.955,
+   "step": 3,
+   "src": "program",
+   "data": "PASS gate/calibrated-risk-is-monotone\r\n"
+  },
+  {
+   "t": 34.96,
+   "step": 3,
+   "src": "program",
+   "data": "PASS gate/CONTROL-shuffled-labels-flatten-the-fit\r\nPASS gate/auc-on-known-orderings\r\nPASS gate/risk-drops-when-tokens-are-redacted\r\n"
+  },
+  {
+   "t": 35.785,
+   "step": 3,
+   "src": "program",
+   "data": "PASS model/planted-identifiers-are-all-masked\r\n"
+  },
+  {
+   "t": 35.793,
+   "step": 3,
+   "src": "program",
+   "data": "PASS model/CONTROL-clean-document-is-barely-masked\r\nPASS model/sub-word-span-snaps-to-the-word\r\n"
+  },
+  {
+   "t": 35.8,
+   "step": 3,
+   "src": "program",
+   "data": "PASS model/gate-ranks-a-stuffed-doc-above-a-clean-one\r\n"
+  },
+  {
+   "t": 35.8,
+   "step": 3,
+   "src": "program",
+   "data": "PASS evidence/README-numbers-are-on-disk\r\n\r\n19/19 passed, 0 failed, 0 skipped\r\n"
+  },
+  {
+   "t": 36.83,
+   "step": 4,
+   "src": "recorder",
+   "data": "$ python3 tests/check_readme_numbers.py\r\n"
+  },
+  {
+   "t": 41.192,
+   "step": 4,
+   "src": "program",
+   "data": "27/27 README claims match the evidence files\r\n"
+  },
+  {
+   "t": 41.192,
+   "step": 4,
+   "src": "program",
+   "data": "control: halving forward_everything_leak_rate trips 1 claim(s) -- checker is live\r\n"
+  }
+ ]
+}

@@ -1,0 +1,1 @@
+Ticket 88231 (billing). The caller says the direct debit failed twice this month. Reference INV-2024-0912. Please confirm whether the mandate is still active and what the retry schedule is. No action taken yet.

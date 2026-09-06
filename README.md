@@ -13,6 +13,22 @@ is measured by code in this repository and re-derivable from `evidence/`.
 
 ---
 
+## Demo
+
+**[`demo/airlock-demo.mp4`](demo/airlock-demo.mp4)** — 1 min 46 s, silent, 1080p.
+A recording of both paths running end to end: one document the gate refuses and
+answers locally, one it forwards to the hosted stand-in. It ends on the
+integrity check reporting `trustworthy=False`, which is the system behaving as
+designed and was left in.
+
+The recording and the video are produced by `scripts/record_demo.py` and
+`scripts/render_demo_video.py`, and the raw capture is in
+`demo/demo_cast.json`. `demo/README.md` states exactly what the renderer
+changed — timing only — and why the numbers on the cards cannot drift from
+`evidence/`.
+
+---
+
 ## The problem
 
 A support team wants to use a hosted language model on its ticket queue. The
@@ -150,6 +166,11 @@ python3 -m airlock.cli --text "Please wire GBP 12,400 to IBAN DE8937040044053201
 for Meera Subramanian; card 4111 1111 1111 1111 must not be charged."
 
 python3 -m airlock.cli --file ticket.txt --ask "What is the customer asking for?"
+```
+
+```bash
+python3 scripts/record_demo.py          # re-record the demo capture
+python3 scripts/render_demo_video.py    # re-render demo/airlock-demo.mp4
 ```
 
 `scripts/demo_run.py` runs two documents end to end — one the gate forwards,
