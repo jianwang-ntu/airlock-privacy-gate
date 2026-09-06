@@ -1,0 +1,4 @@
+torch>=2.2
+transformers>=4.40
+pandas>=2.0          # scripts/prepare_data.py only
+pyarrow>=14          # scripts/prepare_data.py only

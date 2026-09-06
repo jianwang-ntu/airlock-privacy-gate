@@ -1,0 +1,198 @@
+{
+  "generated_at": "2026-09-06T05:57:07Z",
+  "split": "test (never used for training or calibration)",
+  "documents": 2891,
+  "redaction_threshold": 0.2,
+  "forward_everything_leak_rate": 0.1003,
+  "calibration": {
+    "fitted_on": "train split tail (2000 docs held out of detector training), redaction threshold 0.2",
+    "fitted_docs": 2000,
+    "dev_leak_rate": 0.099,
+    "blocks": 15,
+    "min_certifiable_upper_bound": 0.04385349728814974
+  },
+  "ranking_auc_raw_statistic": 0.7498,
+  "risk_coverage": [
+    {
+      "budget": 0.045,
+      "coverage": 0.0948,
+      "documents_forwarded": 274,
+      "documents_held_local": 2617,
+      "leaks_among_forwarded": 5,
+      "observed_leak_rate_forwarded": 0.0182,
+      "observed_leak_rate_held": 0.1089,
+      "budget_respected": true,
+      "random_gate_same_coverage_leak_rate_mean": 0.1035,
+      "random_gate_same_coverage_leak_rate_sd": 0.0168
+    },
+    {
+      "budget": 0.06,
+      "coverage": 0.0948,
+      "documents_forwarded": 274,
+      "documents_held_local": 2617,
+      "leaks_among_forwarded": 5,
+      "observed_leak_rate_forwarded": 0.0182,
+      "observed_leak_rate_held": 0.1089,
+      "budget_respected": true,
+      "random_gate_same_coverage_leak_rate_mean": 0.1035,
+      "random_gate_same_coverage_leak_rate_sd": 0.0168
+    },
+    {
+      "budget": 0.09,
+      "coverage": 0.0948,
+      "documents_forwarded": 274,
+      "documents_held_local": 2617,
+      "leaks_among_forwarded": 5,
+      "observed_leak_rate_forwarded": 0.0182,
+      "observed_leak_rate_held": 0.1089,
+      "budget_respected": true,
+      "random_gate_same_coverage_leak_rate_mean": 0.1035,
+      "random_gate_same_coverage_leak_rate_sd": 0.0168
+    },
+    {
+      "budget": 0.12,
+      "coverage": 0.6365,
+      "documents_forwarded": 1840,
+      "documents_held_local": 1051,
+      "leaks_among_forwarded": 86,
+      "observed_leak_rate_forwarded": 0.0467,
+      "observed_leak_rate_held": 0.1941,
+      "budget_respected": true,
+      "random_gate_same_coverage_leak_rate_mean": 0.101,
+      "random_gate_same_coverage_leak_rate_sd": 0.005
+    },
+    {
+      "budget": 0.16,
+      "coverage": 0.7136,
+      "documents_forwarded": 2063,
+      "documents_held_local": 828,
+      "leaks_among_forwarded": 109,
+      "observed_leak_rate_forwarded": 0.0528,
+      "observed_leak_rate_held": 0.2186,
+      "budget_respected": true,
+      "random_gate_same_coverage_leak_rate_mean": 0.1015,
+      "random_gate_same_coverage_leak_rate_sd": 0.0037
+    },
+    {
+      "budget": 0.2,
+      "coverage": 0.8118,
+      "documents_forwarded": 2347,
+      "documents_held_local": 544,
+      "leaks_among_forwarded": 157,
+      "observed_leak_rate_forwarded": 0.0669,
+      "observed_leak_rate_held": 0.2445,
+      "budget_respected": true,
+      "random_gate_same_coverage_leak_rate_mean": 0.1009,
+      "random_gate_same_coverage_leak_rate_sd": 0.0027
+    },
+    {
+      "budget": 0.3,
+      "coverage": 0.8651,
+      "documents_forwarded": 2501,
+      "documents_held_local": 390,
+      "leaks_among_forwarded": 188,
+      "observed_leak_rate_forwarded": 0.0752,
+      "observed_leak_rate_held": 0.2615,
+      "budget_respected": true,
+      "random_gate_same_coverage_leak_rate_mean": 0.1012,
+      "random_gate_same_coverage_leak_rate_sd": 0.0018
+    },
+    {
+      "budget": 0.5,
+      "coverage": 1.0,
+      "documents_forwarded": 2891,
+      "documents_held_local": 0,
+      "leaks_among_forwarded": 290,
+      "observed_leak_rate_forwarded": 0.1003,
+      "observed_leak_rate_held": null,
+      "budget_respected": true,
+      "random_gate_same_coverage_leak_rate_mean": 0.1003,
+      "random_gate_same_coverage_leak_rate_sd": 0.0
+    },
+    {
+      "budget": 1.0,
+      "coverage": 1.0,
+      "documents_forwarded": 2891,
+      "documents_held_local": 0,
+      "leaks_among_forwarded": 290,
+      "observed_leak_rate_forwarded": 0.1003,
+      "observed_leak_rate_held": null,
+      "budget_respected": true,
+      "random_gate_same_coverage_leak_rate_mean": 0.1003,
+      "random_gate_same_coverage_leak_rate_sd": 0.0
+    }
+  ],
+  "reliability_deciles": [
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.047,
+      "mean_predicted_hat": 0.013,
+      "observed": 0.0173
+    },
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.1041,
+      "mean_predicted_hat": 0.0516,
+      "observed": 0.0519
+    },
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.1041,
+      "mean_predicted_hat": 0.0518,
+      "observed": 0.0519
+    },
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.1041,
+      "mean_predicted_hat": 0.0517,
+      "observed": 0.0381
+    },
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.1041,
+      "mean_predicted_hat": 0.0521,
+      "observed": 0.0554
+    },
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.1041,
+      "mean_predicted_hat": 0.0514,
+      "observed": 0.0623
+    },
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.1335,
+      "mean_predicted_hat": 0.0852,
+      "observed": 0.09
+    },
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.1839,
+      "mean_predicted_hat": 0.1251,
+      "observed": 0.1557
+    },
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.2922,
+      "mean_predicted_hat": 0.2134,
+      "observed": 0.1938
+    },
+    {
+      "n": 289,
+      "mean_predicted_upper": 0.3895,
+      "mean_predicted_hat": 0.3031,
+      "observed": 0.2872
+    },
+    {
+      "n": 1,
+      "mean_predicted_upper": 0.4386,
+      "mean_predicted_hat": 0.3481,
+      "observed": 0.0
+    }
+  ],
+  "ece_posterior_mean": 0.0105,
+  "ece_upper_bound": 0.0564,
+  "reliability_bins_where_upper_bound_is_conservative": "11/11",
+  "seconds": 28.7,
+  "caveat": "'Leak' means an identifier the CORPUS annotates survived redaction. The corpus's annotation is incomplete, so the true leak rate is higher than every number here and the gate is calibrated against annotated leaks only."
+}

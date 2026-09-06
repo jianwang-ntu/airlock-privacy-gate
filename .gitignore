@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+models/
+logs/
+.data_cache
+*.parquet

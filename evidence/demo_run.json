@@ -1,0 +1,113 @@
+{
+  "generated_at": "2026-09-06T05:59:52Z",
+  "detector": "models/detector (hybrid: fine-tuned distilbert-base-cased + checksum validators)",
+  "redaction_threshold": 0.2,
+  "leak_budget": 0.12,
+  "note": "No third-party API is called anywhere in this run. The document the gate forwards is answered by a larger model on this same machine standing in for the hosted one, so the loop is exercised without anything leaving the host.",
+  "runs": [
+    {
+      "document": "support_ticket",
+      "characters": 210,
+      "question": "What is the customer asking for, and what should the agent check first?",
+      "identifiers_detected": [],
+      "text_leaving_the_machine": "Ticket 88231 (billing). The caller says the direct debit failed twice this month. Reference INV-2024-0912. Please confirm whether the mandate is still active and what the retry schedule is. No action taken yet.",
+      "vault_entries": 0,
+      "decision": {
+        "forward": true,
+        "risk": 0.1041,
+        "risk_naive": 0.04774,
+        "expected_surviving_identifier_tokens": 0.0489,
+        "budget": 0.12,
+        "route": "hosted_model",
+        "reason": "residual leak risk 0.104 is within the 0.120 budget"
+      },
+      "answer_model": "Qwen/Qwen3-4B-Instruct-2507",
+      "answer_route": "hosted_model_standin",
+      "answer_seconds": 1.94,
+      "answer_as_returned": "The customer is asking for confirmation regarding the status of their active direct debit mandate (specifically referencing **INV-2024-0912**) and wants to know the retry schedule in case the direct debit fails again.\n\nThe agent should first check whether the mandate referenced in **INV-2024-0912** is still active and valid.",
+      "answer_rehydrated_locally": "The customer is asking for confirmation regarding the status of their active direct debit mandate (specifically referencing **INV-2024-0912**) and wants to know the retry schedule in case the direct debit fails again.\n\nThe agent should first check whether the mandate referenced in **INV-2024-0912** is still active and valid.",
+      "rehydration_integrity": {
+        "expected": 0,
+        "intact": [],
+        "missing": [],
+        "unknown_placeholders": [],
+        "trustworthy": true
+      },
+      "wall_seconds": 8.79
+    },
+    {
+      "document": "payment_instruction",
+      "characters": 284,
+      "question": "Summarise the instruction and list what must be verified before paying.",
+      "identifiers_detected": [
+        {
+          "label": "name",
+          "score": 0.9782,
+          "text": "Meera Subramanian"
+        },
+        {
+          "label": "email",
+          "score": 1.0,
+          "text": "meera.s@example.co.uk"
+        },
+        {
+          "label": "iban",
+          "score": 1.0,
+          "text": "DE89370400440532013000"
+        },
+        {
+          "label": "company",
+          "score": 0.9779,
+          "text": "Hartley Freight Ltd"
+        },
+        {
+          "label": "credit_card_number",
+          "score": 1.0,
+          "text": "4111 1111 1111 1111"
+        },
+        {
+          "label": "phone_number",
+          "score": 0.9281,
+          "text": "+44 7700 900123"
+        },
+        {
+          "label": "employee_id",
+          "score": 0.9005,
+          "text": "EMP-40221"
+        }
+      ],
+      "text_leaving_the_machine": "From: [NAME_1] <[EMAIL_1]>\nPlease transfer GBP 12,400 to IBAN [IBAN_1] held by Hartley Freight Ltd, reference HF-2291. Card on file [CREDIT_CARD_NUMBER_1] should not be charged. Contact me on [PHONE_NUMBER_1] if the payment fails. Employee id [EMPLOYEE_ID_1].",
+      "vault_entries": 6,
+      "decision": {
+        "forward": false,
+        "risk": 0.15056,
+        "risk_naive": 0.25342,
+        "expected_surviving_identifier_tokens": 0.2923,
+        "budget": 0.12,
+        "route": "local_model",
+        "reason": "residual leak risk 0.151 exceeds the 0.120 budget -- answering locally"
+      },
+      "answer_model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "answer_route": "local_model",
+      "answer_seconds": 1.86,
+      "answer_as_returned": "**Instruction Summary:** \nBefore paying, verify the following:\n1. The amount transferred (GBP 12,400) matches the amount listed in the request.\n2. The IBAN number provided matches the IBAN held by Hartley Freight Ltd.\n3. The card number on file with Hartley Freight Ltd should not be charged.\n4. The contact information provided for contacting the employee is valid and relevant.\n5. The employee ID is correct.\n\n**List of Verification Items:**\n- Amount transferred: GBP 12,400\n- IBAN number: [IBAN_1]\n- Card number: [CREDIT_CARD_NUMBER_1]\n- Contact phone number: [PHONE_NUMBER_1]\n- Employee ID: [EMPLOYEE_ID_1]",
+      "answer_rehydrated_locally": "**Instruction Summary:** \nBefore paying, verify the following:\n1. The amount transferred (GBP 12,400) matches the amount listed in the request.\n2. The IBAN number provided matches the IBAN held by Hartley Freight Ltd.\n3. The card number on file with Hartley Freight Ltd should not be charged.\n4. The contact information provided for contacting the employee is valid and relevant.\n5. The employee ID is correct.\n\n**List of Verification Items:**\n- Amount transferred: GBP 12,400\n- IBAN number: DE89370400440532013000\n- Card number: 4111 1111 1111 1111\n- Contact phone number: +44 7700 900123\n- Employee ID: EMP-40221",
+      "rehydration_integrity": {
+        "expected": 6,
+        "intact": [
+          "[CREDIT_CARD_NUMBER_1]",
+          "[EMPLOYEE_ID_1]",
+          "[IBAN_1]",
+          "[PHONE_NUMBER_1]"
+        ],
+        "missing": [
+          "[EMAIL_1]",
+          "[NAME_1]"
+        ],
+        "unknown_placeholders": [],
+        "trustworthy": false
+      },
+      "wall_seconds": 6.22
+    }
+  ]
+}

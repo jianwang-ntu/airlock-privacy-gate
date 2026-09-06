@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-09-06T06:02:00Z",
+  "split": "test",
+  "documents": 2891,
+  "credit_card_spans": 83,
+  "credit_card_spans_luhn_valid": 44,
+  "iban_spans": 69,
+  "iban_spans_mod97_valid": 68,
+  "sampled_documents": 800,
+  "validator_hits_outside_any_gold_span": {
+    "credit_card_number": 2,
+    "email": 135,
+    "iban": 2,
+    "ipv6": 3,
+    "ssn": 1
+  },
+  "reading": "A checksum validator fires only on proof. Where it fires on a string the annotation does not mark, the likelier explanation is a gap in the annotation than an error in arithmetic -- so recall here is an upper bound on true recall and over-redaction an upper bound on false positives."
+}
