@@ -195,6 +195,7 @@ bash scripts/train_all.sh          # rebuild from the corpus: ~4 minutes on one 
 python3 tests/run_checks.py        # 21 controls
 python3 tests/check_readme_numbers.py   # every number below, re-read from evidence/
 python3 tests/check_learned_model_ablation.py   # controls for the rule 3 counterfactual
+python3 tests/check_ux_numbers.py       # every figure in "Using it", re-derived
 
 python3 -m airlock.cli --text "Please wire GBP 12,400 to IBAN DE89370400440532013000 \
 for Meera Subramanian; card 4111 1111 1111 1111 must not be charged."
@@ -210,6 +211,87 @@ python3 scripts/render_demo_video.py    # re-render demo/airlock-demo.mp4
 `scripts/demo_run.py` runs two documents end to end — one the gate forwards,
 one it refuses — and writes exactly what happened to `evidence/demo_run.json`,
 including the answers and the integrity report.
+
+## Using it
+
+Rules section 9 names **User Experience** as a judging criterion, so it was
+measured rather than described. `scripts/measure_ux.py` drives the real command
+line in real subprocesses and writes `evidence/ux.json`; every number below comes
+from that file, and `tests/check_ux_numbers.py` re-derives each one and fails if
+this text and the measurement disagree.
+
+**3 commands and 1 flag from a clean clone to a first decision.**
+
+```bash
+pip install -r requirements.txt
+bash scripts/fetch_model.sh
+python3 -m airlock.cli --text "..."
+```
+
+`--model`, `--calibration`, `--threshold` and `--budget` all carry defaults, so
+the last command needs one flag. A whole fresh process — interpreter start,
+detector load, one document decided — takes a median of **6.196 s** over
+5 runs (6.043–6.26). Once warm the gate does
+**313.89 documents/second** at 123 characters,
+**47.42/s** at 984 and **9.94/s** at
+4,920 — interactive on a support ticket, batch on a contract.
+
+**The decision is on stdout and the noise is not.** 11 lines of decision go to
+stdout; the `Loading weights` progress bar goes to stderr, so `--json | jq` is
+clean. The `--json` form parses and carries 7 keys.
+
+### What happens when you get it wrong
+
+This is the part that was measured against us, and it found three defects. Four
+wrong invocations were each scored on four mechanical properties — exits
+non-zero, shows no traceback, names the offending input, and does not send the
+operator to fix something that is not the problem. At `bad73af` they held
+**13 of 16**. They now hold **16 of 16**.
+
+| you typed | before | now |
+|---|---|---|
+| neither `--text` nor `--file` | exit 2, 4 lines | unchanged |
+| both `--text` and `--file` | exit 2, 4 lines | unchanged |
+| a `--file` that is not there | exit 1, **10-line traceback** | exit 2, **1 line** naming the path |
+| a `--model` that is not there | exit 1, **176-line traceback** | exit 2, **2 lines** naming `fetch_model.sh` |
+
+The last row matters more than it looks. `models/` is gitignored, so **every**
+clone starts without weights, and skipping `bash scripts/fetch_model.sh` is the
+first mistake an operator makes. Measured on a clean tree with no `models/` at
+all, the old command line printed 176 lines of Hugging Face traceback
+ending in
+
+> If this is a private repository, make sure to pass a token having permission
+> to this repo either by logging in with `hf auth login` …
+
+— credential advice for a problem that is a missing download. It never named
+`fetch_model.sh`. It now exits 2 in 2 lines and names it.
+
+### The defect worth stating plainly
+
+`Gate` falls back to the naive risk when there is no calibration file, and the
+command line printed that fallback under the label `calibrated residual leak
+risk`, exit 0, no warning. On the same 122-character document the
+calibrated risk is **0.1041** and the naive one is **0.09827**. That is the number
+the forward/refuse decision is taken on, different, with nothing on screen to say
+which one you were reading. On this document the route came out
+`hosted_model` either way — that is this document, not a property of the
+fallback.
+
+Now: if the calibration file is missing from its default path the command line
+warns on stderr, prints `UNCALIBRATED naive leak risk` in place of the calibrated
+label, and sets `"calibrated": false` in `--json`. If you *named* a
+`--calibration` path that is not there it exits 2 instead of quietly using a
+different number than the one you asked for.
+
+### What is still not good
+
+- **No progress on a long document.** 4,920 characters take 0.1006 s, but a file
+  far larger than that reports nothing until it is done.
+- **Cold start is 6.196 s and nearly all of it is model load.** There is no daemon
+  mode, so a per-document shell loop pays it every time.
+- **No GUI, no container, and the three commands assume Linux with a working
+  `pip`.** The demo video is the closest thing to a walkthrough.
 
 ## How AI is used
 

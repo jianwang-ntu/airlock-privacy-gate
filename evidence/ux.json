@@ -1,0 +1,269 @@
+{
+  "measured_at": "2026-09-06T18:22:12Z",
+  "repo_head": "bad73afdd2cd05324ddd9b8fddc505816d613e22",
+  "after_column_is": "the WORKING TREE, not HEAD",
+  "baseline_ref": "bad73afdd2cd05324ddd9b8fddc505816d613e22",
+  "python": "3.13.9",
+  "operator_path": {
+    "commands_in_readme_run_it": 10,
+    "commands_clean_clone_to_first_decision": 3,
+    "commands": [
+      "pip install -r requirements.txt",
+      "bash scripts/fetch_model.sh        # the exact weights every number here was measured with",
+      "python3 -m airlock.cli --text \"...\""
+    ],
+    "flags_required_for_first_decision": 1,
+    "options_with_defaults": [
+      "--model",
+      "--calibration",
+      "--threshold",
+      "--budget"
+    ]
+  },
+  "cold_start": {
+    "runs": 5,
+    "seconds": [
+      6.153,
+      6.043,
+      6.215,
+      6.196,
+      6.26
+    ],
+    "min": 6.043,
+    "median": 6.196,
+    "max": 6.26
+  },
+  "streams": {
+    "decision_lines_on_stdout": 11,
+    "stdout_has_progress_bar": false,
+    "stderr_has_progress_bar": true,
+    "json_stdout_parses": true,
+    "json_keys": [
+      "calibrated",
+      "characters",
+      "decision",
+      "identifiers_found",
+      "redacted",
+      "spans",
+      "vault_size"
+    ]
+  },
+  "throughput_warm": [
+    {
+      "characters": 123,
+      "seconds": 0.0032,
+      "docs_per_second": 313.89
+    },
+    {
+      "characters": 984,
+      "seconds": 0.0211,
+      "docs_per_second": 47.42
+    },
+    {
+      "characters": 4920,
+      "seconds": 0.1006,
+      "docs_per_second": 9.94
+    }
+  ],
+  "silent_fallback_calibration": {
+    "before": {
+      "document_characters": 122,
+      "with_calibration": {
+        "returncode": 0,
+        "risk": 0.1041,
+        "route": "hosted_model",
+        "json_calibrated_flag": null,
+        "label_says_calibrated": true,
+        "warns_on_stderr": false
+      },
+      "default_path_absent": {
+        "returncode": 0,
+        "risk": 0.09827,
+        "route": "hosted_model",
+        "json_calibrated_flag": null,
+        "label_says_calibrated": true,
+        "warns_on_stderr": false
+      },
+      "explicit_missing_path": {
+        "returncode": 0,
+        "risk": 0.09827,
+        "route": "hosted_model",
+        "json_calibrated_flag": null,
+        "label_says_calibrated": true,
+        "warns_on_stderr": false
+      },
+      "risk_differs": true,
+      "route_differs": false,
+      "silently_uncalibrated": true,
+      "explicit_path_silently_ignored": true
+    },
+    "after": {
+      "document_characters": 122,
+      "with_calibration": {
+        "returncode": 0,
+        "risk": 0.1041,
+        "route": "hosted_model",
+        "json_calibrated_flag": true,
+        "label_says_calibrated": true,
+        "warns_on_stderr": false
+      },
+      "default_path_absent": {
+        "returncode": 0,
+        "risk": 0.09827,
+        "route": "hosted_model",
+        "json_calibrated_flag": false,
+        "label_says_calibrated": false,
+        "warns_on_stderr": true
+      },
+      "explicit_missing_path": {
+        "returncode": 2,
+        "risk": null,
+        "route": null,
+        "json_calibrated_flag": null,
+        "label_says_calibrated": false,
+        "warns_on_stderr": true
+      },
+      "risk_differs": true,
+      "route_differs": false,
+      "silently_uncalibrated": false,
+      "explicit_path_silently_ignored": false
+    }
+  },
+  "skipped_fetch_model": {
+    "before": {
+      "returncode": 1,
+      "stderr_lines": 176,
+      "traceback": true,
+      "last_stderr_line": "If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `hf auth login` or by passing `token=<your_token>`",
+      "names_fetch_model_sh": false,
+      "sends_operator_to_credentials": true
+    },
+    "after": {
+      "returncode": 2,
+      "stderr_lines": 2,
+      "traceback": false,
+      "last_stderr_line": "airlock: run `bash scripts/fetch_model.sh` for the exact weights every number in the README was measured with, or `bash scripts/train_all.sh` to rebuild them from the corpus.",
+      "names_fetch_model_sh": true,
+      "sends_operator_to_credentials": false
+    }
+  },
+  "error_paths": {
+    "scenarios": [
+      "bad_model_dir",
+      "missing_file",
+      "no_source",
+      "two_sources"
+    ],
+    "before": {
+      "no_source": {
+        "returncode": 2,
+        "stderr_lines": 4,
+        "last_stderr_line": "airlock: error: one of the arguments --text --file is required",
+        "properties": {
+          "exits_nonzero": true,
+          "no_traceback": true,
+          "names_the_input": true,
+          "no_unrelated_remedy": true
+        },
+        "properties_held": 4,
+        "properties_total": 4
+      },
+      "two_sources": {
+        "returncode": 2,
+        "stderr_lines": 4,
+        "last_stderr_line": "airlock: error: argument --file: not allowed with argument --text",
+        "properties": {
+          "exits_nonzero": true,
+          "no_traceback": true,
+          "names_the_input": true,
+          "no_unrelated_remedy": true
+        },
+        "properties_held": 4,
+        "properties_total": 4
+      },
+      "missing_file": {
+        "returncode": 1,
+        "stderr_lines": 10,
+        "last_stderr_line": "FileNotFoundError: [Errno 2] No such file or directory: '/tmp/airlock_no_such_file_9e1c.txt'",
+        "properties": {
+          "exits_nonzero": true,
+          "no_traceback": false,
+          "names_the_input": true,
+          "no_unrelated_remedy": true
+        },
+        "properties_held": 3,
+        "properties_total": 4
+      },
+      "bad_model_dir": {
+        "returncode": 1,
+        "stderr_lines": 176,
+        "last_stderr_line": "If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `hf auth login` or by passing `token=<your_token>`",
+        "properties": {
+          "exits_nonzero": true,
+          "no_traceback": false,
+          "names_the_input": true,
+          "no_unrelated_remedy": false
+        },
+        "properties_held": 2,
+        "properties_total": 4
+      }
+    },
+    "after": {
+      "no_source": {
+        "returncode": 2,
+        "stderr_lines": 4,
+        "last_stderr_line": "airlock: error: one of the arguments --text --file is required",
+        "properties": {
+          "exits_nonzero": true,
+          "no_traceback": true,
+          "names_the_input": true,
+          "no_unrelated_remedy": true
+        },
+        "properties_held": 4,
+        "properties_total": 4
+      },
+      "two_sources": {
+        "returncode": 2,
+        "stderr_lines": 4,
+        "last_stderr_line": "airlock: error: argument --file: not allowed with argument --text",
+        "properties": {
+          "exits_nonzero": true,
+          "no_traceback": true,
+          "names_the_input": true,
+          "no_unrelated_remedy": true
+        },
+        "properties_held": 4,
+        "properties_total": 4
+      },
+      "missing_file": {
+        "returncode": 2,
+        "stderr_lines": 1,
+        "last_stderr_line": "airlock: error: --file /tmp/airlock_no_such_file_9e1c.txt: no such file",
+        "properties": {
+          "exits_nonzero": true,
+          "no_traceback": true,
+          "names_the_input": true,
+          "no_unrelated_remedy": true
+        },
+        "properties_held": 4,
+        "properties_total": 4
+      },
+      "bad_model_dir": {
+        "returncode": 2,
+        "stderr_lines": 2,
+        "last_stderr_line": "airlock: run `bash scripts/fetch_model.sh` for the exact weights every number in the README was measured with, or `bash scripts/train_all.sh` to rebuild them from the corpus.",
+        "properties": {
+          "exits_nonzero": true,
+          "no_traceback": true,
+          "names_the_input": true,
+          "no_unrelated_remedy": true
+        },
+        "properties_held": 4,
+        "properties_total": 4
+      }
+    },
+    "properties_held_before": 13,
+    "properties_held_after": 16,
+    "properties_total": 16
+  }
+}

@@ -16,10 +16,59 @@ from .gate import Calibrator, Gate
 from .redact import rehydrate_checked
 
 
-def build_gate(args) -> Gate:
-    det = HybridDetector(args.model)
-    cal = Calibrator.load(args.calibration) if os.path.exists(args.calibration) else None
-    return Gate(det, cal, threshold=args.threshold, budget=args.budget)
+def _die(msg: str, remedy: str | None = None):
+    """Stop the way argparse already stops: one line naming what is wrong, on
+    stderr, exit 2. The two mistakes argparse handles (`no source`, `two
+    sources`) were the only ones that behaved like this; the paths below used to
+    raise instead, and a traceback is not a message to an operator."""
+    print(f"airlock: error: {msg}", file=sys.stderr)
+    if remedy:
+        print(f"airlock: {remedy}", file=sys.stderr)
+    raise SystemExit(2)
+
+
+def read_source(args) -> str:
+    if args.text is not None:
+        return args.text
+    if not os.path.isfile(args.file):
+        _die(f"--file {args.file}: no such file")
+    try:
+        return open(args.file, encoding="utf-8").read()
+    except UnicodeDecodeError:
+        _die(f"--file {args.file}: not UTF-8 text")
+    except OSError as e:
+        _die(f"--file {args.file}: {e.strerror}")
+
+
+def build_gate(args, calibration_named: bool) -> "tuple[Gate, bool]":
+    """Returns the gate and whether it is CALIBRATED. The second value is not
+    bookkeeping: `Gate` falls back to the naive risk when there is no
+    calibrator, and the naive risk is a different number on the same document.
+    Whoever prints the result has to be able to say which one it is."""
+    try:
+        det = HybridDetector(args.model)
+    except Exception:
+        if os.path.isdir(args.model):
+            raise      # the directory is there; whatever is wrong is inside it
+        _die(f"--model {args.model}: not a directory, and not a model this "
+             f"machine has already cached",
+             "run `bash scripts/fetch_model.sh` for the exact weights every "
+             "number in the README was measured with, or `bash "
+             "scripts/train_all.sh` to rebuild them from the corpus.")
+
+    if os.path.exists(args.calibration):
+        cal = Calibrator.load(args.calibration)
+        return Gate(det, cal, threshold=args.threshold, budget=args.budget), True
+
+    if calibration_named:
+        _die(f"--calibration {args.calibration}: no such file",
+             "refusing to substitute the uncalibrated risk for a calibration "
+             "file you asked for by name.")
+
+    print(f"airlock: WARNING: {args.calibration} not found -- the gate is "
+          f"UNCALIBRATED and the risk below is the naive estimate, not the "
+          f"calibrated one. Run `bash scripts/fetch_model.sh`.", file=sys.stderr)
+    return Gate(det, None, threshold=args.threshold, budget=args.budget), False
 
 
 def main(argv=None):
@@ -37,8 +86,12 @@ def main(argv=None):
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
 
-    text = args.text if args.text is not None else open(args.file, encoding="utf-8").read()
-    gate = build_gate(args)
+    raw = sys.argv[1:] if argv is None else list(argv)
+    calibration_named = any(a == "--calibration" or a.startswith("--calibration=")
+                            for a in raw)
+
+    text = read_source(args)
+    gate, calibrated = build_gate(args, calibration_named)
     r = gate.process(text)
     d = r["decision"]
 
@@ -48,6 +101,7 @@ def main(argv=None):
         "spans": r["spans"],
         "redacted": r["redacted"],
         "vault_size": r["vault"].size,
+        "calibrated": calibrated,
         "decision": d.__dict__,
     }
 
@@ -76,7 +130,9 @@ def main(argv=None):
     print(r["redacted"])
     print("\n--- gate ---")
     print(f"  expected surviving identifier tokens : {d.expected_surviving_identifier_tokens}")
-    print(f"  calibrated residual leak risk        : {d.risk}   (budget {d.budget})")
+    risk_label = ("calibrated residual leak risk" if calibrated
+                  else "UNCALIBRATED naive leak risk")
+    print(f"  {risk_label:<37}: {d.risk}   (budget {d.budget})")
     print(f"  route                                : {d.route}")
     print(f"  {d.reason}")
     if args.ask:
