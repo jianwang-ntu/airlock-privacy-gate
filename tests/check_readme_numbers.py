@@ -19,7 +19,17 @@ def load(name):
         return json.load(f)
 
 
-def claims(det, gate, gaps, checks_total, deploy, abl):
+def _lib_order(envj):
+    """The README lists the libraries runtime-first. The SET is what matters --
+    order is fixed here so a missing or added library moves the string."""
+    order = ["torch", "transformers", "pyarrow", "pandas", "PIL"]
+    libs = set(envj["libraries"])
+    named = [m for m in order if m in libs]
+    rest = sorted(libs - set(order))
+    return [("Pillow" if m == "PIL" else m) for m in named + rest]
+
+
+def claims(det, gate, gaps, checks_total, deploy, abl, envj):
     h = det["by_threshold_hybrid"]["0.2"]
     m = det["by_threshold_model_only"]["0.2"]
     rx, val = det["regex_baseline"], det["checksum_validators_only"]
@@ -125,12 +135,21 @@ def claims(det, gate, gaps, checks_total, deploy, abl):
         ("lands on the same 0.7498 and the same 4.67% as the",
          f"lands on the same {gate['ranking_auc_raw_statistic']} and the same "
          f"{pct(rows[0.12]['observed_leak_rate_forwarded'])} as the"),
+        # the suite size the README advertises. `checks_total` was threaded
+        # through this function and then never used, so "19 controls" sat
+        # unchecked while the suite grew to 21.
+        ("python3 tests/run_checks.py        # 21 controls",
+         f"python3 tests/run_checks.py        # {checks_total} controls"),
+        # Requirements 5: the library list is the import graph, not a memory
+        ("`torch`, `transformers`, `pyarrow`, `pandas`, `Pillow`",
+         ", ".join(f"`{m}`" for m in _lib_order(envj))),
+        ("ffmpeg", "ffmpeg" if "ffmpeg" in envj["external_binaries"] else "<absent>"),
     ]
 
 
-def run(readme_text, det, gate, gaps, checks_total, deploy, abl):
+def run(readme_text, det, gate, gaps, checks_total, deploy, abl, envj):
     bad = []
-    for quoted, derived in claims(det, gate, gaps, checks_total, deploy, abl):
+    for quoted, derived in claims(det, gate, gaps, checks_total, deploy, abl, envj):
         if quoted != derived:
             bad.append((quoted, derived, "value moved"))
         elif quoted not in readme_text:
@@ -143,19 +162,20 @@ def main():
     det, gate, gaps = load("detector_eval.json"), load("gate_eval.json"), load("corpus_gaps.json")
     deploy = load("deploy_cost.json")
     abl = load("posterior_ablation.json")
+    envj = load("environment.json")
     sys.path.insert(0, ROOT)
     from tests.run_checks import CHECKS
-    bad = run(readme, det, gate, gaps, len(CHECKS), deploy, abl)
+    bad = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj)
     for quoted, derived, why in bad:
         print(f"MISMATCH ({why}): README says {quoted!r}, evidence gives {derived!r}")
-    total = len(claims(det, gate, gaps, len(CHECKS), deploy, abl))
+    total = len(claims(det, gate, gaps, len(CHECKS), deploy, abl, envj))
     print(f"{total - len(bad)}/{total} README claims match the evidence files")
 
     # negative control: corrupt one evidence value and require a mismatch
     import copy
     corrupted = copy.deepcopy(gate)
     corrupted["forward_everything_leak_rate"] = round(gate["forward_everything_leak_rate"] / 2, 4)
-    ctrl = run(readme, det, corrupted, gaps, len(CHECKS), deploy, abl)
+    ctrl = run(readme, det, corrupted, gaps, len(CHECKS), deploy, abl, envj)
     if not ctrl:
         print("CONTROL FAILED: halving the measured leak rate did not trip the checker")
         return 1
@@ -166,7 +186,7 @@ def main():
     dep_corrupt = copy.deepcopy(deploy)
     dep_corrupt["runs"] = [{**r, "docs_per_second": round(r["docs_per_second"] * 2, 2)}
                            for r in dep_corrupt["runs"]]
-    ctrl2 = run(readme, det, gate, gaps, len(CHECKS), dep_corrupt, abl)
+    ctrl2 = run(readme, det, gate, gaps, len(CHECKS), dep_corrupt, abl, envj)
     if not ctrl2:
         print("CONTROL FAILED: doubling every measured throughput did not trip the checker")
         return 1
@@ -181,11 +201,24 @@ def main():
         if r["statistic"] == "count":
             r["auc"] = 0.9111
             r["leak_rate_at_coverage_0.6365"] = 0.0101
-    ctrl3 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl_corrupt)
+    ctrl3 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl_corrupt, envj)
     if not ctrl3:
         print("CONTROL FAILED: inverting the ablation finding did not trip the checker")
         return 1
     print(f"control: inverting the count-statistic ablation trips {len(ctrl3)} claim(s)")
+    # a fourth control, sited on the Requirements-5 rows: none of the three
+    # above touches environment.json, so all three would pass vacuously over
+    # the library list and the suite size.
+    env_corrupt = copy.deepcopy(envj)
+    env_corrupt["libraries"].pop("pyarrow")
+    env_corrupt["external_binaries"].pop("ffmpeg")
+    ctrl4 = run(readme, det, gate, gaps, len(CHECKS) + 1, deploy, abl, env_corrupt)
+    if len(ctrl4) < 3:
+        print("CONTROL FAILED: dropping a library, a binary and moving the suite "
+              f"size tripped only {len(ctrl4)} claim(s), expected 3")
+        return 1
+    print(f"control: dropping pyarrow + ffmpeg and moving the suite size "
+          f"trips {len(ctrl4)} claim(s)")
     return 1 if bad else 0
 
 

@@ -1,4 +1,15 @@
+# Runtime: the detector, the gate and the answering models.
 torch>=2.2
 transformers>=4.40
-pandas>=2.0          # scripts/prepare_data.py only
-pyarrow>=14          # scripts/prepare_data.py only
+
+# scripts/prepare_data.py -- one-off parquet -> JSONL conversion of the corpus.
+pandas>=2.0
+
+# airlock/__init__.py imports pyarrow BEFORE torch, as a host-compatibility
+# shim; pandas.read_parquet also needs it as its engine. Not a runtime
+# dependency of the gate itself. See "Import order" in the README.
+pyarrow>=14
+
+# scripts/render_demo_video.py -- draws the demo frames. It also shells out to
+# `ffmpeg`, a system binary this file cannot install: apt install ffmpeg.
+Pillow>=10

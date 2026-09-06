@@ -1,0 +1,237 @@
+{
+  "generated_at": "2026-09-06T08:40:28Z",
+  "what": "Requirements 5 (Technology Stack), derived from the source rather than transcribed. Libraries are the third-party top-level modules our own .py files import; each version is read in its own subprocess with that module imported first.",
+  "python": {
+    "version": "3.13.9",
+    "implementation": "CPython",
+    "executable_is_this_interpreter": true
+  },
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "release": "5.15.0-170-generic"
+  },
+  "source_files_parsed": 27,
+  "source_files": [
+    "airlock/__init__.py",
+    "airlock/baseline.py",
+    "airlock/cli.py",
+    "airlock/data.py",
+    "airlock/detect.py",
+    "airlock/evaluate.py",
+    "airlock/gate.py",
+    "airlock/hybrid.py",
+    "airlock/labels.py",
+    "airlock/redact.py",
+    "airlock/route.py",
+    "airlock/train.py",
+    "airlock/validators.py",
+    "scripts/__init__.py",
+    "scripts/ablate_posterior.py",
+    "scripts/demo_run.py",
+    "scripts/eval_gate.py",
+    "scripts/fit_gate.py",
+    "scripts/measure_corpus_gaps.py",
+    "scripts/measure_deploy_cost.py",
+    "scripts/measure_environment.py",
+    "scripts/prepare_data.py",
+    "scripts/record_demo.py",
+    "scripts/render_demo_video.py",
+    "tests/__init__.py",
+    "tests/check_readme_numbers.py",
+    "tests/run_checks.py"
+  ],
+  "libraries": {
+    "PIL": {
+      "files": [
+        "scripts/render_demo_video.py"
+      ],
+      "import": "OK",
+      "version": "12.0.0",
+      "file": "/data/wj/anaconda/lib/python3.13/site-packages/PIL/__init__.py",
+      "probed_alone_in_subprocess": true
+    },
+    "pandas": {
+      "files": [
+        "scripts/prepare_data.py"
+      ],
+      "import": "OK",
+      "version": "2.3.3",
+      "file": "/data/wj/anaconda/lib/python3.13/site-packages/pandas/__init__.py",
+      "probed_alone_in_subprocess": true
+    },
+    "pyarrow": {
+      "files": [
+        "airlock/__init__.py"
+      ],
+      "import": "OK",
+      "version": "21.0.0",
+      "file": "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow/__init__.py",
+      "probed_alone_in_subprocess": true
+    },
+    "torch": {
+      "files": [
+        "airlock/detect.py",
+        "airlock/route.py",
+        "airlock/train.py",
+        "scripts/measure_deploy_cost.py"
+      ],
+      "import": "OK",
+      "version": "2.10.0+cu128",
+      "file": "/data/wj/anaconda/lib/python3.13/site-packages/torch/__init__.py",
+      "probed_alone_in_subprocess": true
+    },
+    "transformers": {
+      "files": [
+        "airlock/detect.py",
+        "airlock/route.py",
+        "airlock/train.py",
+        "tests/run_checks.py"
+      ],
+      "import": "OK",
+      "version": "5.5.4",
+      "file": "/data/wj/anaconda/lib/python3.13/site-packages/transformers/__init__.py",
+      "probed_alone_in_subprocess": true
+    }
+  },
+  "external_binaries": {
+    "bash": {
+      "files": [
+        "scripts/record_demo.py"
+      ],
+      "present": true,
+      "first_line": "GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)",
+      "flag": "-version"
+    },
+    "ffmpeg": {
+      "files": [
+        "scripts/render_demo_video.py"
+      ],
+      "present": true,
+      "first_line": "ffmpeg version 4.4.2-0ubuntu0.22.04.1 Copyright (c) 2000-2021 the FFmpeg developers",
+      "flag": "-version"
+    }
+  },
+  "requirements_txt": {
+    "declared": {
+      "torch": ">=2.2",
+      "transformers": ">=4.40",
+      "pandas": ">=2.0",
+      "pyarrow": ">=14",
+      "Pillow": ">=10"
+    },
+    "imported_but_not_declared": [],
+    "declared_but_not_imported": []
+  },
+  "import_order": [
+    {
+      "order": "import torch then pyarrow",
+      "result": "FAIL",
+      "error": "ImportError",
+      "message": "/lib/x86_64-linux-gnu/libstdc++.so.6: version `CXXABI_1.3.15' not found (required by /data/wj/anaconda/lib/python3.13/site-packages/pyarrow/../../../libarrow.so.2100)"
+    },
+    {
+      "order": "import pyarrow then torch",
+      "result": "OK"
+    },
+    {
+      "order": "import airlock then pyarrow",
+      "result": "OK"
+    }
+  ],
+  "models": {
+    "detector_base_checkpoint": "distilbert-base-cased",
+    "detector_architecture": "DistilBertForTokenClassification",
+    "detector_model_type": "distilbert",
+    "detector_labels": 59,
+    "detector_parameters": 65236283,
+    "local_fallback_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "hosted_standin_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "source": {
+      "detector_base_checkpoint": "models/detector/train_meta.json:base_model",
+      "detector_architecture": "models/detector/config.json:architectures[0]",
+      "local_fallback_model": "airlock/route.py:LOCAL_DEFAULT",
+      "hosted_standin_model": "airlock/route.py:HOSTED_STANDIN_DEFAULT"
+    }
+  },
+  "corpus": {
+    "id": "gretelai/synthetic_pii_finance_multilingual",
+    "license": "apache-2.0",
+    "from": "data_manifest.json written by scripts/prepare_data.py",
+    "files": {
+      "English_test.parquet": {
+        "rows": 2891,
+        "sha256": "c02b06d3c5b7c375525136d6f74acc52ab8fc07fa863d0aa50734910ec0ef2ad"
+      },
+      "English_train.parquet": {
+        "rows": 26019,
+        "sha256": "2858af81ec59d8528f81059facb099ac33e6b47caf2501da3eac113bccfee9c7"
+      }
+    }
+  },
+  "network_capability": {
+    "method": "AST import graph over every .py in the repository, allow-list over third-party top-levels plus a stdlib network-module sweep.",
+    "allowed_third_party": [
+      "PIL",
+      "pandas",
+      "pyarrow",
+      "torch",
+      "transformers"
+    ],
+    "third_party_imported": [
+      "PIL",
+      "pandas",
+      "pyarrow",
+      "torch",
+      "transformers"
+    ],
+    "third_party_outside_allow_list": [],
+    "allow_list_entries_not_imported": [],
+    "stdlib_network_list": [
+      "asyncio",
+      "ftplib",
+      "http",
+      "imaplib",
+      "poplib",
+      "smtplib",
+      "socket",
+      "socketserver",
+      "ssl",
+      "telnetlib",
+      "urllib",
+      "webbrowser",
+      "xmlrpc"
+    ],
+    "stdlib_network_modules_imported": {},
+    "stdlib_modules_imported": [
+      "argparse",
+      "ast",
+      "bisect",
+      "collections",
+      "copy",
+      "dataclasses",
+      "datetime",
+      "fcntl",
+      "hashlib",
+      "json",
+      "math",
+      "os",
+      "platform",
+      "pty",
+      "random",
+      "re",
+      "resource",
+      "select",
+      "shutil",
+      "statistics",
+      "struct",
+      "subprocess",
+      "sys",
+      "tempfile",
+      "termios",
+      "time"
+    ],
+    "files_scanned": 27,
+    "verdict": "NO_NETWORK_CLIENT"
+  }
+}

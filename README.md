@@ -175,12 +175,13 @@ repository rather than by reading the metrics:
 
 ```bash
 pip install -r requirements.txt
+# scripts/render_demo_video.py also needs the ffmpeg binary: apt install ffmpeg
 
 bash scripts/fetch_model.sh        # the exact weights every number here was measured with
 #   or
 bash scripts/train_all.sh          # rebuild from the corpus: ~4 minutes on one L40S
 
-python3 tests/run_checks.py        # 19 controls
+python3 tests/run_checks.py        # 21 controls
 python3 tests/check_readme_numbers.py   # every number below, re-read from evidence/
 
 python3 -m airlock.cli --text "Please wire GBP 12,400 to IBAN DE89370400440532013000 \
@@ -255,7 +256,12 @@ calibrated gate — an independent reproduction of both by a second code path.
 - Base encoder: `distilbert-base-cased` (Apache-2.0).
 - Answering models: `Qwen/Qwen2.5-0.5B-Instruct` and
   `Qwen/Qwen3-4B-Instruct-2507` (Apache-2.0).
-- Libraries: PyTorch, Hugging Face Transformers, pandas (data preparation only).
+- Libraries, the complete set our own code imports — derived from the import
+  graph by `scripts/measure_environment.py`, not typed from memory:
+  `torch`, `transformers`, `pyarrow`, `pandas`, `Pillow`. Everything else is
+  the Python standard library. `ffmpeg` is a system binary, used only to
+  render the demo video. **No third-party API is called anywhere in this
+  project**: there is no HTTP client in the repository, from any vendor.
 
 ## Responsible AI
 
