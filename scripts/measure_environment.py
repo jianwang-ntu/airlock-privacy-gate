@@ -241,7 +241,11 @@ def corpus() -> dict:
 # someone thought to name -- so Requirements 5's "APIs used" answer is derived
 # the other way: the third-party set is enumerated from the source, and it is
 # this and nothing else. Adding any client library, of any vendor, breaks it.
-ALLOWED_THIRD_PARTY = ("PIL", "pandas", "pyarrow", "torch", "transformers")
+# scipy is analysis-only: it is imported solely to cross-check this
+# repository's own Fisher exact test in scripts/measure_fairness.py against a
+# second implementation. It is on the list because it is genuinely imported,
+# not because the gate needs it -- nothing in airlock/ imports it.
+ALLOWED_THIRD_PARTY = ("PIL", "pandas", "pyarrow", "scipy", "torch", "transformers")
 
 # Stdlib modules through which bytes could leave the machine. These are stdlib
 # names, so the check does not depend on knowing any vendor's package name.

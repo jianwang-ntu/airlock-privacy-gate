@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-06T09:44:18Z",
+  "generated_at": "2026-09-06T11:52:08Z",
   "what": "Requirements 5 (Technology Stack), derived from the source rather than transcribed. Libraries are the third-party top-level modules our own .py files import; each version is read in its own subprocess with that module imported first.",
   "python": {
     "version": "3.13.9",
@@ -11,7 +11,7 @@
     "machine": "x86_64",
     "release": "5.15.0-170-generic"
   },
-  "source_files_parsed": 29,
+  "source_files_parsed": 35,
   "source_files": [
     "airlock/__init__.py",
     "airlock/baseline.py",
@@ -27,6 +27,7 @@
     "airlock/train.py",
     "airlock/validators.py",
     "scripts/__init__.py",
+    "scripts/ablate_learned_model.py",
     "scripts/ablate_posterior.py",
     "scripts/demo_run.py",
     "scripts/eval_gate.py",
@@ -35,11 +36,16 @@
     "scripts/measure_corpus_gaps.py",
     "scripts/measure_deploy_cost.py",
     "scripts/measure_environment.py",
+    "scripts/measure_fairness.py",
+    "scripts/measure_originality.py",
     "scripts/measure_third_party.py",
     "scripts/prepare_data.py",
     "scripts/record_demo.py",
     "scripts/render_demo_video.py",
     "tests/__init__.py",
+    "tests/check_fairness_measurement.py",
+    "tests/check_learned_model_ablation.py",
+    "tests/check_originality_scan.py",
     "tests/check_readme_numbers.py",
     "tests/run_checks.py"
   ],
@@ -69,6 +75,16 @@
       "import": "OK",
       "version": "21.0.0",
       "file": "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow/__init__.py",
+      "probed_alone_in_subprocess": true
+    },
+    "scipy": {
+      "files": [
+        "scripts/measure_fairness.py",
+        "tests/check_fairness_measurement.py"
+      ],
+      "import": "OK",
+      "version": "1.16.3",
+      "file": "/data/wj/anaconda/lib/python3.13/site-packages/scipy/__init__.py",
       "probed_alone_in_subprocess": true
     },
     "torch": {
@@ -123,7 +139,8 @@
     },
     "git": {
       "files": [
-        "scripts/measure_contribution.py"
+        "scripts/measure_contribution.py",
+        "scripts/measure_originality.py"
       ],
       "present": true,
       "first_line": "unknown option: -version",
@@ -136,7 +153,8 @@
       "transformers": ">=4.40",
       "pandas": ">=2.0",
       "pyarrow": ">=14",
-      "Pillow": ">=10"
+      "Pillow": ">=10",
+      "scipy": ">=1.11"
     },
     "imported_but_not_declared": [],
     "declared_but_not_imported": []
@@ -193,6 +211,7 @@
       "PIL",
       "pandas",
       "pyarrow",
+      "scipy",
       "torch",
       "transformers"
     ],
@@ -200,6 +219,7 @@
       "PIL",
       "pandas",
       "pyarrow",
+      "scipy",
       "torch",
       "transformers"
     ],
@@ -234,6 +254,7 @@
       "json",
       "math",
       "os",
+      "pathlib",
       "platform",
       "pty",
       "random",
@@ -241,6 +262,7 @@
       "resource",
       "select",
       "shutil",
+      "stat",
       "statistics",
       "struct",
       "subprocess",
@@ -249,7 +271,7 @@
       "termios",
       "time"
     ],
-    "files_scanned": 29,
+    "files_scanned": 35,
     "verdict": "NO_NETWORK_CLIENT"
   }
 }

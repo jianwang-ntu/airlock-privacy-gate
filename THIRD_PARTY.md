@@ -109,6 +109,7 @@ distribution's own `METADATA` on this machine.
 | `pandas` | pandas | 2.3.3 | `BSD 3-Clause License` | first line of the full licence text in METADATA `License`; classifier `License :: OSI Approved :: BSD License` | none shipped |
 | `pyarrow` | pyarrow | 21.0.0 | `Apache Software License` | METADATA `License` | `LICENSE.txt`, `NOTICE.txt` |
 | `PIL` | pillow | 12.0.0 | `MIT-CMU` | METADATA `License-Expression` | `LICENSE` |
+| `scipy` | scipy | 1.16.3 | `License :: OSI Approved :: BSD License` | METADATA `Classifier` -- its `License` field holds the full BSD-3-Clause text rather than a name | none shipped |
 
 None of these is vendored — no third-party source file is copied into this
 repository. They are installed from PyPI by `requirements.txt`, so their own

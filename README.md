@@ -313,9 +313,11 @@ version:
   by us.
 - Libraries, the complete set our own code imports — derived from the import
   graph by `scripts/measure_environment.py`, not typed from memory:
-  `torch`, `transformers`, `pyarrow`, `pandas`, `Pillow`. Everything else is
-  the Python standard library. `ffmpeg` is a system binary, used only to
-  render the demo video.
+  `torch`, `transformers`, `pyarrow`, `pandas`, `Pillow`, `scipy`. Everything
+  else is the Python standard library. `scipy` is analysis-only — it
+  cross-checks this repository's own Fisher exact test and nothing in
+  `airlock/` imports it. `ffmpeg` is a system binary, used only to render the
+  demo video.
 - **No hosted inference API is called anywhere in this project.** Measured, not
   asserted: 25 vendor client packages were looked for in the import graph and
   none is present, and no provider endpoint or credential appears in the
@@ -346,6 +348,51 @@ is *against* the system, and the gate refuses rather than guesses when it
 cannot support a bound. It processes only synthetic documents in this
 repository. It is a control that reduces exposure; it is not a compliance
 guarantee, and nothing here should be read as legal advice.
+
+**It has not been evaluated against an adversary.** Every number here comes
+from a corpus that is not trying to defeat the detector. Airlock is a control
+against accident, not against intent.
+
+### Who this system protects less
+
+A gate that catches 93.96% of identifiers is not thereby fair. If the missing
+6.04% falls on one kind of person, those are the people it exposes and the
+headline hides it. `scripts/measure_fairness.py` re-scores all 8,133 gold
+identifiers in the held-out split through the shipped detector and splits them
+along six pre-registered contrasts, with Wilson intervals and Holm-corrected
+Fisher exact tests. It refuses to run unless it first reproduces
+`evidence/detector_eval.json` exactly — 6 aggregate fields and all 25 per-type
+cells. Full write-up in `evidence/fairness.json`.
+
+**Protection depends on whether the model has met your name before.** A name
+whose exact surface form is in the detector's gradient set is redacted
+**96.96%** of the time; one that is not, **87.54%** (n = 1,549, Holm p 1.4e-27).
+The obvious objection is span length — bare surnames are one token, full names
+three — so the contrast was re-run with length held at one token, and the gap
+**widens** to **62.28%** against **85.15%**. A bare surname is redacted
+**52.56%** of the time (n = 78, CI 41.62–63.26) against **85.53%** for a
+single-token given name, a 32.97-point gap. Rare names are, in the world,
+disproportionately the names of people outside the majority naming convention
+of the training data.
+
+**The headline is flattered by the benchmark.** **57.98%** of held-out name
+spans share an exact surface with a training document — an artifact of a
+synthetic corpus that a real deployment would not enjoy. Repricing every name
+span at the measured unseen rate turns 93.96% into a projected **91.49%**.
+
+**One result ran against the hypothesis and is reported anyway.** Names with
+non-ASCII characters were expected to fare worse; they are redacted **97.60%**
+of the time against **92.35%** for pure-ASCII names. That should not be read as
+"fair to international names" — the corpus is synthetic, and the axis on which
+this system is unfair turned out to be rarity, not script.
+
+**128** of the 1,939 distinct person-name surfaces in the held-out split leaked
+at least once. No mitigation is implemented: the disparity is measured,
+disclosed, and still present in the shipped system.
+`tests/check_fairness_measurement.py` — **29/29**, including 200 null draws at
+an identical leak rate to show the machinery does not manufacture gaps
+(**1.50%** significant at α = 0.05), a planted 100%-vs-0% gap it must find, and
+a corrupted-reference run it must refuse.
 
 ## Licence
 

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-06T09:44:09Z",
+  "generated_at": "2026-09-06T11:52:21Z",
   "what": "Third-party inventory for UPAI-Hackdays rule 6 (Intellectual Property), derived from this working tree and this host, not transcribed.",
   "publisher_licenses_pinned_at": "evidence/publisher_licenses.json",
   "source_files_parsed": {
-    "py": 29,
+    "py": 35,
     "sh": 3
   },
   "python_libraries": {
@@ -113,6 +113,28 @@
       "license_declared_from": "METADATA License",
       "imported_by": [
         "airlock/__init__.py"
+      ]
+    },
+    "scipy": {
+      "module": "scipy",
+      "distributions": [
+        "scipy"
+      ],
+      "name": "scipy",
+      "version": "1.16.3",
+      "license_expression": null,
+      "license_field": "Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers.\n All rights reserved.\n\n Redistribution and use in source and binary forms, with or without\n modification, are permitted provided that the following conditions\n are met:\n\n 1. Redistributions of source code must retain the above copyright\n    notice, this list of conditions and the following disclaimer.\n\n 2. Redistributions in binary form must reproduce the above\n    copyright notice, this list of conditions and the following\n    disclaimer in the documentation and/or other materials provided\n    with the distribution.\n\n 3. Neither the name of the copyright holder nor the names of its\n    contributors may be used to endorse or promote products derived\n    from this software without specific prior written permission.\n\n THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT\n OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT\n LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "license_files": [],
+      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/scipy-1.16.3.dist-info",
+      "license_field_first_line": "Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers.",
+      "license_declared": "License :: OSI Approved :: BSD License",
+      "license_declared_from": "METADATA Classifier",
+      "imported_by": [
+        "scripts/measure_fairness.py",
+        "tests/check_fairness_measurement.py"
       ]
     },
     "torch": {
@@ -341,7 +363,8 @@
       ],
       "copyright_files_star_license": "GPL-2",
       "used_by": [
-        "scripts/measure_contribution.py"
+        "scripts/measure_contribution.py",
+        "scripts/measure_originality.py"
       ]
     },
     "grep": {
@@ -483,7 +506,7 @@
       "gated": false,
       "private": false,
       "last_modified": "2024-05-06T13:46:22.000Z",
-      "fetched_at": "2026-09-06T09:43:56Z",
+      "fetched_at": "2026-09-06T09:46:33Z",
       "fetched_by": "submission/fetch_publisher_licenses.py",
       "role": "detector base checkpoint, fine-tuned and redistributed as a release asset",
       "id_source": "models/detector/train_meta.json:base_model"
@@ -503,7 +526,7 @@
       "gated": false,
       "private": false,
       "last_modified": "2024-09-25T12:32:56.000Z",
-      "fetched_at": "2026-09-06T09:43:57Z",
+      "fetched_at": "2026-09-06T09:46:34Z",
       "fetched_by": "submission/fetch_publisher_licenses.py",
       "role": "local answering model behind the redacted prompt",
       "id_source": "airlock/route.py:LOCAL_DEFAULT"
@@ -523,7 +546,7 @@
       "gated": false,
       "private": false,
       "last_modified": "2025-09-17T06:56:53.000Z",
-      "fetched_at": "2026-09-06T09:43:57Z",
+      "fetched_at": "2026-09-06T09:46:34Z",
       "fetched_by": "submission/fetch_publisher_licenses.py",
       "role": "larger local stand-in for the model Airlock is protecting the operator from",
       "id_source": "airlock/route.py:HOSTED_STANDIN_DEFAULT"
@@ -544,7 +567,7 @@
     "gated": false,
     "private": false,
     "last_modified": "2024-06-11T03:00:20.000Z",
-    "fetched_at": "2026-09-06T09:43:57Z",
+    "fetched_at": "2026-09-06T09:46:34Z",
     "fetched_by": "submission/fetch_publisher_licenses.py",
     "role": "training and evaluation corpus for the detector",
     "declared_license_in_repo": "apache-2.0",
@@ -621,7 +644,7 @@
     "reading": "A hub id passed to from_pretrained downloads from huggingface.co on first use; a path under models/ does not. Neither is a vendor API call, and neither is nothing."
   },
   "summary": {
-    "libraries": 5,
+    "libraries": 6,
     "libraries_with_no_declared_license": [],
     "binaries": 12,
     "binaries_absent": [],

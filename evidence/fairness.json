@@ -1,0 +1,508 @@
+{
+  "generated_at": "2026-09-06T11:38:57Z",
+  "question": "Conditional on a gold identifier being present, does the probability that Airlock redacts it depend on properties of the person it belongs to?",
+  "split": "test",
+  "documents": 2891,
+  "threshold": 0.2,
+  "threshold_basis": "airlock/cli.py and airlock/gate.py default; the shipped value",
+  "detector": "hybrid (model UNION checksum validators), as the CLI and gate use",
+  "corpus": "gretelai/synthetic_pii_finance_multilingual (Apache-2.0), English split",
+  "instrument_check": {
+    "reference": "evidence/detector_eval.json",
+    "threshold": 0.2,
+    "reproduces_shipped_evaluation": true,
+    "per_type_cells_compared": 25,
+    "aggregate_fields_compared": 6,
+    "mismatches": [],
+    "identifier_recall": 0.9396,
+    "identifiers_leaked": 491,
+    "gold_identifiers": 8133
+  },
+  "population": {
+    "gold_identifying_spans": 8133,
+    "person_name_spans": 3686,
+    "other_identifying_spans": 4447,
+    "person_name_types": [
+      "name",
+      "first_name",
+      "last_name"
+    ],
+    "distinct_person_name_surfaces": 1939,
+    "distinct_person_name_surfaces_leaked_at_least_once": 128,
+    "train_person_name_surface_forms": 11542,
+    "train_documents_total": 26019,
+    "train_documents_used_for_gradient": 24019,
+    "train_gradient_set_basis": "airlock/train.py holds out docs[-2000:] as dev; train_docs from models/detector/train_meta.json",
+    "train_person_name_surface_forms_including_dev_tail": 12170
+  },
+  "buckets": {
+    "seen_in_training": {
+      "bucket": "surface_seen_in_training",
+      "spans": 2137,
+      "leaked": 65,
+      "recall": 0.9696,
+      "recall_ci95": [
+        0.9614,
+        0.9761
+      ]
+    },
+    "unseen_in_training": {
+      "bucket": "surface_unseen_in_training",
+      "spans": 1549,
+      "leaked": 193,
+      "recall": 0.8754,
+      "recall_ci95": [
+        0.858,
+        0.8909
+      ]
+    },
+    "pure_ascii": {
+      "bucket": "name_pure_ascii",
+      "spans": 3227,
+      "leaked": 247,
+      "recall": 0.9235,
+      "recall_ci95": [
+        0.9138,
+        0.9321
+      ]
+    },
+    "non_ascii": {
+      "bucket": "name_contains_non_ascii",
+      "spans": 459,
+      "leaked": 11,
+      "recall": 0.976,
+      "recall_ci95": [
+        0.9576,
+        0.9866
+      ]
+    },
+    "by_token_count": {
+      "1": {
+        "bucket": "person_name_tokens_1",
+        "spans": 518,
+        "leaked": 143,
+        "recall": 0.7239,
+        "recall_ci95": [
+          0.6839,
+          0.7607
+        ]
+      },
+      "2": {
+        "bucket": "person_name_tokens_2",
+        "spans": 1857,
+        "leaked": 59,
+        "recall": 0.9682,
+        "recall_ci95": [
+          0.9592,
+          0.9753
+        ]
+      },
+      "3+": {
+        "bucket": "person_name_tokens_3+",
+        "spans": 1311,
+        "leaked": 56,
+        "recall": 0.9573,
+        "recall_ci95": [
+          0.9449,
+          0.967
+        ]
+      }
+    },
+    "by_person_name_type": {
+      "name": {
+        "bucket": "name",
+        "spans": 3449,
+        "leaked": 198,
+        "recall": 0.9426,
+        "recall_ci95": [
+          0.9343,
+          0.9499
+        ]
+      },
+      "first_name": {
+        "bucket": "first_name",
+        "spans": 159,
+        "leaked": 23,
+        "recall": 0.8553,
+        "recall_ci95": [
+          0.7923,
+          0.9016
+        ]
+      },
+      "last_name": {
+        "bucket": "last_name",
+        "spans": 78,
+        "leaked": 37,
+        "recall": 0.5256,
+        "recall_ci95": [
+          0.4162,
+          0.6326
+        ]
+      }
+    },
+    "by_person_name_type_single_token": {
+      "name": {
+        "bucket": "name_single_token",
+        "spans": 281,
+        "leaked": 83,
+        "recall": 0.7046,
+        "recall_ci95": [
+          0.6488,
+          0.7549
+        ]
+      },
+      "first_name": {
+        "bucket": "first_name_single_token",
+        "spans": 159,
+        "leaked": 23,
+        "recall": 0.8553,
+        "recall_ci95": [
+          0.7923,
+          0.9016
+        ]
+      },
+      "last_name": {
+        "bucket": "last_name_single_token",
+        "spans": 78,
+        "leaked": 37,
+        "recall": 0.5256,
+        "recall_ci95": [
+          0.4162,
+          0.6326
+        ]
+      }
+    }
+  },
+  "contrasts": [
+    {
+      "id": "C1",
+      "question": "Are person-name identifiers redacted less often than every other identifying type?",
+      "arm_a": {
+        "bucket": "person_name_types",
+        "spans": 3686,
+        "leaked": 258,
+        "recall": 0.93,
+        "recall_ci95": [
+          0.9213,
+          0.9378
+        ]
+      },
+      "arm_b": {
+        "bucket": "all_other_identifying_types",
+        "spans": 4447,
+        "leaked": 233,
+        "recall": 0.9476,
+        "recall_ci95": [
+          0.9407,
+          0.9538
+        ]
+      },
+      "recall_gap_a_minus_b": -0.0176,
+      "fisher_exact_two_sided_p": 0.0010457618978210819,
+      "table": [
+        [
+          3428,
+          258
+        ],
+        [
+          4214,
+          233
+        ]
+      ],
+      "pre_registered": true,
+      "holm_adjusted_p": 0.0020915237956421638,
+      "significant_at_05_after_holm": true
+    },
+    {
+      "id": "C2",
+      "question": "Within person names, is a bare surname redacted less often than a full name?",
+      "arm_a": {
+        "bucket": "last_name",
+        "spans": 78,
+        "leaked": 37,
+        "recall": 0.5256,
+        "recall_ci95": [
+          0.4162,
+          0.6326
+        ]
+      },
+      "arm_b": {
+        "bucket": "name",
+        "spans": 3449,
+        "leaked": 198,
+        "recall": 0.9426,
+        "recall_ci95": [
+          0.9343,
+          0.9499
+        ]
+      },
+      "recall_gap_a_minus_b": -0.417,
+      "fisher_exact_two_sided_p": 4.284197533366422e-24,
+      "table": [
+        [
+          41,
+          37
+        ],
+        [
+          3251,
+          198
+        ]
+      ],
+      "pre_registered": true,
+      "holm_adjusted_p": 2.5705185200198532e-23,
+      "significant_at_05_after_holm": true
+    },
+    {
+      "id": "C3",
+      "question": "Does protection depend on the model having seen that exact name during training?",
+      "arm_a": {
+        "bucket": "surface_unseen_in_training",
+        "spans": 1549,
+        "leaked": 193,
+        "recall": 0.8754,
+        "recall_ci95": [
+          0.858,
+          0.8909
+        ]
+      },
+      "arm_b": {
+        "bucket": "surface_seen_in_training",
+        "spans": 2137,
+        "leaked": 65,
+        "recall": 0.9696,
+        "recall_ci95": [
+          0.9614,
+          0.9761
+        ]
+      },
+      "recall_gap_a_minus_b": -0.0942,
+      "fisher_exact_two_sided_p": 2.0002496640797688e-28,
+      "table": [
+        [
+          1356,
+          193
+        ],
+        [
+          2072,
+          65
+        ]
+      ],
+      "pre_registered": true,
+      "holm_adjusted_p": 1.4001747648558381e-27,
+      "significant_at_05_after_holm": true
+    },
+    {
+      "id": "C4",
+      "question": "Are names containing a non-ASCII character redacted less often than pure-ASCII names?",
+      "arm_a": {
+        "bucket": "name_contains_non_ascii",
+        "spans": 459,
+        "leaked": 11,
+        "recall": 0.976,
+        "recall_ci95": [
+          0.9576,
+          0.9866
+        ]
+      },
+      "arm_b": {
+        "bucket": "name_pure_ascii",
+        "spans": 3227,
+        "leaked": 247,
+        "recall": 0.9235,
+        "recall_ci95": [
+          0.9138,
+          0.9321
+        ]
+      },
+      "recall_gap_a_minus_b": 0.0525,
+      "fisher_exact_two_sided_p": 5.4517383499892785e-06,
+      "table": [
+        [
+          448,
+          11
+        ],
+        [
+          2980,
+          247
+        ]
+      ],
+      "pre_registered": true,
+      "holm_adjusted_p": 1.6355215049967835e-05,
+      "significant_at_05_after_holm": true
+    },
+    {
+      "id": "C5",
+      "question": "C3 restricted to single-token names (length control).",
+      "arm_a": {
+        "bucket": "unseen_single_token",
+        "spans": 289,
+        "leaked": 109,
+        "recall": 0.6228,
+        "recall_ci95": [
+          0.5657,
+          0.6768
+        ]
+      },
+      "arm_b": {
+        "bucket": "seen_single_token",
+        "spans": 229,
+        "leaked": 34,
+        "recall": 0.8515,
+        "recall_ci95": [
+          0.7997,
+          0.8918
+        ]
+      },
+      "recall_gap_a_minus_b": -0.2287,
+      "fisher_exact_two_sided_p": 4.144860071480226e-09,
+      "table": [
+        [
+          180,
+          109
+        ],
+        [
+          195,
+          34
+        ]
+      ],
+      "pre_registered": true,
+      "holm_adjusted_p": 2.0724300357401132e-08,
+      "significant_at_05_after_holm": true
+    },
+    {
+      "id": "C6",
+      "question": "C4 restricted to single-token names (length control).",
+      "arm_a": {
+        "bucket": "non_ascii_single_token",
+        "spans": 18,
+        "leaked": 1,
+        "recall": 0.9444,
+        "recall_ci95": [
+          0.7424,
+          0.9901
+        ]
+      },
+      "arm_b": {
+        "bucket": "ascii_single_token",
+        "spans": 500,
+        "leaked": 142,
+        "recall": 0.716,
+        "recall_ci95": [
+          0.6749,
+          0.7538
+        ]
+      },
+      "recall_gap_a_minus_b": 0.2284,
+      "fisher_exact_two_sided_p": 0.03197304169119713,
+      "table": [
+        [
+          17,
+          1
+        ],
+        [
+          358,
+          142
+        ]
+      ],
+      "pre_registered": true,
+      "holm_adjusted_p": 0.03197304169119713,
+      "significant_at_05_after_holm": true
+    },
+    {
+      "id": "C7",
+      "question": "POST-HOC: is a bare surname redacted less often than a bare given name, with span length held at one token?",
+      "arm_a": {
+        "bucket": "last_name_single_token",
+        "spans": 78,
+        "leaked": 37,
+        "recall": 0.5256,
+        "recall_ci95": [
+          0.4162,
+          0.6326
+        ]
+      },
+      "arm_b": {
+        "bucket": "first_name_single_token",
+        "spans": 159,
+        "leaked": 23,
+        "recall": 0.8553,
+        "recall_ci95": [
+          0.7923,
+          0.9016
+        ]
+      },
+      "recall_gap_a_minus_b": -0.3297,
+      "fisher_exact_two_sided_p": 1.5554554307765338e-07,
+      "table": [
+        [
+          41,
+          37
+        ],
+        [
+          136,
+          23
+        ]
+      ],
+      "pre_registered": false,
+      "post_hoc_reason": "added after C2 and the token-count table were read; C2's arms differ in length as well as in type, so C2 alone cannot separate the two",
+      "holm_adjusted_p": 6.221821723106135e-07,
+      "significant_at_05_after_holm": true
+    }
+  ],
+  "robustness": {
+    "C3_alternative_seen_set": {
+      "id": "C3_all_train_docs",
+      "question": "C3 with the seen-set built from all train docs including the 2000-doc dev tail the weights never saw.",
+      "arm_a": {
+        "bucket": "surface_unseen_in_any_train_doc",
+        "spans": 1487,
+        "leaked": 191,
+        "recall": 0.8716,
+        "recall_ci95": [
+          0.8536,
+          0.8876
+        ]
+      },
+      "arm_b": {
+        "bucket": "surface_seen_in_any_train_doc",
+        "spans": 2199,
+        "leaked": 67,
+        "recall": 0.9695,
+        "recall_ci95": [
+          0.9615,
+          0.9759
+        ]
+      },
+      "recall_gap_a_minus_b": -0.0979,
+      "fisher_exact_two_sided_p": 6.319842520683e-30,
+      "table": [
+        [
+          1296,
+          191
+        ],
+        [
+          2132,
+          67
+        ]
+      ]
+    }
+  },
+  "deployment_projection": {
+    "measured_identifier_recall": 0.9396,
+    "person_name_spans_sharing_a_surface_with_training": 2137,
+    "share_of_person_name_spans_seen_in_training": 0.5798,
+    "projected_identifier_recall_if_no_name_were_seen_in_training": 0.9149,
+    "basis": "holds the non-name types at their measured leak count and reprices every person-name span at the measured unseen-surface leak rate",
+    "caveat": "a projection, not a measurement: it assumes unseen names in deployment behave like unseen names in this corpus, and this corpus's names are synthetic. It is reported because the measured headline is flattered by a train/test surface overlap that a real deployment would not enjoy."
+  },
+  "multiple_comparisons": "Holm-Bonferroni across the six pre-registered contrasts",
+  "fisher_implementation": "local sum-of-smaller-tables; cross-checked against scipy",
+  "scipy_cross_check": {
+    "available": true,
+    "max_abs_difference": 5.530298441414061e-15,
+    "agrees_within_1e_9": true
+  },
+  "label_caveat": "The corpus's spans are incomplete, so every recall here is an UPPER bound. That bias applies to both arms of every contrast, but not necessarily equally: if the annotation misses hard names more often than easy ones, the true gaps are wider than measured, not narrower.",
+  "no_surfaces_exported": true,
+  "wall_seconds": 33.1
+}

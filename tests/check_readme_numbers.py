@@ -29,9 +29,24 @@ def _lib_order(envj):
     return [("Pillow" if m == "PIL" else m) for m in named + rest]
 
 
-def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac):
+def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac, fair, fairc):
     h = det["by_threshold_hybrid"]["0.2"]
     m = det["by_threshold_model_only"]["0.2"]
+    # ---- rule 8 fairness helpers
+    _CN = {c["id"]: c for c in fair["contrasts"]}
+    fh, fproj, finstr = h, fair["deployment_projection"], fair["instrument_check"]
+    _WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven"}
+    _word = lambda n: _WORDS.get(n, str(n))
+    _fpct = lambda x: f"{x * 100:.2f}%"
+    _fr = lambda cid, side: _fpct(_CN[cid][side]["recall"])
+    _fn = lambda cid, side: f"{_CN[cid][side]['spans']:,}"
+    _fgap = lambda cid: f"{abs(_CN[cid]['recall_gap_a_minus_b']) * 100:.2f}"
+    _fp = lambda cid: "%.2g" % _CN[cid]["holm_adjusted_p"]
+
+    def _fci(cid, side):
+        b = _CN[cid][side]["recall_ci95"]
+        return f"{b[0] * 100:.2f}\u2013{b[1] * 100:.2f}"
+
     rx, val = det["regex_baseline"], det["checksum_validators_only"]
     rows = {r["budget"]: r for r in gate["risk_coverage"]}
     runs = {(r["device"], r["torch_threads"]): r for r in deploy["runs"]}
@@ -150,9 +165,44 @@ def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac):
         ("python3 tests/run_checks.py        # 21 controls",
          f"python3 tests/run_checks.py        # {checks_total} controls"),
         # Requirements 5: the library list is the import graph, not a memory
-        ("`torch`, `transformers`, `pyarrow`, `pandas`, `Pillow`",
+        ("`torch`, `transformers`, `pyarrow`, `pandas`, `Pillow`, `scipy`",
          ", ".join(f"`{m}`" for m in _lib_order(envj))),
         ("ffmpeg", "ffmpeg" if "ffmpeg" in envj["external_binaries"] else "<absent>"),
+        # ---- rule 8: who the system protects less. These rows are the only
+        # ones that read fairness.json, so controls 7 and 8 below are sited on
+        # it -- the six earlier controls would pass vacuously over all of them.
+        ("catches 93.96% of identifiers", f"catches {_fpct(fh['identifier_recall'])} of identifiers"),
+        ("6.04% falls on one kind of person",
+         f"{_fpct(1 - fh['identifier_recall'])} falls on one kind of person"),
+        ("all 8,133 gold", f"all {fair['population']['gold_identifying_spans']:,} gold"),
+        ("along six pre-registered contrasts",
+         f"along {_word(sum(1 for c in fair['contrasts'] if c['pre_registered']))} "
+         f"pre-registered contrasts"),
+        ("— 6 aggregate fields and all 25 per-type",
+         f"— {finstr['aggregate_fields_compared']} aggregate fields and all "
+         f"{finstr['per_type_cells_compared']} per-type"),
+        ("**96.96%** of the time; one that is not, **87.54%** (n = 1,549, Holm p 1.4e-27).",
+         f"**{_fr('C3', 'arm_b')}** of the time; one that is not, **{_fr('C3', 'arm_a')}** "
+         f"(n = {_fn('C3', 'arm_a')}, Holm p {_fp('C3')})."),
+        ("**62.28%** against **85.15%**", f"**{_fr('C5', 'arm_a')}** against **{_fr('C5', 'arm_b')}**"),
+        ("**52.56%** of the time (n = 78, CI 41.62–63.26) against **85.53%**",
+         f"**{_fr('C7', 'arm_a')}** of the time (n = {_fn('C7', 'arm_a')}, "
+         f"CI {_fci('C7', 'arm_a')}) against **{_fr('C7', 'arm_b')}**"),
+        ("a 32.97-point gap", f"a {_fgap('C7')}-point gap"),
+        ("**57.98%** of held-out name",
+         f"**{_fpct(fproj['share_of_person_name_spans_seen_in_training'])}** of held-out name"),
+        ("turns 93.96% into a projected **91.49%**",
+         f"turns {_fpct(fproj['measured_identifier_recall'])} into a projected "
+         f"**{_fpct(fproj['projected_identifier_recall_if_no_name_were_seen_in_training'])}**"),
+        ("redacted **97.60%**", f"redacted **{_fr('C4', 'arm_a')}**"),
+        ("against **92.35%** for pure-ASCII names",
+         f"against **{_fr('C4', 'arm_b')}** for pure-ASCII names"),
+        ("**128** of the 1,939 distinct person-name surfaces",
+         f"**{fair['population']['distinct_person_name_surfaces_leaked_at_least_once']}** of the "
+         f"{fair['population']['distinct_person_name_surfaces']:,} distinct person-name surfaces"),
+        ("**29/29**, including 200 null draws",
+         f"**{fairc['passed']}/{fairc['total']}**, including {fairc['null_draws']} null draws"),
+        ("(**1.50%** significant", f"(**{_fpct(fairc['null_false_positive_fraction'])}** significant"),
         # ---- rule 3: delete the learned model
         ("same 2,891 held-out documents to find out",
          f"same {lma['documents']:,} held-out documents to find out"),
@@ -205,10 +255,11 @@ def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac):
     ]
 
 
-def run(readme_text, det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac):
+def run(readme_text, det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac,
+        fair, fairc):
     bad = []
     for quoted, derived in claims(det, gate, gaps, checks_total, deploy, abl, envj,
-                                  lma, lmac):
+                                  lma, lmac, fair, fairc):
         if quoted != derived:
             bad.append((quoted, derived, "value moved"))
         elif quoted not in readme_text:
@@ -224,19 +275,21 @@ def main():
     envj = load("environment.json")
     lma = load("learned_model_ablation.json")
     lmac = load("learned_model_ablation_controls.json")
+    fair = load("fairness.json")
+    fairc = load("fairness_controls.json")
     sys.path.insert(0, ROOT)
     from tests.run_checks import CHECKS
-    bad = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac)
+    bad = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac, fair, fairc)
     for quoted, derived, why in bad:
         print(f"MISMATCH ({why}): README says {quoted!r}, evidence gives {derived!r}")
-    total = len(claims(det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac))
+    total = len(claims(det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac, fair, fairc))
     print(f"{total - len(bad)}/{total} README claims match the evidence files")
 
     # negative control: corrupt one evidence value and require a mismatch
     import copy
     corrupted = copy.deepcopy(gate)
     corrupted["forward_everything_leak_rate"] = round(gate["forward_everything_leak_rate"] / 2, 4)
-    ctrl = run(readme, det, corrupted, gaps, len(CHECKS), deploy, abl, envj, lma, lmac)
+    ctrl = run(readme, det, corrupted, gaps, len(CHECKS), deploy, abl, envj, lma, lmac, fair, fairc)
     if not ctrl:
         print("CONTROL FAILED: halving the measured leak rate did not trip the checker")
         return 1
@@ -247,7 +300,8 @@ def main():
     dep_corrupt = copy.deepcopy(deploy)
     dep_corrupt["runs"] = [{**r, "docs_per_second": round(r["docs_per_second"] * 2, 2)}
                            for r in dep_corrupt["runs"]]
-    ctrl2 = run(readme, det, gate, gaps, len(CHECKS), dep_corrupt, abl, envj, lma, lmac)
+    ctrl2 = run(readme, det, gate, gaps, len(CHECKS), dep_corrupt, abl, envj, lma, lmac,
+                fair, fairc)
     if not ctrl2:
         print("CONTROL FAILED: doubling every measured throughput did not trip the checker")
         return 1
@@ -262,7 +316,7 @@ def main():
         if r["statistic"] == "count":
             r["auc"] = 0.9111
             r["leak_rate_at_coverage_0.6365"] = 0.0101
-    ctrl3 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl_corrupt, envj, lma, lmac)
+    ctrl3 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl_corrupt, envj, lma, lmac, fair, fairc)
     if not ctrl3:
         print("CONTROL FAILED: inverting the ablation finding did not trip the checker")
         return 1
@@ -273,7 +327,8 @@ def main():
     env_corrupt = copy.deepcopy(envj)
     env_corrupt["libraries"].pop("pyarrow")
     env_corrupt["external_binaries"].pop("ffmpeg")
-    ctrl4 = run(readme, det, gate, gaps, len(CHECKS) + 1, deploy, abl, env_corrupt, lma, lmac)
+    ctrl4 = run(readme, det, gate, gaps, len(CHECKS) + 1, deploy, abl, env_corrupt, lma, lmac,
+                fair, fairc)
     if len(ctrl4) < 3:
         print("CONTROL FAILED: dropping a library, a binary and moving the suite "
               f"size tripped only {len(ctrl4)} claim(s), expected 3")
@@ -291,7 +346,8 @@ def main():
             a["base_leak_rate_all_documents"] = 0.0101
             a["candidates"] = [c for c in a["candidates"]
                                if not c["statistic"].endswith("(negated)")]
-    ctrl5 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma_corrupt, lmac)
+    ctrl5 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma_corrupt, lmac,
+                fair, fairc)
     if len(ctrl5) < 3:
         print("CONTROL FAILED: inverting the delete-the-model finding and withdrawing "
               f"the oracle advantage tripped only {len(ctrl5)} claim(s), expected 3")
@@ -300,11 +356,43 @@ def main():
     # a sixth, on the controls file, because ctrl5 does not read it either
     lmac_corrupt = copy.deepcopy(lmac)
     lmac_corrupt["passed"] = lmac["passed"] - 1
-    ctrl6 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac_corrupt)
+    ctrl6 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac_corrupt,
+                fair, fairc)
     if not ctrl6:
         print("CONTROL FAILED: a red ablation control did not trip the checker")
         return 1
     print(f"control: one red ablation control trips {len(ctrl6)} claim(s)")
+    # a seventh, on fairness.json: none of the six above reads it, so all six
+    # pass vacuously over every rule-8 row. It inverts the finding -- the unseen
+    # arm is made SAFER than the seen arm -- which is the flattering direction.
+    fair_corrupt = copy.deepcopy(fair)
+    for c in fair_corrupt["contrasts"]:
+        if c["id"] == "C3":
+            c["arm_a"]["recall"] = 0.9891
+            c["recall_gap_a_minus_b"] = 0.0195
+        if c["id"] == "C7":
+            c["arm_a"]["recall"] = 0.9012
+    fair_corrupt["deployment_projection"][
+        "projected_identifier_recall_if_no_name_were_seen_in_training"] = 0.9702
+    ctrl7 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac,
+                fair_corrupt, fairc)
+    if len(ctrl7) < 3:
+        print("CONTROL FAILED: inverting the fairness finding tripped only "
+              f"{len(ctrl7)} claim(s), expected 3")
+        return 1
+    print(f"control: inverting the fairness finding trips {len(ctrl7)} claim(s)")
+    # an eighth, on fairness_controls.json, because ctrl7 does not read it
+    fairc_corrupt = copy.deepcopy(fairc)
+    fairc_corrupt["passed"] = fairc["passed"] - 1
+    fairc_corrupt["null_false_positive_fraction"] = 0.4
+    ctrl8 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac,
+                fair, fairc_corrupt)
+    if len(ctrl8) < 2:
+        print("CONTROL FAILED: a red fairness control and a broken null calibration "
+              f"tripped only {len(ctrl8)} claim(s), expected 2")
+        return 1
+    print(f"control: a red fairness control + broken null calibration trips "
+          f"{len(ctrl8)} claim(s)")
     return 1 if bad else 0
 
 

@@ -1,0 +1,196 @@
+{
+ "generated_at": "2026-09-06T12:01:19Z",
+ "what": "Controls for scripts/measure_fairness.py -- the rule 8 fairness measurement. Both directions are exercised: a planted gap must be found, and 200 null draws must stay near alpha.",
+ "script": "scripts/measure_fairness.py",
+ "script_sha256": "7722468ac13f3d84053d950cd9d9859ab8d39952067d65f5645f81d5a52eaaf2",
+ "null_draws": 200,
+ "null_draw_rate": 0.13,
+ "null_draws_significant_at_05": 3,
+ "null_false_positive_fraction": 0.015,
+ "corpus_surfaces_searched_in_evidence": 1961,
+ "evidence_substring_hits": [
+  "person"
+ ],
+ "evidence_unexplained_surfaces": [],
+ "evidence_carve_outs_script_vocabulary": [
+  "person"
+ ],
+ "controls": [
+  {
+   "name": "W1",
+   "expects": "every Wilson endpoint solves its defining equation",
+   "passed": true,
+   "detail": "max residual 2.78e-17"
+  },
+  {
+   "name": "W2",
+   "expects": "10/10 does not certify perfection: the lower bound stays well below 1 while the upper bound reaches 1 to floating-point tolerance",
+   "passed": true,
+   "detail": "[0.7225, 0.99999999999999989]"
+  },
+  {
+   "name": "W3",
+   "expects": "n=0 returns (None, None) rather than a number",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "F1",
+   "expects": "tea-tasting table reproduces the published p = 0.485714",
+   "passed": true,
+   "detail": "p=0.4857142857"
+  },
+  {
+   "name": "F2",
+   "expects": "p is invariant under transpose and under swapping both rows",
+   "passed": true,
+   "detail": "p=0.000299989"
+  },
+  {
+   "name": "F3",
+   "expects": "agrees with scipy on 200 random tables to 1e-9",
+   "passed": true,
+   "detail": "max |diff| 8.02e-14"
+  },
+  {
+   "name": "F4",
+   "expects": "an empty arm gives p = 1.0, never a spurious finding",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "F5",
+   "expects": "a perfectly separated 25v25 table is overwhelmingly significant",
+   "passed": true,
+   "detail": "p=1.58e-14"
+  },
+  {
+   "name": "H1",
+   "expects": "adjusted p-values are non-decreasing in raw order",
+   "passed": true,
+   "detail": "[0.007, 0.12, 0.15, 1.0, 1.0, 1.0, 1.0]"
+  },
+  {
+   "name": "H2",
+   "expects": "the smallest raw p is multiplied by the family size",
+   "passed": true,
+   "detail": "0.007000"
+  },
+  {
+   "name": "H3",
+   "expects": "Holm can REMOVE significance, not merely relabel it: raw 0.02 in a family of 7 crosses 0.05",
+   "passed": true,
+   "detail": "adjusted 0.1200"
+  },
+  {
+   "name": "B1",
+   "expects": "non-ASCII detection: Jose ASCII; Jose-with-acute, Cyrillic and a CJK name not ASCII; an apostrophe stays ASCII",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "B2",
+   "expects": "token buckets are 1 / 2 / 3+ and ignore padding whitespace",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "B3",
+   "expects": "surface normalisation folds case and collapses whitespace",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "B4",
+   "expects": "the seen-set finds a planted name and misses one that is absent",
+   "passed": true,
+   "detail": "['ada lovelace']"
+  },
+  {
+   "name": "B5",
+   "expects": "the seen-set's type filter holds: a `company` span is NOT collected as a person name",
+   "passed": true,
+   "detail": "['ada lovelace']"
+  },
+  {
+   "name": "S1",
+   "expects": "a fully masked gold span is not a leak",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "S2",
+   "expects": "a PARTIALLY masked gold span still counts as a leak",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "S3",
+   "expects": "an unmasked gold span is a leak",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "S4",
+   "expects": "a predicted span whose type is not in the redaction policy provides no coverage",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "P1",
+   "expects": "a planted 100%-vs-0% gap is found, with the right sign",
+   "passed": true,
+   "detail": "gap=-1.0 p=1.98e-29"
+  },
+  {
+   "name": "P2",
+   "expects": "200 null draws at an identical 0.13 leak rate stay near alpha=0.05, not above it",
+   "passed": true,
+   "detail": "3/200 significant = 0.015"
+  },
+  {
+   "name": "P3",
+   "expects": "swapping the arms flips the gap and leaves p unchanged",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "P4",
+   "expects": "a 40-point gap on n=5 per arm does NOT reach significance -- small n cannot manufacture a finding",
+   "passed": true,
+   "detail": "gap=-0.4 p=0.4444"
+  },
+  {
+   "name": "I1",
+   "expects": "a corrupted reference makes the run REFUSE and exit non-zero",
+   "passed": true,
+   "detail": "rc=1"
+  },
+  {
+   "name": "I2",
+   "expects": "the true reference passes, reporting reproduction over all 25 per-type cells",
+   "passed": true,
+   "detail": "rc=0"
+  },
+  {
+   "name": "E1",
+   "expects": "no identifier surface from the corpus appears in the evidence file, other than strings that are also in the script's own source",
+   "passed": true,
+   "detail": "1961 surfaces searched, 1 substring hits, 0 unexplained, carve-outs ['person']"
+  },
+  {
+   "name": "E2",
+   "expects": "the E1 checker, handed a planted surface, finds it and had not already been reporting it -- so E1 is not passing vacuously",
+   "passed": true,
+   "detail": "planted a 19-char surface; 2 new hit(s), all substrings of it: True"
+  },
+  {
+   "name": "E3",
+   "expects": "every carve-out is recoverable by the same search with the exemption off, so the exemption -- not a blind spot -- is what suppressed it",
+   "passed": true,
+   "detail": "1 carve-out(s)"
+  }
+ ],
+ "passed": 29,
+ "total": 29
+}

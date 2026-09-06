@@ -13,3 +13,9 @@ pyarrow>=14
 # scripts/render_demo_video.py -- draws the demo frames. It also shells out to
 # `ffmpeg`, a system binary this file cannot install: apt install ffmpeg.
 Pillow>=10
+
+# scripts/measure_fairness.py and tests/check_fairness_measurement.py -- used
+# ONLY to cross-check this repository's own Fisher exact test against a second
+# implementation. Nothing in the gate, the detector or the demo imports it, and
+# both call sites degrade to "cross-check unavailable" if it is absent.
+scipy>=1.11
