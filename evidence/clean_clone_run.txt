@@ -1,0 +1,29 @@
+# clean-clone verification 2026-09-06T06:06:09Z
+# workdir /tmp/airlock_verify_l0AGnZ (fresh, did not exist before this run)
+# HEAD 46d28b535f86778c2f0caced0340b9bcd24badcc
+models/detector and models/gate_calibration.json are in place
+## tests/run_checks.py
+PASS evidence/README-numbers-are-on-disk
+
+19/19 passed, 0 failed, 0 skipped
+## tests/check_readme_numbers.py
+27/27 README claims match the evidence files
+control: halving forward_everything_leak_rate trips 1 claim(s) -- checker is live
+## airlock.cli
+input: 175 characters, 6 identifiers detected
+  name                       p=0.985  'Meera Subramanian'
+  email                      p=1.000  'meera.s@example.co.uk'
+  company                    p=0.201  'IBAN'
+  iban                       p=1.000  'DE89370400440532013000'
+  credit_card_number         p=1.000  '4111 1111 1111 1111'
+  phone_number               p=0.437  '+44 7700 900123'
+
+--- text that would leave this machine ---
+From: [NAME_1] <[EMAIL_1]>. Please transfer GBP 12,400 to IBAN [IBAN_1]; card [CREDIT_CARD_NUMBER_1] must not be charged. Call [PHONE_NUMBER_1].
+
+--- gate ---
+  expected surviving identifier tokens : 0.0552
+  calibrated residual leak risk        : 0.1041   (budget 0.12)
+  route                                : hosted_model
+  residual leak risk 0.104 is within the 0.120 budget
+# workdir left at /tmp/airlock_verify_l0AGnZ
