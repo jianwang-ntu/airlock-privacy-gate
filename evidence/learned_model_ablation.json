@@ -1,0 +1,304 @@
+{
+  "generated_at": "2026-09-06T11:06:21Z",
+  "question": "Rule 3 asks that AI/ML play a meaningful role. Delete the learned model from the PRODUCT -- not from the detector benchmark -- and measure what the gate can still do.",
+  "split": "test (never used for training or calibration)",
+  "documents": 2891,
+  "redaction_threshold": 0.2,
+  "coverages_compared": [
+    0.6365,
+    0.0948
+  ],
+  "leak_definition": "An identifier the corpus annotates as one of the 25 IDENTIFYING types survived into the outgoing text. Each arm is scored against the redaction that arm performed, which is why the base rates differ.",
+  "arms": [
+    {
+      "arm": "S_shipped",
+      "description": "Model union validators redaction; risk = sum of the detector's per-token p_ident over the tokens that survived redaction. One statistic, no choice.",
+      "documents": 2891,
+      "base_leak_rate_all_documents": 0.1003,
+      "base_leaking_documents": 290,
+      "ranking_auc": 0.7498,
+      "at_coverage": {
+        "0.6365": {
+          "documents_forwarded": 1840,
+          "leaking_documents_forwarded": 86,
+          "leak_rate_among_forwarded": 0.0467,
+          "whole_corpus_exposure": 0.0297,
+          "random_gate_same_coverage_leak_rate": 0.101,
+          "random_gate_sd": 0.005
+        },
+        "0.0948": {
+          "documents_forwarded": 274,
+          "leaking_documents_forwarded": 5,
+          "leak_rate_among_forwarded": 0.0182,
+          "whole_corpus_exposure": 0.0017,
+          "random_gate_same_coverage_leak_rate": 0.1035,
+          "random_gate_sd": 0.0168
+        }
+      }
+    },
+    {
+      "arm": "B_no_learned_model",
+      "description": "The learned model never runs. Regex union checksum validators redaction, and the best of twelve no-ML risk statistics chosen against the test labels.",
+      "documents": 2891,
+      "base_leak_rate_all_documents": 0.6835,
+      "base_leaking_documents": 1976,
+      "ranking_auc": 0.6493,
+      "at_coverage": {
+        "0.6365": {
+          "documents_forwarded": 1840,
+          "leaking_documents_forwarded": 1129,
+          "leak_rate_among_forwarded": 0.6136,
+          "whole_corpus_exposure": 0.3905,
+          "random_gate_same_coverage_leak_rate": 0.6854,
+          "random_gate_sd": 0.0048
+        },
+        "0.0948": {
+          "documents_forwarded": 274,
+          "leaking_documents_forwarded": 104,
+          "leak_rate_among_forwarded": 0.3796,
+          "whole_corpus_exposure": 0.036,
+          "random_gate_same_coverage_leak_rate": 0.6883,
+          "random_gate_sd": 0.0279
+        }
+      },
+      "coverage_needed_to_match_shipped_exposure": {
+        "0.6365": {
+          "shipped_leaking_documents_forwarded": 86,
+          "max_documents_this_arm_can_forward": 236,
+          "max_coverage": 0.0816
+        },
+        "0.0948": {
+          "shipped_leaking_documents_forwarded": 5,
+          "max_documents_this_arm_can_forward": 14,
+          "max_coverage": 0.0048
+        }
+      },
+      "oracle_statistic_chosen": "surviving_capitalised_words",
+      "candidates": [
+        {
+          "statistic": "surviving_chars",
+          "auc": 0.4647,
+          "distinct_values": 1634,
+          "leak_rate_at_coverage_0.6365": 0.6924,
+          "leak_rate_at_coverage_0.0948": 0.6606
+        },
+        {
+          "statistic": "surviving_chars (negated)",
+          "auc": 0.5353,
+          "distinct_values": 1634,
+          "leak_rate_at_coverage_0.6365": 0.6755,
+          "leak_rate_at_coverage_0.0948": 0.4489
+        },
+        {
+          "statistic": "surviving_words",
+          "auc": 0.5187,
+          "distinct_values": 372,
+          "leak_rate_at_coverage_0.6365": 0.6891,
+          "leak_rate_at_coverage_0.0948": 0.5803
+        },
+        {
+          "statistic": "surviving_words (negated)",
+          "auc": 0.4813,
+          "distinct_values": 372,
+          "leak_rate_at_coverage_0.6365": 0.7168,
+          "leak_rate_at_coverage_0.0948": 0.5109
+        },
+        {
+          "statistic": "surviving_capitalised_words",
+          "auc": 0.6493,
+          "distinct_values": 79,
+          "leak_rate_at_coverage_0.6365": 0.6136,
+          "leak_rate_at_coverage_0.0948": 0.3796
+        },
+        {
+          "statistic": "surviving_capitalised_words (negated)",
+          "auc": 0.3507,
+          "distinct_values": 79,
+          "leak_rate_at_coverage_0.6365": 0.7522,
+          "leak_rate_at_coverage_0.0948": 0.8358
+        },
+        {
+          "statistic": "surviving_digit_runs",
+          "auc": 0.5429,
+          "distinct_values": 61,
+          "leak_rate_at_coverage_0.6365": 0.6935,
+          "leak_rate_at_coverage_0.0948": 0.3467
+        },
+        {
+          "statistic": "surviving_digit_runs (negated)",
+          "auc": 0.4571,
+          "distinct_values": 61,
+          "leak_rate_at_coverage_0.6365": 0.7158,
+          "leak_rate_at_coverage_0.0948": 0.6314
+        },
+        {
+          "statistic": "spans_redacted",
+          "auc": 0.6421,
+          "distinct_values": 51,
+          "leak_rate_at_coverage_0.6365": 0.625,
+          "leak_rate_at_coverage_0.0948": 0.4307
+        },
+        {
+          "statistic": "spans_redacted (negated)",
+          "auc": 0.3579,
+          "distinct_values": 51,
+          "leak_rate_at_coverage_0.6365": 0.7538,
+          "leak_rate_at_coverage_0.0948": 0.7956
+        },
+        {
+          "statistic": "surviving_capitalised_plus_digits",
+          "auc": 0.6394,
+          "distinct_values": 92,
+          "leak_rate_at_coverage_0.6365": 0.6239,
+          "leak_rate_at_coverage_0.0948": 0.5219
+        },
+        {
+          "statistic": "surviving_capitalised_plus_digits (negated)",
+          "auc": 0.3606,
+          "distinct_values": 92,
+          "leak_rate_at_coverage_0.6365": 0.7587,
+          "leak_rate_at_coverage_0.0948": 0.792
+        }
+      ]
+    },
+    {
+      "arm": "R_redaction_api",
+      "description": "The model is used as a black-box redactor -- what a commercial redaction API returns -- and the gate is rebuilt from the redacted output with the best of twelve no-ML risk statistics chosen against the test labels. Identical redaction to arm S, so the leak labels are identical too, and the ONLY difference from S is that the posterior is unavailable.",
+      "documents": 2891,
+      "base_leak_rate_all_documents": 0.1003,
+      "base_leaking_documents": 290,
+      "ranking_auc": 0.5954,
+      "at_coverage": {
+        "0.6365": {
+          "documents_forwarded": 1840,
+          "leaking_documents_forwarded": 149,
+          "leak_rate_among_forwarded": 0.081,
+          "whole_corpus_exposure": 0.0515,
+          "random_gate_same_coverage_leak_rate": 0.101,
+          "random_gate_sd": 0.005
+        },
+        "0.0948": {
+          "documents_forwarded": 274,
+          "leaking_documents_forwarded": 20,
+          "leak_rate_among_forwarded": 0.073,
+          "whole_corpus_exposure": 0.0069,
+          "random_gate_same_coverage_leak_rate": 0.1035,
+          "random_gate_sd": 0.0168
+        }
+      },
+      "coverage_needed_to_match_shipped_exposure": {
+        "0.6365": {
+          "shipped_leaking_documents_forwarded": 86,
+          "max_documents_this_arm_can_forward": 1182,
+          "max_coverage": 0.4089
+        },
+        "0.0948": {
+          "shipped_leaking_documents_forwarded": 5,
+          "max_documents_this_arm_can_forward": 149,
+          "max_coverage": 0.0515
+        }
+      },
+      "oracle_statistic_chosen": "spans_redacted",
+      "candidates": [
+        {
+          "statistic": "surviving_chars",
+          "auc": 0.4498,
+          "distinct_values": 1645,
+          "leak_rate_at_coverage_0.6365": 0.1082,
+          "leak_rate_at_coverage_0.0948": 0.0912
+        },
+        {
+          "statistic": "surviving_chars (negated)",
+          "auc": 0.5502,
+          "distinct_values": 1645,
+          "leak_rate_at_coverage_0.6365": 0.0913,
+          "leak_rate_at_coverage_0.0948": 0.0657
+        },
+        {
+          "statistic": "surviving_words",
+          "auc": 0.4589,
+          "distinct_values": 377,
+          "leak_rate_at_coverage_0.6365": 0.1109,
+          "leak_rate_at_coverage_0.0948": 0.1204
+        },
+        {
+          "statistic": "surviving_words (negated)",
+          "auc": 0.5411,
+          "distinct_values": 377,
+          "leak_rate_at_coverage_0.6365": 0.0946,
+          "leak_rate_at_coverage_0.0948": 0.0912
+        },
+        {
+          "statistic": "surviving_capitalised_words",
+          "auc": 0.494,
+          "distinct_values": 110,
+          "leak_rate_at_coverage_0.6365": 0.1005,
+          "leak_rate_at_coverage_0.0948": 0.0876
+        },
+        {
+          "statistic": "surviving_capitalised_words (negated)",
+          "auc": 0.506,
+          "distinct_values": 110,
+          "leak_rate_at_coverage_0.6365": 0.0957,
+          "leak_rate_at_coverage_0.0948": 0.1204
+        },
+        {
+          "statistic": "surviving_digit_runs",
+          "auc": 0.5136,
+          "distinct_values": 61,
+          "leak_rate_at_coverage_0.6365": 0.1005,
+          "leak_rate_at_coverage_0.0948": 0.0876
+        },
+        {
+          "statistic": "surviving_digit_runs (negated)",
+          "auc": 0.4864,
+          "distinct_values": 61,
+          "leak_rate_at_coverage_0.6365": 0.1071,
+          "leak_rate_at_coverage_0.0948": 0.0912
+        },
+        {
+          "statistic": "spans_redacted",
+          "auc": 0.5954,
+          "distinct_values": 32,
+          "leak_rate_at_coverage_0.6365": 0.081,
+          "leak_rate_at_coverage_0.0948": 0.073
+        },
+        {
+          "statistic": "spans_redacted (negated)",
+          "auc": 0.4046,
+          "distinct_values": 32,
+          "leak_rate_at_coverage_0.6365": 0.1174,
+          "leak_rate_at_coverage_0.0948": 0.1752
+        },
+        {
+          "statistic": "surviving_capitalised_plus_digits",
+          "auc": 0.4948,
+          "distinct_values": 124,
+          "leak_rate_at_coverage_0.6365": 0.1011,
+          "leak_rate_at_coverage_0.0948": 0.0985
+        },
+        {
+          "statistic": "surviving_capitalised_plus_digits (negated)",
+          "auc": 0.5052,
+          "distinct_values": 124,
+          "leak_rate_at_coverage_0.6365": 0.0913,
+          "leak_rate_at_coverage_0.0948": 0.1131
+        }
+      ]
+    }
+  ],
+  "headline": {
+    "coverage": 0.6365,
+    "shipped_leak_rate_among_forwarded": 0.0467,
+    "no_learned_model_leak_rate_among_forwarded": 0.6136,
+    "redaction_api_leak_rate_among_forwarded": 0.081,
+    "shipped_whole_corpus_exposure": 0.0297,
+    "no_learned_model_whole_corpus_exposure": 0.3905,
+    "redaction_api_whole_corpus_exposure": 0.0515,
+    "no_learned_model_max_coverage_at_shipped_exposure": 0.0816,
+    "redaction_api_max_coverage_at_shipped_exposure": 0.4089
+  },
+  "advantage_granted_to_the_no_ml_arms": "Arms B and R choose their risk statistic from twelve candidates -- six statistics and both signs of each -- by looking at the test labels. Arm S is scored on the single statistic it ships, with no choice and no sign flip. The comparison is therefore biased in favour of the no-ML arms.",
+  "what_this_does_not_show": "It does not show that no no-ML gate could ever work: only the six statistics named here were tried, and a team with more time might find a better one. It does not vary the redaction threshold. Every leak rate is scored against the corpus's own annotation, which is incomplete -- the checksum validators find email addresses it does not mark -- so all of them are lower bounds on the true rate, in every arm equally. Arm B's base rate is high because its redaction is bad; the ranking effect is read from the base-rate-to-forwarded-rate drop within each arm, not from comparing arms' forwarded rates alone. Single run, one corpus, one language, no confidence intervals.",
+  "seconds": 31.6
+}

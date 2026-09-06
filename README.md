@@ -183,6 +183,7 @@ bash scripts/train_all.sh          # rebuild from the corpus: ~4 minutes on one 
 
 python3 tests/run_checks.py        # 21 controls
 python3 tests/check_readme_numbers.py   # every number below, re-read from evidence/
+python3 tests/check_learned_model_ablation.py   # controls for the rule 3 counterfactual
 
 python3 -m airlock.cli --text "Please wire GBP 12,400 to IBAN DE89370400440532013000 \
 for Meera Subramanian; card 4111 1111 1111 1111 must not be charged."
@@ -214,8 +215,9 @@ AI is the mechanism, not a wrapper around someone else's:
 - **two generative models** on the answering side, one standing in for the
   hosted model and one as the local fallback.
 
-Remove the learned model and the system collapses to the regex control in the
-table above: 38.45% recall, 90.39% of documents leaking.
+Remove the learned model and the *detector* collapses to the regex control in
+the table above: 38.45% recall, 90.39% of documents leaking. What that costs the
+**product** is measured separately, below.
 
 ### Is the posterior load-bearing, or just the decision?
 
@@ -235,7 +237,7 @@ instead of rankings.
 | random ranking, 20 seeds | — | 10.10% |
 
 **The gate runs on what is below the redaction threshold.** Use only the tokens
-the model chose to mask — the output any redaction API hands you — and it
+the model chose to mask — its verdict with the uncertainty discarded — and it
 collapses to a coin flip: AUC 0.5207, three distinct values across 2,891
 documents, against a 10.03% base rate. Token count alone scores 0.4531, *below*
 chance, so the length objection to a length-sensitive statistic does not hold on
@@ -247,6 +249,51 @@ the flag thresholds were not tuned.
 This script never loads the calibrator; it re-sums the surviving-token
 posteriors itself, and lands on the same 0.7498 and the same 4.67% as the
 calibrated gate — an independent reproduction of both by a second code path.
+
+### Delete the learned model: can the gate absorb it?
+
+The row above is about the *detector*. The fair objection to it is that the gate
+is exactly the thing meant to absorb a weak detector — let a no-ML pipeline
+withhold what it cannot handle and it might reach the same safety at some lower
+coverage. `scripts/ablate_learned_model.py` runs three whole pipelines over the
+same 2,891 held-out documents to find out.
+
+| arm | redaction | risk statistic | documents leaking |
+|---|---|---|---|
+| **S — shipped** | model ∪ validators | Σ posterior over surviving tokens | **10.03%** |
+| B — no model anywhere | regex ∪ validators | best no-ML statistic | 68.35% |
+| R — redaction API | model ∪ validators | best no-ML statistic | 10.03% |
+
+Arm R is the serious competitor: buy redaction, treat it as a black box, build
+the gate yourself. Its redaction is identical to arm S's, so the only thing it
+lacks is the posterior. **Both no-ML arms pick their statistic from twelve
+candidates — six, and both signs of each — by looking at the test labels.** That
+is an oracle arm S is not given, and it is granted on purpose.
+
+At the shipped 63.65% coverage, all three forwarding the same 1,840 documents:
+
+| arm | statistic chosen | AUC | leaks forwarded | leak rate | exposure |
+|---|---|---|---|---|---|
+| **S — shipped** | Σ posterior | **0.7498** | **86** | **4.67%** | **2.97%** |
+| B — no model | surviving capitalised words | 0.6493 | 1,129 | 61.36% | 39.05% |
+| R — redaction API | spans redacted | 0.5954 | 149 | 8.10% | 5.15% |
+
+Held to arm S's *absolute* exposure — the same 86 leaking documents forwarded —
+arm B may forward 236 documents (8.16% coverage) and arm R 1,182 (40.89%),
+against the shipped 63.65%. The gate does not absorb the missing model.
+
+Two things here run against this project and are stated rather than buried.
+Arm R's 0.5954 beats the 0.5207 this README previously cited when it called a
+redaction API's output a coin flip: counting the spans a redactor returns is a
+real if weak signal, and the earlier sentence generalised further than anything
+measured. And arm B's ranking is not worthless — 0.6493 against a 68.54% random
+gate at the same coverage. It is not the ranking that fails when the model is
+deleted; it is that a 68.35% base leak rate leaves nothing good enough to
+forward.
+
+`tests/check_learned_model_ablation.py` → **30/30**, and the two that matter
+most hand the harness a perfect ranking and a perfectly wrong one, so "the no-ML
+gate scored badly" can be told apart from "the scorer scores everything badly".
 
 ## Attribution
 

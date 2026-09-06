@@ -1,0 +1,190 @@
+{
+ "generated_at": "2026-09-06T11:08:25Z",
+ "what": "Controls for scripts/ablate_learned_model.py -- the rule 3 counterfactual. A1 and A2 hand the harness a perfect ranking and a perfectly wrong one, so 'the no-ML gate scored badly' can be told apart from 'the scorer scores everything badly'. A7 is run in the direction that hurts this project.",
+ "script": "scripts/ablate_learned_model.py",
+ "script_sha256": "0bf7c4c22099c11c679f32d57af69751638ea1536e1f431e5533c6c66481dad9",
+ "controls": [
+  {
+   "name": "A1 oracle auc",
+   "expects": "a perfect ranking scores AUC 1.0",
+   "passed": true,
+   "detail": "auc=1.0"
+  },
+  {
+   "name": "A1 oracle gate",
+   "expects": "a perfect ranking forwards 1840 documents with 0 leaks",
+   "passed": true,
+   "detail": "leaks=0"
+  },
+  {
+   "name": "A2 anti-oracle auc",
+   "expects": "a perfectly wrong ranking scores AUC 0.0",
+   "passed": true,
+   "detail": "auc=0.0"
+  },
+  {
+   "name": "A2 anti-oracle gate",
+   "expects": "a perfectly wrong ranking forwards every leaker first",
+   "passed": true,
+   "detail": "leaks=290 of 290"
+  },
+  {
+   "name": "A3 base rate",
+   "expects": "arm S base leak rate reproduces gate_eval.json (0.1003)",
+   "passed": true,
+   "detail": "ablation=0.1003 gate_eval=0.1003"
+  },
+  {
+   "name": "A3 base rate control",
+   "expects": "a perturbed base rate must NOT match",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "A3 auc",
+   "expects": "arm S ranking AUC reproduces posterior_ablation.json AND\n      gate_eval.json (0.7498)",
+   "passed": true,
+   "detail": "ablation=0.7498 posterior=0.7498 gate_eval=0.7498"
+  },
+  {
+   "name": "A3 leak rate",
+   "expects": "arm S leak rate at coverage 0.6365 reproduces posterior_ablation.json (0.0467)",
+   "passed": true,
+   "detail": "ablation=0.0467 posterior=0.0467"
+  },
+  {
+   "name": "A3 auc control",
+   "expects": "a perturbed AUC must NOT match",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "A3 documents",
+   "expects": "all three arms score the same 2891 documents",
+   "passed": true,
+   "detail": "arms=[2891, 2891, 2891] posterior=2891"
+  },
+  {
+   "name": "A4 unmasked",
+   "expects": "with no spans, every surviving count is positive",
+   "passed": true,
+   "detail": "{\"surviving_chars\": 75.0, \"surviving_words\": 13.0, \"surviving_capitalised_words\": 4.0, \"surviving_digit_runs\": 5.0, \"surviving_capitalised_plus_digits\": 9.0}"
+  },
+  {
+   "name": "A4 fully masked",
+   "expects": "with the whole document spanned, every surviving count is 0",
+   "passed": true,
+   "detail": "{\"surviving_chars\": 0.0, \"surviving_words\": 0.0, \"surviving_capitalised_words\": 0.0, \"surviving_digit_runs\": 0.0, \"surviving_capitalised_plus_digits\": 0.0}"
+  },
+  {
+   "name": "A4 span count",
+   "expects": "spans_redacted counts the spans it was given",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "A4 statistic set",
+   "expects": "exactly 6 no-ML statistics are computed",
+   "passed": true,
+   "detail": "surviving_chars,surviving_words,surviving_capitalised_words,surviving_digit_runs,spans_redacted,surviving_capitalised_plus_digits"
+  },
+  {
+   "name": "A5 leak fires",
+   "expects": "an annotated identifier left in the clear is a leak",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "A5 leak clears",
+   "expects": "the same identifier, covered, is not a leak",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "A5 partial",
+   "expects": "half-covering an identifier is still a leak",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "A6 exact k",
+   "expects": "leak_rate_at_coverage scores exactly k documents",
+   "passed": true,
+   "detail": "leaks=1"
+  },
+  {
+   "name": "A6 budget stop",
+   "expects": "max_coverage_within_exposure stops before exceeding the budget",
+   "passed": true,
+   "detail": "k=7"
+  },
+  {
+   "name": "A6 budget zero",
+   "expects": "a budget of 0 leaking documents stops at the first leaker",
+   "passed": true,
+   "detail": "k=3"
+  },
+  {
+   "name": "A6 budget all",
+   "expects": "a budget larger than the corpus forwards everything",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "A7 sign flip",
+   "expects": "the picker chooses the NEGATED form of an anti-correlated statistic",
+   "passed": true,
+   "detail": "chose=surviving_chars (negated) auc=1.0"
+  },
+  {
+   "name": "A7 twelve candidates",
+   "expects": "twelve candidates are scored -- six statistics, both signs",
+   "passed": true,
+   "detail": "rows=12"
+  },
+  {
+   "name": "A7 picks the max",
+   "expects": "the chosen candidate has the highest AUC of the twelve",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "name": "A8 labels move",
+   "expects": "arm B's base leak rate differs from arm S's -- a leak is defined against the redaction that arm performed",
+   "passed": true,
+   "detail": "B=0.6835 S=0.1003"
+  },
+  {
+   "name": "A8 labels held",
+   "expects": "arm R redacts identically to arm S, so its base rate is identical",
+   "passed": true,
+   "detail": "R=0.1003"
+  },
+  {
+   "name": "A9 best of twelve (B_no_learned_model)",
+   "expects": "the reported statistic is the highest-AUC candidate in its own table",
+   "passed": true,
+   "detail": "chose=surviving_capitalised_words auc=0.6493 max=0.6493"
+  },
+  {
+   "name": "A9 arm auc matches (B_no_learned_model)",
+   "expects": "the arm's headline AUC is the chosen candidate's AUC",
+   "passed": true,
+   "detail": "arm=0.6493 candidate=0.6493"
+  },
+  {
+   "name": "A9 best of twelve (R_redaction_api)",
+   "expects": "the reported statistic is the highest-AUC candidate in its own table",
+   "passed": true,
+   "detail": "chose=spans_redacted auc=0.5954 max=0.5954"
+  },
+  {
+   "name": "A9 arm auc matches (R_redaction_api)",
+   "expects": "the arm's headline AUC is the chosen candidate's AUC",
+   "passed": true,
+   "detail": "arm=0.5954 candidate=0.5954"
+  }
+ ],
+ "passed": 30,
+ "total": 30
+}
