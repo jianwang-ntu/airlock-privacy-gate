@@ -115,6 +115,27 @@ L40S (2,492 steps over 24,019 documents), and scores **106.85 documents/second**
 on that GPU. There is no per-document API cost and no third-party dependency in
 the detection path.
 
+**It does not need that GPU.** The vault of real values must never leave the
+operator's machine, so the gate has to be able to run on the machine the
+documents are already on. `scripts/measure_deploy_cost.py` runs the same
+forward pass — `Detector._token_scores`, batch 8 — over the same 200 test
+documents on each device:
+
+| device | documents / second |
+|---|---|
+| CPU, 1 thread | **1.59** |
+| CPU, 4 threads | **4.18** |
+| CPU, 8 threads | **8.00** |
+| NVIDIA L40S | **103.94** |
+
+Four pinned CPU cores clear **361,152 documents per day** of continuous
+detection; the GPU is worth **24.87x** and is an optimisation, not a
+requirement. Weights are **248.9 MiB** on disk and the 4-core run peaked at
+**1,485.4 MiB** resident. The GPU row here is an independent re-measurement of
+the 106.85 above on a 200-document subset, and lands within 3% of it. Forward
+pass only: no HTTP, no queueing, no quantisation, on a host that was not
+idle-guaranteed.
+
 `python3 tests/run_checks.py` → **19/19**, each accepting check paired with a
 control that must fail for it to mean anything.
 
