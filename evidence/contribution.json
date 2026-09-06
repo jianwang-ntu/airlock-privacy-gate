@@ -1,0 +1,119 @@
+{
+ "generated_at": "2026-09-06T09:05:05Z",
+ "what": "Provenance of this repository, read out of git. Supports Requirement 7 (team information / roles and contributions) and rule 7 (no misrepresentation of work). Every field is derived; none is typed.",
+ "head": "cc002d4601b0786a06f7be161585792a1710a02c",
+ "describes": "the tree at `head`. Committing this file produces a NEW head, so `head` here is expected to be an ancestor of the branch tip, and every count below is re-derivable from `head` with git alone.",
+ "commit_count": 9,
+ "first_commit_utc": "2026-09-06T06:03:14Z",
+ "last_commit_utc": "2026-09-06T09:05:00Z",
+ "commits": [
+  {
+   "sha": "ef265412938e207d43cfd3082d78aec8bddd3d77",
+   "short_sha": "ef26541",
+   "author_name": "Jian Wang",
+   "author_email": "jornbowrl@gmail.com",
+   "committed_utc": "2026-09-06T06:03:14Z",
+   "subject": "Airlock: a calibrated privacy gate in front of hosted AI"
+  },
+  {
+   "sha": "46d28b535f86778c2f0caced0340b9bcd24badcc",
+   "short_sha": "46d28b5",
+   "author_name": "Jian Wang",
+   "author_email": "jornbowrl@gmail.com",
+   "committed_utc": "2026-09-06T06:04:40Z",
+   "subject": "Publish the measured weights as a release asset and fetch them by sha256"
+  },
+  {
+   "sha": "4e647a530ab314a51aee79d6f9b107aba295386e",
+   "short_sha": "4e647a5",
+   "author_name": "Jian Wang",
+   "author_email": "jornbowrl@gmail.com",
+   "committed_utc": "2026-09-06T06:06:51Z",
+   "subject": "Record the clean-clone verification and the script that produces it"
+  },
+  {
+   "sha": "643baafa313501b1c952d47e1a024d2155a81968",
+   "short_sha": "643baaf",
+   "author_name": "Jian Wang",
+   "author_email": "jornbowrl@gmail.com",
+   "committed_utc": "2026-09-06T06:46:35Z",
+   "subject": "Record the demo run and render it into the demo video"
+  },
+  {
+   "sha": "2f2e83009dd52db0e27edef98a09a217414263a0",
+   "short_sha": "2f2e830",
+   "author_name": "Jian Wang",
+   "author_email": "jornbowrl@gmail.com",
+   "committed_utc": "2026-09-06T07:10:32Z",
+   "subject": "State the measured leak rate without rounding it in our favour"
+  },
+  {
+   "sha": "7b7d57ef3d4fd32c506e069f03d0e6cf585eaaae",
+   "short_sha": "7b7d57e",
+   "author_name": "jianwang-ntu",
+   "author_email": "liliquan0118@gmail.com",
+   "committed_utc": "2026-09-06T07:44:23Z",
+   "subject": "Measure what the detector costs to run, per device"
+  },
+  {
+   "sha": "7555b7f80ee05bfe75e9647436b2dd07d03605dd",
+   "short_sha": "7555b7f",
+   "author_name": "Jian Wang",
+   "author_email": "jornbowrl@gmail.com",
+   "committed_utc": "2026-09-06T08:12:18Z",
+   "subject": "Test whether the model's posterior is load-bearing, or only its decision"
+  },
+  {
+   "sha": "ba04b6d254dd857129229e443eae80bc8d2c9ec9",
+   "short_sha": "ba04b6d",
+   "author_name": "Jian Wang",
+   "author_email": "jornbowrl@gmail.com",
+   "committed_utc": "2026-09-06T08:47:01Z",
+   "subject": "Derive the technology stack from the source, and fix requirements.txt"
+  },
+  {
+   "sha": "cc002d4601b0786a06f7be161585792a1710a02c",
+   "short_sha": "cc002d4",
+   "author_name": "Jian Wang",
+   "author_email": "jornbowrl@gmail.com",
+   "committed_utc": "2026-09-06T09:05:00Z",
+   "subject": "Measure who built this repository, out of git rather than from memory"
+  }
+ ],
+ "author_strings": [
+  {
+   "name": "Jian Wang",
+   "email": "jornbowrl@gmail.com",
+   "commits": 8
+  },
+  {
+   "name": "jianwang-ntu",
+   "email": "liliquan0118@gmail.com",
+   "commits": 1
+  }
+ ],
+ "distinct_author_strings": 2,
+ "author_strings_note": "Two strings, one participant. This file does not assert that the two strings are the same person -- it is not a fact the repository holds. It reports what `git shortlog -sne` reports.",
+ "tracked_files": 49,
+ "python_files": 28,
+ "python_sloc": 3085,
+ "python_sloc_definition": "lines that are neither blank nor a comment-only line, counted per tracked .py file. A crude measure of volume, not of quality.",
+ "by_area": {
+  "airlock": {
+   "py_files": 13,
+   "sloc": 1129
+  },
+  "scripts": {
+   "py_files": 12,
+   "sloc": 1495
+  },
+  "tests": {
+   "py_files": 3,
+   "sloc": 461
+  }
+ },
+ "worktree_clean": false,
+ "worktree_dirty_entries": [
+  "?? evidence/contribution.json"
+ ]
+}
