@@ -138,8 +138,13 @@ repository rather than by reading the metrics:
 
 ```bash
 pip install -r requirements.txt
-bash scripts/train_all.sh          # downloads the corpus, trains, calibrates, evaluates
+
+bash scripts/fetch_model.sh        # the exact weights every number here was measured with
+#   or
+bash scripts/train_all.sh          # rebuild from the corpus: ~4 minutes on one L40S
+
 python3 tests/run_checks.py        # 19 controls
+python3 tests/check_readme_numbers.py   # every number below, re-read from evidence/
 
 python3 -m airlock.cli --text "Please wire GBP 12,400 to IBAN DE89370400440532013000 \
 for Meera Subramanian; card 4111 1111 1111 1111 must not be charged."
