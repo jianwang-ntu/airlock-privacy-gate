@@ -1,0 +1,26 @@
+{
+  "documents": 2891,
+  "identifying_annotations_in_corpus": 8205,
+  "identifying_annotations_scored": 8133,
+  "discarded_by_overlap_rule": 72,
+  "discarded_covered_by_kept_spans": 44,
+  "discarded_not_covered": 28,
+  "uncovered_characters": 200,
+  "discarded_by_label": {
+    "street_address": 12,
+    "name": 40,
+    "passport_number": 2,
+    "email": 10,
+    "date_of_birth": 1,
+    "last_name": 4,
+    "phone_number": 3
+  },
+  "identifiers_caught": 7642,
+  "recall_reported": 0.9396286733062831,
+  "recall_if_all_discarded_are_misses": 0.9313833028641072,
+  "overstatement_percentage_points": 0.8245370442175881,
+  "shipped_threshold": 0.2,
+  "checks_passed": 12,
+  "checks_total": 12,
+  "note": "The overlap rule is in airlock/data.py load_split(): BIO tags cannot express two labels on one token, so of a group of overlapping spans only the first is kept. This file measures what that costs. Coverage is computed against the union of kept spans, not against the rule, so it answers whether the text is still scored rather than whether the rule fired."
+}

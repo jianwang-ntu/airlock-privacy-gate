@@ -149,6 +149,17 @@ repository rather than by reading the metrics:
   mark**. So recall here is an *upper* bound on true recall and over-redaction
   an *upper* bound on false positives. Both are reported in that direction on
   purpose.
+- **The denominator is ours, not the corpus's.** `load_split` keeps one span
+  per overlapping group, because BIO tagging cannot put two labels on one
+  token, and that discards **72** of the **8,205** identifying annotations the
+  corpus ships in these documents — leaving the **8,133** every recall number
+  above is scored against. **44** of the 72 lie inside a span that *is* scored,
+  so the text is still checked; **28** reach past one, by **200** characters in
+  all. Scored over all 8,205 with every discarded span counted as a miss,
+  recall reads **93.14%** rather than 93.96% — **0.82** points, and this is the
+  one caveat on this list that is our loader's doing rather than the corpus's.
+  `scripts/measure_span_drop.py` re-derives it from the shipped loader, not
+  from a copy of its rule; `evidence/loader_span_drop.json`.
 - **The validator layer changes the corpus headline by less than 0.1 points**,
   because only **44 of 83** card numbers in the corpus are Luhn-valid. It is in
   the system because the model alone left `4111 1111 1111 1111` — a valid,

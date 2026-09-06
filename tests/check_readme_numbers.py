@@ -29,7 +29,11 @@ def _lib_order(envj):
     return [("Pillow" if m == "PIL" else m) for m in named + rest]
 
 
-def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac, fair, fairc):
+def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac, fair, fairc,
+           drop=None):
+    # `drop` defaults to the file on disk so the existing call sites are
+    # unchanged; the control at the end of main() passes a corrupted copy.
+    d = drop if drop is not None else load("loader_span_drop.json")
     h = det["by_threshold_hybrid"]["0.2"]
     m = det["by_threshold_model_only"]["0.2"]
     # ---- rule 8 fairness helpers
@@ -252,14 +256,33 @@ def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac, fair, fa
          f"good enough to"),
         ("`tests/check_learned_model_ablation.py` → **30/30**",
          f"`tests/check_learned_model_ablation.py` → **{lmac['passed']}/{lmac['total']}**"),
+        # ---- the loader's own discarded spans
+        ("**72** of the **8,205** identifying annotations",
+         f"**{d['discarded_by_overlap_rule']}** of the "
+         f"**{d['identifying_annotations_in_corpus']:,}** identifying annotations"),
+        ("leaving the **8,133** every recall number",
+         f"leaving the **{d['identifying_annotations_scored']:,}** every recall number"),
+        ("**44** of the 72 lie inside a span",
+         f"**{d['discarded_covered_by_kept_spans']}** of the "
+         f"{d['discarded_by_overlap_rule']} lie inside a span"),
+        ("**28** reach past one, by **200** characters",
+         f"**{d['discarded_not_covered']}** reach past one, by "
+         f"**{d['uncovered_characters']}** characters"),
+        ("Scored over all 8,205 with every discarded span counted as a miss,",
+         f"Scored over all {d['identifying_annotations_in_corpus']:,} with every "
+         f"discarded span counted as a miss,"),
+        ("recall reads **93.14%** rather than 93.96% — **0.82** points",
+         f"recall reads **{d['recall_if_all_discarded_are_misses'] * 100:.2f}%** rather "
+         f"than {d['recall_reported'] * 100:.2f}% — "
+         f"**{d['overstatement_percentage_points']:.2f}** points"),
     ]
 
 
 def run(readme_text, det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac,
-        fair, fairc):
+        fair, fairc, drop=None):
     bad = []
     for quoted, derived in claims(det, gate, gaps, checks_total, deploy, abl, envj,
-                                  lma, lmac, fair, fairc):
+                                  lma, lmac, fair, fairc, drop):
         if quoted != derived:
             bad.append((quoted, derived, "value moved"))
         elif quoted not in readme_text:
@@ -393,6 +416,26 @@ def main():
         return 1
     print(f"control: a red fairness control + broken null calibration trips "
           f"{len(ctrl8)} claim(s)")
+    # a ninth, on loader_span_drop.json: none of the eight above reads it, so
+    # all eight pass vacuously over the discarded-span rows. It shrinks the
+    # discard to nothing -- the flattering direction, and the one a reader
+    # would be hurt by -- and must therefore be caught.
+    drop_corrupt = copy.deepcopy(load("loader_span_drop.json"))
+    drop_corrupt["discarded_by_overlap_rule"] = 0
+    drop_corrupt["discarded_covered_by_kept_spans"] = 0
+    drop_corrupt["discarded_not_covered"] = 0
+    drop_corrupt["uncovered_characters"] = 0
+    drop_corrupt["identifying_annotations_in_corpus"] = \
+        drop_corrupt["identifying_annotations_scored"]
+    drop_corrupt["recall_if_all_discarded_are_misses"] = drop_corrupt["recall_reported"]
+    drop_corrupt["overstatement_percentage_points"] = 0.0
+    ctrl9 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac,
+                fair, fairc, drop_corrupt)
+    if len(ctrl9) < 5:
+        print("CONTROL FAILED: erasing the loader's discarded spans tripped only "
+              f"{len(ctrl9)} claim(s), expected at least 5")
+        return 1
+    print(f"control: erasing the loader's discarded spans trips {len(ctrl9)} claim(s)")
     return 1 if bad else 0
 
 
