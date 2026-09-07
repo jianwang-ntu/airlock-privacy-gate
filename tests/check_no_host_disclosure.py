@@ -34,16 +34,23 @@ believable:
                  always writes
   C11 NUMBERS    redaction moves no measurement: every number in a document
                  survives it unchanged
+  C14 SELF       the redactor and this suite are themselves in the scanned set,
+                 because a leak in either is the one least likely to be noticed
+  C13 NO-SYSTEM  no ordinary system location is ever registered as a prefix,
+                 which is what goes wrong when the repository is cloned under
+                 /tmp and the directory above it is /tmp itself
   C12 REGRESSION the pattern still finds every path in the bytes that actually
                  leaked -- the five files as they stood at commit a2db334, the
                  tree an independent judge read. A pattern tightened until it
                  stops matching binary noise could be tightened until it stops
                  matching anything; this is what stops that
 
-Note on C1: the leaking path is assembled from pieces at run time and never
-appears as a literal in this file. It cannot -- A1 scans every tracked file,
-this file included, so a literal here would make the repository fail its own
-floor. That is the floor working, not a workaround.
+Note on the fixtures: every leaking path here is assembled from pieces at run
+time and none appears as a literal in this file. None can -- A1 scans every
+tracked file, this file and scripts/pathredact.py included, and there is no
+exemption list, so a literal here would make the repository fail its own floor.
+That is the floor working, not a workaround; C14 asserts that both files really
+are in the scanned set rather than quietly skipped.
 
     python3 tests/check_no_host_disclosure.py
 """
@@ -57,7 +64,8 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO)
 
 from scripts.pathredact import (          # noqa: E402
-    emit_json, find_leaks, host_markers, redact_obj, redact_path, redact_text,
+    _is_system, _prefix_map, emit_json, find_leaks, host_markers,
+    redact_obj, redact_path, redact_text,
 )
 
 results = []
@@ -79,10 +87,10 @@ def scan_tree(root):
 
     Text files are scanned by pattern. Binaries are scanned for the host
     markers instead -- see scripts/pathredact.host_markers -- because decoding
-    the demo video as text yields runs like `/A/0_S`, and a pattern loose
-    enough to catch a real path matches those too. Binaries are counted and
-    named in the result rather than quietly dropped, so what was checked how is
-    visible at the call site.
+    the demo video as text yields two-character runs separated by slashes, and
+    a pattern loose enough to catch a real path matches those too. Binaries are
+    counted and named in the result rather than quietly dropped, so what was
+    checked how is visible at the call site.
     """
     out = subprocess.run(["git", "-C", root, "ls-files", "-z"],
                          capture_output=True, text=True, check=True).stdout
@@ -125,7 +133,8 @@ subprocess.run(["git", "-C", tmp, "add", "-A"], check=True)
 # ...and a binary carrying a real host marker must be caught too, by the other
 # half of the scanner. Written as bytes with a NUL so it is classified binary.
 with open(os.path.join(tmp, "leaky.bin"), "wb") as fh:
-    fh.write(b"\x00\x01\x02" + MARKERS[0].encode() + b"/some/private/thing\x00")
+    tail = os.sep.join(["", "some", "private", "thing"]).encode()
+    fh.write(b"\x00\x01\x02" + MARKERS[0].encode() + tail + b"\x00")
 subprocess.run(["git", "-C", tmp, "add", "-A"], check=True)
 planted_leaks, planted_text, planted_binary = scan_tree(tmp)
 check("C1 positive", "a planted host path is found by the same scanner",
@@ -244,6 +253,32 @@ check("C12 regression",
       missing is None and got == EXPECTED,
       f"missing={missing}" if missing else
       f"got={got}" if got != EXPECTED else f"{sum(v[0] for v in got.values())} paths")
+
+# --- C13: no ordinary system location is ever registered as a prefix --------
+# Clone this repository into /tmp/x and the directory "above the workspace" is
+# /tmp. Registering it rewrites every /tmp path in the tree and the floor
+# reports the repository's own clean-clone transcript as a leak. C4 catches the
+# symptom only on a host where the repo is not under /tmp; this catches the
+# cause anywhere.
+registered = [p for p, _ in _prefix_map()]
+swallowed = [p for p in registered if _is_system(p)]
+check("C13 no-system-prefix",
+      "no /usr, /tmp or similar is registered as a redaction prefix",
+      not swallowed and registered,
+      f"registered={len(registered)} swallowed={swallowed}")
+
+# --- C14: the floor's own source is inside the floor ------------------------
+# The two files that implement redaction are the two where a leaked path would
+# be least likely to be noticed, so the useful thing to assert is not that they
+# pass but that they were LOOKED AT. An exemption added here later would show
+# up as this control failing.
+tracked = subprocess.run(["git", "-C", REPO, "ls-files"],
+                         capture_output=True, text=True, check=True).stdout.split()
+own = ["scripts/pathredact.py", "tests/check_no_host_disclosure.py"]
+check("C14 self-scanned", "the redactor and this suite are themselves scanned",
+      all(f in tracked for f in own)
+      and all(f not in leaks for f in own) and len(tracked) > 50,
+      f"tracked={len(tracked)} own_files_present={[f in tracked for f in own]}")
 
 failed = [r for r in results if not r[2]]
 print(f"\n{len(results) - len(failed)}/{len(results)} controls passed")

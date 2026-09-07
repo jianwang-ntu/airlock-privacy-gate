@@ -53,22 +53,32 @@ SYSTEM_PREFIXES = (
 # terminate a path inside prose, a JSON string or a Python error message.
 #
 # The lookbehind matters more than it looks. Without it the pattern re-matches
-# its own output -- `<repo>/evidence/x.json` contains the apparent absolute path
-# `/evidence/x.json` -- and it chews the middle out of a URL, matching
-# `/github.com/owner/name` inside `https://github.com/owner/name`. Excluding a
+# its own output -- `<repo>/evidence/x.json` contains an apparent absolute path
+# starting at `evidence` -- and it chews the middle out of a URL, matching from
+# `github.com` onwards inside `https://github.com/owner/name`. Excluding a
 # preceding word character, `>`, `:`, `/` or `.` rules out both, and the
 # control suite plants one of each. The `.` is for `..` segments: a real
 # message carries `site-packages/pyarrow/../../../libarrow.so`, and without
-# it the tail `/../../libarrow.so` reads as a fresh absolute path and an
-# already-redacted file reports itself as still leaking.
+# it the tail beginning at the first `..` reads as a fresh absolute path, and
+# an already-redacted file reports itself as still leaking.
 #
 # Components are restricted to characters that appear in real path names. A
-# looser class was tried first and it matched `/+M/?&` inside the demo video:
-# scanning a committed binary as text produces byte runs that a permissive
-# pattern reads as paths, and a floor that cries wolf on an mp4 gets switched
-# off. tests/check_no_host_disclosure.py re-checks the pre-redaction evidence
-# with this pattern and requires all 89 real paths to still be found.
+# looser class was tried first and it matched two-character runs inside the
+# demo video: scanning a committed binary as text produces byte sequences that
+# a permissive pattern reads as paths, and a floor that cries wolf on an mp4
+# gets switched off. tests/check_no_host_disclosure.py re-checks the
+# pre-redaction evidence with this pattern and requires every real path in it
+# to still be found.
+#
+# One house rule follows from that suite: no path-shaped literal may appear in
+# this file or in the suite itself. Both are tracked, both are scanned, and
+# there is no exemption list -- so an example path goes in without its leading
+# slash, and a fixture is assembled at run time.
 PATH_RE = re.compile(r"(?<![\w>:/.])/[A-Za-z0-9_.+-]+(?:/[A-Za-z0-9_.+@%~-]+)+")
+
+
+def _is_system(path):
+    return any(path == p or path.startswith(p + "/") for p in SYSTEM_PREFIXES)
 
 
 def _prefix_map():
@@ -87,7 +97,13 @@ def _prefix_map():
     out = []
     for p, tag in pairs:
         for variant in {p, os.path.realpath(p)}:
-            if variant and variant != "/":
+            # A prefix that IS an ordinary system location must never be
+            # registered. Cloned into /tmp/x, the workspace above the repo is
+            # /tmp, and registering it rewrites every /tmp path in the tree as
+            # `<workspace>/...` -- the floor then reports the repository's own
+            # clean-clone transcript as a leak. Caught by running this suite
+            # against a fresh clone rather than in place; C13 keeps it caught.
+            if variant and variant != "/" and not _is_system(variant):
                 out.append((variant, tag))
     # Longest prefix wins, so <repo> is applied before <workspace>.
     out.sort(key=lambda t: len(t[0]), reverse=True)
@@ -97,10 +113,6 @@ def _prefix_map():
             seen.add(p)
             uniq.append((p, tag))
     return uniq
-
-
-def _is_system(path):
-    return any(path == p or path.startswith(p + "/") for p in SYSTEM_PREFIXES)
 
 
 def redact_path(path, prefixes=None):
@@ -192,8 +204,8 @@ def host_markers():
     """The shortest absolute prefixes that identify *this* machine.
 
     Text is scanned by pattern; a committed binary cannot be, because decoding
-    an mp4 as text produces byte runs like `/A/0_S` that any path pattern loose
-    enough to be useful will match. So binaries are checked for these instead:
+    an mp4 as text produces slash-separated two-character byte runs that any
+    path pattern loose enough to be useful will match. So binaries are checked for these instead:
     the top two components of every location this process knows to be real --
     the repository, the workspace above it, the Python installation, the home
     directory. A binary that had a host path baked into it would contain one of
