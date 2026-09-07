@@ -64,7 +64,7 @@
       ],
       "import": "OK",
       "version": "12.0.0",
-      "file": "/data/wj/anaconda/lib/python3.13/site-packages/PIL/__init__.py",
+      "file": "<python-prefix>/lib/python3.13/site-packages/PIL/__init__.py",
       "probed_alone_in_subprocess": true
     },
     "pandas": {
@@ -74,7 +74,7 @@
       ],
       "import": "OK",
       "version": "2.3.3",
-      "file": "/data/wj/anaconda/lib/python3.13/site-packages/pandas/__init__.py",
+      "file": "<python-prefix>/lib/python3.13/site-packages/pandas/__init__.py",
       "probed_alone_in_subprocess": true
     },
     "pyarrow": {
@@ -83,7 +83,7 @@
       ],
       "import": "OK",
       "version": "21.0.0",
-      "file": "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow/__init__.py",
+      "file": "<python-prefix>/lib/python3.13/site-packages/pyarrow/__init__.py",
       "probed_alone_in_subprocess": true
     },
     "scipy": {
@@ -93,7 +93,7 @@
       ],
       "import": "OK",
       "version": "1.16.3",
-      "file": "/data/wj/anaconda/lib/python3.13/site-packages/scipy/__init__.py",
+      "file": "<python-prefix>/lib/python3.13/site-packages/scipy/__init__.py",
       "probed_alone_in_subprocess": true
     },
     "torch": {
@@ -106,7 +106,7 @@
       ],
       "import": "OK",
       "version": "2.10.0+cu128",
-      "file": "/data/wj/anaconda/lib/python3.13/site-packages/torch/__init__.py",
+      "file": "<python-prefix>/lib/python3.13/site-packages/torch/__init__.py",
       "probed_alone_in_subprocess": true
     },
     "transformers": {
@@ -118,7 +118,7 @@
       ],
       "import": "OK",
       "version": "5.5.4",
-      "file": "/data/wj/anaconda/lib/python3.13/site-packages/transformers/__init__.py",
+      "file": "<python-prefix>/lib/python3.13/site-packages/transformers/__init__.py",
       "probed_alone_in_subprocess": true
     }
   },
@@ -175,7 +175,7 @@
       "order": "import torch then pyarrow",
       "result": "FAIL",
       "error": "ImportError",
-      "message": "/lib/x86_64-linux-gnu/libstdc++.so.6: version `CXXABI_1.3.15' not found (required by /data/wj/anaconda/lib/python3.13/site-packages/pyarrow/../../../libarrow.so.2100)"
+      "message": "/lib/x86_64-linux-gnu/libstdc++.so.6: version `CXXABI_1.3.15' not found (required by <python-prefix>/lib/python3.13/site-packages/pyarrow/../../../libarrow.so.2100)"
     },
     {
       "order": "import pyarrow then torch",

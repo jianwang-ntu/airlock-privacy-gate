@@ -24,7 +24,7 @@ It reads only span labels and counts. No document text is read, printed or
 written by this script.
 
 Run:   python3 scripts/check_label_vocab.py
-       AIRLOCK_DATA_DIR=/path/to/parquet python3 scripts/check_label_vocab.py
+       AIRLOCK_DATA_DIR=<dir holding the parquet> python3 scripts/check_label_vocab.py
 Exit:  0  every check passed
        1  the vocabulary drifted, or a check is broken
        2  the corpus is not on this machine -- nothing was checked

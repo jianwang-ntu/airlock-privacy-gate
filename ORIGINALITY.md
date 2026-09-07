@@ -72,10 +72,21 @@ Two searches of this machine, because they fail in different ways.
 
 ### Search A — a verbatim copy, anywhere on the host
 
-Every tracked file's sha256, against every file on two roots — the whole of
-`/data/wj/wj_code` (every project this machine holds, including the other
-hackathon workspaces) and `/data/wj/anaconda/lib` (every installed library, so
-that "nothing is vendored" can fail).
+Every tracked file's sha256, against every file on two roots — this machine's
+entire source tree (every project it holds, including the other hackathon
+workspaces) and the whole Python installation (every installed library, so that
+"nothing is vendored" can fail).
+
+Those roots appear in `evidence/originality.json` as `<other-d27e04>/.../wj_code`
+and `<python-prefix>/lib`, not as the paths they really are. This is a public
+repository and the raw output of a host-wide scan names directories belonging to
+work that has nothing to do with this hackathon, so absolute paths are rewritten
+on the way out by `scripts/pathredact.py`. Redaction keeps every property the
+evidence actually rests on — two files in one directory still share one token,
+two in different directories still get different ones, and the count of distinct
+locations is unchanged — and drops only the names.
+`tests/check_no_host_disclosure.py` plants a leak, requires it to be caught, and
+only then accepts that this tree holds none.
 
 | | measured |
 |---|---|
@@ -86,12 +97,16 @@ that "nothing is vendored" can fail).
 | directories that could not be read | **21** |
 
 Both matches are `LICENSE` — 1,066 bytes of the standard MIT licence text, found
-in two other hackathon workspaces on this machine:
+in two *different* directories elsewhere on this machine, neither of them this
+job's:
 
 ```
-workspaces/ai-infra-summit-hackathon/build/LICENSE
-workspaces/ibm-bob-2-hackathon/evidence_20260905T2130Z/LICENSE
+<other-508830>/.../LICENSE
+<other-0c68eb>/.../LICENSE
 ```
+
+Two tokens rather than one is the part that carries information: the search hit
+the same boilerplate in two separate places, not one file counted twice.
 
 That is not authorship and it is not a project; it is the same boilerplate
 licence, from the same author, in three places. It is reported rather than
@@ -100,7 +115,7 @@ found *nothing at all* would be indistinguishable from a scan that never ran.
 
 The 21 unreadable entries are permission-denied runtime directories
 (`.gnupg`, `.ssh`, database volumes) inside third-party repositories cloned
-under `dl_sim/`. They are counted, not swallowed.
+elsewhere on this host. They are counted, not swallowed.
 
 ### Search B — a copy that was then edited
 
@@ -171,10 +186,19 @@ that our own contribution be demonstrated. The full inventory with licences is
 | system binaries, fonts | 12 and 4, none redistributed | see `THIRD_PARTY.md` |
 
 **No third-party source is vendored into this tree** — 0 tracked files match
-anything under `/data/wj/anaconda/lib`, which is why that root is in search A.
-What is tracked is **56 files, 2,262,703 bytes, 31 Python files, 4,199 lines**
-that are neither blank nor comment-only: 13 files of product under `airlock/`,
-14 of measurement under `scripts/`, 4 of controls under `tests/`.
+anything under the Python installation (`<python-prefix>/lib` in the evidence),
+which is why that root is in search A.
+At the commit this scan describes — recorded as `head` in
+`evidence/originality.json` — what is tracked is **56 files, 2,262,703 bytes,
+31 Python files, 4,199 lines** that are neither blank nor comment-only: 13
+files of product under `airlock/`, 14 of measurement under `scripts/`, 4 of
+controls under `tests/`.
+
+That is a measurement with a commit attached to it, not a running total. The
+tree has grown since — every later commit adds files this scan did not see, and
+the figures move only when `scripts/measure_originality.py` is run again. Read
+them as "what was here when the copy search ran", which is the only thing they
+are evidence of.
 
 The contribution on top of the reused parts is not a claim, it is the gap
 between the reused thing and the shipped thing, measured on held-out data:

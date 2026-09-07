@@ -48,6 +48,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO))
+
+from scripts.pathredact import emit_json  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Declared, not measured here: the hackathon's own clock, as Devpost reported
@@ -72,8 +75,34 @@ RULE_2 = [
     "contribution and implementation should be clearly demonstrated.",
 ]
 
-DEFAULT_ROOTS = ["/data/wj/wj_code", "/data/wj/anaconda/lib"]
-DEFAULT_FOCUS = ["/data/wj/wj_code/dl_hackathon"]
+def _default_roots() -> tuple[list[str], list[str]]:
+    """Where to search, without writing a host path into a public source file.
+
+    The scan wants two things: every project on this machine (so a prior
+    project of our own would be found) and every installed library (so
+    "nothing is vendored" can fail). Set `AIRLOCK_SCAN_ROOTS` /
+    `AIRLOCK_SCAN_FOCUS` -- os.pathsep-separated -- or pass --roots/--focus to
+    say so directly.
+
+    The fallback derives both from where this repository sits, because the
+    layout is fixed: <src>/<collection>/<dirs>/workspaces/<job>/repo. Four
+    levels above the repo is the job collection and five is the source tree
+    that holds every project on the machine. On a clean clone somewhere else
+    that climb is meaningless, so it is only a default: it is what reproduces
+    the run recorded in evidence/originality.json on the machine that produced
+    it, and anywhere else the roots should be given explicitly.
+    """
+    env_roots = [p for p in os.environ.get("AIRLOCK_SCAN_ROOTS", "").split(os.pathsep) if p]
+    env_focus = [p for p in os.environ.get("AIRLOCK_SCAN_FOCUS", "").split(os.pathsep) if p]
+    try:
+        src_tree, collection = str(REPO.parents[4]), str(REPO.parents[3])
+    except IndexError:          # a clone that is not nested that deep
+        src_tree = collection = str(REPO.parent)
+    return (env_roots or [src_tree, os.path.join(sys.prefix, "lib")],
+            env_focus or [collection])
+
+
+DEFAULT_ROOTS, DEFAULT_FOCUS = _default_roots()
 
 TEXT_SUFFIXES = {".py", ".md", ".sh", ".txt"}
 NEAR_MAX_BYTES = 512 * 1024
@@ -491,7 +520,12 @@ def main() -> int:
             "It measures copying, not quality, and not whether the idea is new.",
         ],
     }
-    Path(args.out).write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
+    # This file is committed to a public repository and the scan it reports on
+    # walked the whole machine, so absolute paths are rewritten before it is
+    # written -- not afterwards, and not by hand. If any survive, the run
+    # refuses rather than publishing them. See scripts/pathredact.py.
+    if emit_json(out, str(args.out), indent=1) != 0:
+        return 2
     print(f"status={status} exact_walked={ex['files_walked']} "
           f"exact_matches={ex['match_count']} near_walked={nr['candidates_walked']} "
           f"near_hits={nr['hit_count']} max_j={nr['max_jaccard_observed']} "

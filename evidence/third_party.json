@@ -20,21 +20,21 @@
       "license_files": [
         {
           "declared": "LICENSE",
-          "path": "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/licenses/LICENSE",
+          "path": "<python-prefix>/lib/python3.13/site-packages/pillow-12.0.0.dist-info/licenses/LICENSE",
           "present": true,
           "resolved_by": "licenses/ subdirectory",
           "candidates_tried": [
-            "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/LICENSE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/licenses/LICENSE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/LICENSE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info/licenses/LICENSE"
+            "<python-prefix>/lib/python3.13/site-packages/pillow-12.0.0.dist-info/LICENSE",
+            "<python-prefix>/lib/python3.13/site-packages/pillow-12.0.0.dist-info/licenses/LICENSE",
+            "<python-prefix>/lib/python3.13/site-packages/pillow-12.0.0.dist-info/LICENSE",
+            "<python-prefix>/lib/python3.13/site-packages/pillow-12.0.0.dist-info/licenses/LICENSE"
           ],
           "sha256": "17f240ae101143707e5e7303a5d800450d9ccc7475b463cedb555cefdb3c6ece",
           "bytes": 1453,
           "first_line": "The Python Imaging Library (PIL) is"
         }
       ],
-      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/pillow-12.0.0.dist-info",
+      "dist_info": "<python-prefix>/lib/python3.13/site-packages/pillow-12.0.0.dist-info",
       "license_field_first_line": null,
       "license_declared": "MIT-CMU",
       "license_declared_from": "METADATA License-Expression",
@@ -55,7 +55,7 @@
         "License :: OSI Approved :: BSD License"
       ],
       "license_files": [],
-      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/pandas-2.3.3.dist-info",
+      "dist_info": "<python-prefix>/lib/python3.13/site-packages/pandas-2.3.3.dist-info",
       "license_field_first_line": "BSD 3-Clause License",
       "license_declared": "License :: OSI Approved :: BSD License",
       "license_declared_from": "METADATA Classifier",
@@ -79,14 +79,14 @@
       "license_files": [
         {
           "declared": "../LICENSE.txt",
-          "path": "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/LICENSE.txt",
+          "path": "<python-prefix>/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/LICENSE.txt",
           "present": true,
           "resolved_by": "dist-info basename",
           "candidates_tried": [
-            "/data/wj/anaconda/lib/python3.13/site-packages/LICENSE.txt",
-            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/LICENSE.txt",
-            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/LICENSE.txt",
-            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/licenses/LICENSE.txt"
+            "<python-prefix>/lib/python3.13/site-packages/LICENSE.txt",
+            "<python-prefix>/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/LICENSE.txt",
+            "<python-prefix>/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/LICENSE.txt",
+            "<python-prefix>/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/licenses/LICENSE.txt"
           ],
           "sha256": "82f5f9b0e6592da7f79022fc930add132a76c56727d29813f94058157a2b2d11",
           "bytes": 113409,
@@ -94,21 +94,21 @@
         },
         {
           "declared": "../NOTICE.txt",
-          "path": "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/NOTICE.txt",
+          "path": "<python-prefix>/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/NOTICE.txt",
           "present": true,
           "resolved_by": "dist-info basename",
           "candidates_tried": [
-            "/data/wj/anaconda/lib/python3.13/site-packages/NOTICE.txt",
-            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/NOTICE.txt",
-            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/NOTICE.txt",
-            "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/licenses/NOTICE.txt"
+            "<python-prefix>/lib/python3.13/site-packages/NOTICE.txt",
+            "<python-prefix>/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/NOTICE.txt",
+            "<python-prefix>/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/NOTICE.txt",
+            "<python-prefix>/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info/licenses/NOTICE.txt"
           ],
           "sha256": "c946470d6b024c77feebdfb686bf92a828402c0ffc27c769bca7d8bef08e1db7",
           "bytes": 2916,
           "first_line": "Apache Arrow"
         }
       ],
-      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info",
+      "dist_info": "<python-prefix>/lib/python3.13/site-packages/pyarrow-21.0.0.dist-info",
       "license_field_first_line": "Apache Software License",
       "license_declared": "Apache Software License",
       "license_declared_from": "METADATA License",
@@ -129,7 +129,7 @@
         "License :: OSI Approved :: BSD License"
       ],
       "license_files": [],
-      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/scipy-1.16.3.dist-info",
+      "dist_info": "<python-prefix>/lib/python3.13/site-packages/scipy-1.16.3.dist-info",
       "license_field_first_line": "Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers.",
       "license_declared": "License :: OSI Approved :: BSD License",
       "license_declared_from": "METADATA Classifier",
@@ -151,14 +151,14 @@
       "license_files": [
         {
           "declared": "LICENSE",
-          "path": "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/LICENSE",
+          "path": "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/LICENSE",
           "present": true,
           "resolved_by": "licenses/ subdirectory",
           "candidates_tried": [
-            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/LICENSE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/LICENSE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/LICENSE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/LICENSE"
+            "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/LICENSE",
+            "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/LICENSE",
+            "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/LICENSE",
+            "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/LICENSE"
           ],
           "sha256": "2e311cbf8c7646e764a54621ab15663bbfcfeb5bb94f1d634d79adfd49ae3191",
           "bytes": 505053,
@@ -166,21 +166,21 @@
         },
         {
           "declared": "NOTICE",
-          "path": "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/NOTICE",
+          "path": "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/NOTICE",
           "present": true,
           "resolved_by": "licenses/ subdirectory",
           "candidates_tried": [
-            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/NOTICE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/NOTICE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/NOTICE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/NOTICE"
+            "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/NOTICE",
+            "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/NOTICE",
+            "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/NOTICE",
+            "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info/licenses/NOTICE"
           ],
           "sha256": "c2cc7bf0caec7652c2b460a8a470bea1677f241e4ab8e431df34cf17f5a9fec0",
           "bytes": 23632,
           "first_line": "======================================================================="
         }
       ],
-      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/torch-2.10.0.dist-info",
+      "dist_info": "<python-prefix>/lib/python3.13/site-packages/torch-2.10.0.dist-info",
       "license_field_first_line": "BSD-3-Clause",
       "license_declared": "BSD-3-Clause",
       "license_declared_from": "METADATA License",
@@ -205,21 +205,21 @@
       "license_files": [
         {
           "declared": "LICENSE",
-          "path": "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/licenses/LICENSE",
+          "path": "<python-prefix>/lib/python3.13/site-packages/transformers-5.5.4.dist-info/licenses/LICENSE",
           "present": true,
           "resolved_by": "licenses/ subdirectory",
           "candidates_tried": [
-            "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/LICENSE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/licenses/LICENSE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/LICENSE",
-            "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info/licenses/LICENSE"
+            "<python-prefix>/lib/python3.13/site-packages/transformers-5.5.4.dist-info/LICENSE",
+            "<python-prefix>/lib/python3.13/site-packages/transformers-5.5.4.dist-info/licenses/LICENSE",
+            "<python-prefix>/lib/python3.13/site-packages/transformers-5.5.4.dist-info/LICENSE",
+            "<python-prefix>/lib/python3.13/site-packages/transformers-5.5.4.dist-info/licenses/LICENSE"
           ],
           "sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049",
           "bytes": 11418,
           "first_line": "Copyright 2018- The Hugging Face team. All rights reserved."
         }
       ],
-      "dist_info": "/data/wj/anaconda/lib/python3.13/site-packages/transformers-5.5.4.dist-info",
+      "dist_info": "<python-prefix>/lib/python3.13/site-packages/transformers-5.5.4.dist-info",
       "license_field_first_line": "Apache 2.0 License",
       "license_declared": "Apache 2.0 License",
       "license_declared_from": "METADATA License",
@@ -244,7 +244,7 @@
     },
     "curl": {
       "command": "curl",
-      "path": "/data/wj/anaconda/bin/curl",
+      "path": "<python-prefix>/bin/curl",
       "present": true,
       "version_flag": "--version",
       "version_first_line": "curl 8.16.0 (Linux) libcurl/8.16.0 OpenSSL/3.0.18 zlib/1.3.1 zstd/1.5.7 libidn2/2.3.8 libssh2/1.11.1 nghttp2/1.67.1",
@@ -393,7 +393,7 @@
     },
     "python3": {
       "command": "python3",
-      "path": "/data/wj/anaconda/bin/python3",
+      "path": "<python-prefix>/bin/python3",
       "present": true,
       "version_flag": "--version",
       "version_first_line": "Python 3.13.9",

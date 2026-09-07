@@ -1,8 +1,8 @@
 {
- "generated_at": "2026-09-07T02:57:48Z",
+ "generated_at": "2026-09-07T05:43:40Z",
  "what": "Controls for scripts/measure_originality.py -- the rule 2 copy search. Each exercises one outcome of the scanner against a tree built for the run.",
  "scanner": "scripts/measure_originality.py",
- "scanner_sha256": "65b0f1de7b790eb1f346ea91290b9ed6ea6449a229b7f67e79eca3db7a6858b2",
+ "scanner_sha256": "41d484d15b1bef2373a590a87b2160b653c8b5ed7087187561d954589b4e5c1d",
  "near_control_lines_rewritten": 22,
  "near_control_jaccard": 0.6972,
  "controls": [

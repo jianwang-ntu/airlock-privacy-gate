@@ -61,6 +61,10 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EVIDENCE = os.path.join(ROOT, "evidence", "third_party.json")
+sys.path.insert(0, ROOT)
+
+from scripts.pathredact import emit_json  # noqa: E402
+
 FIRST_PARTY = {"airlock", "scripts", "tests"}
 SKIP_DIRS = {".git", ".data_cache", "__pycache__", "models", "logs"}
 
@@ -634,10 +638,12 @@ def main(*argv: str) -> int:
         "vendor_clients_imported": out["network_egress"]["vendor_clients_imported"],
         "vendor_client_candidates_checked": len(VENDOR_CLIENTS),
     }
-    os.makedirs(os.path.dirname(EVIDENCE), exist_ok=True)
-    with open(EVIDENCE, "w", encoding="utf-8") as fh:
-        json.dump(out, fh, indent=2, ensure_ascii=False)
-        fh.write("\n")
+    # Committed to a public repository, and produced by reading this host's
+    # installed libraries, so absolute paths are rewritten before the file is
+    # written and the run refuses rather than publishing one it missed.
+    # See scripts/pathredact.py.
+    if emit_json(out, EVIDENCE, indent=2) != 0:
+        return 2
     print(json.dumps(out["summary"], indent=2))
     print(f"wrote {os.path.relpath(EVIDENCE, ROOT)}")
     return 0

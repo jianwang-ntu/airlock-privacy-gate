@@ -218,11 +218,11 @@
  },
  "search_exact": {
   "roots": [
-   "/data/wj/wj_code",
-   "/data/wj/anaconda/lib"
+   "<other-d27e04>/.../wj_code",
+   "<python-prefix>/lib"
   ],
   "excluded_prefixes": [
-   "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/upai-hackdays/repo"
+   "<repo>"
   ],
   "skipped_dir_names": [
    ".git",
@@ -239,34 +239,34 @@
   "size_collisions_hashed": 23890,
   "unreadable_count": 21,
   "unreadable_sample": [
-   "/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__yamadashy__repomix/src/website/server/.compile-cache/v24.15.0-x64-cf738c9d-0/95175bc2: [Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__yamadashy__repomix/src/website/server/.compile-cache/v24.15.0-x64-cf738c9d-0/95175bc2'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.dbus'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/xfce4/xfwm4'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/xfce4/desktop'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/pulse'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/Thunar'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.config/dconf'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.cache'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.ssh'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.XDG/dconf'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.gnupg'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__CraftOS-dev__CraftBot/src/app/gui/config/.local/share'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__sinaptik-ai__pandas-ai/src/pgdata'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__Mai-with-u__MaiBot/src/data/qq/nt_qq/global/nt_data/msf'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__Mai-with-u__MaiBot/src/data/qq/nt_qq/global/nt_temp'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__Mai-with-u__MaiBot/src/data/qq/Crashpad'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__666ghj__BettaFish/src/db_data'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__finaldie__auto-news/base/workspace/milvus/volumes/etcd/member'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__finaldie__auto-news/base/workspace/postgres/data'",
-   "[Errno 13] Permission denied: '/data/wj/wj_code/dl_sim/app-deploy-under-standard/out/github.com__finaldie__auto-news/src/docker/workspace/milvus/volumes/etcd/member'"
+   "<other-23a9c8>/.../95175bc2: [Errno 13] Permission denied: '<other-23a9c8>/.../95175bc2'",
+   "[Errno 13] Permission denied: '<other-c891ef>/.../.dbus'",
+   "[Errno 13] Permission denied: '<other-ede2e7>/.../xfwm4'",
+   "[Errno 13] Permission denied: '<other-ede2e7>/.../desktop'",
+   "[Errno 13] Permission denied: '<other-f54077>/.../pulse'",
+   "[Errno 13] Permission denied: '<other-f54077>/.../Thunar'",
+   "[Errno 13] Permission denied: '<other-f54077>/.../dconf'",
+   "[Errno 13] Permission denied: '<other-c891ef>/.../.cache'",
+   "[Errno 13] Permission denied: '<other-c891ef>/.../.ssh'",
+   "[Errno 13] Permission denied: '<other-2011f1>/.../dconf'",
+   "[Errno 13] Permission denied: '<other-c891ef>/.../.gnupg'",
+   "[Errno 13] Permission denied: '<other-a64b99>/.../share'",
+   "[Errno 13] Permission denied: '<other-795fe2>/.../pgdata'",
+   "[Errno 13] Permission denied: '<other-0988da>/.../msf'",
+   "[Errno 13] Permission denied: '<other-4a6f2f>/.../nt_temp'",
+   "[Errno 13] Permission denied: '<other-12595f>/.../Crashpad'",
+   "[Errno 13] Permission denied: '<other-6e179d>/.../db_data'",
+   "[Errno 13] Permission denied: '<other-dc74f8>/.../member'",
+   "[Errno 13] Permission denied: '<other-b103fa>/.../data'",
+   "[Errno 13] Permission denied: '<other-60fefa>/.../member'"
   ],
-  "self_workspace": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/upai-hackdays",
+  "self_workspace": "<workspace>",
   "matches": [
    {
     "tracked_file": "LICENSE",
     "sha256": "79449ea854968280a0c1a63d509b6e80c033c789275ea09704a8b774f581772c",
     "bytes": 1066,
-    "found_at": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/ai-infra-summit-hackathon/build/LICENSE",
+    "found_at": "<other-508830>/.../LICENSE",
     "found_mtime_utc": "2026-09-05T05:50:16Z",
     "in_this_jobs_own_workspace": false
    },
@@ -274,7 +274,7 @@
     "tracked_file": "LICENSE",
     "sha256": "79449ea854968280a0c1a63d509b6e80c033c789275ea09704a8b774f581772c",
     "bytes": 1066,
-    "found_at": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/ibm-bob-2-hackathon/evidence_20260905T2130Z/LICENSE",
+    "found_at": "<other-0c68eb>/.../LICENSE",
     "found_mtime_utc": "2026-09-05T21:36:45Z",
     "in_this_jobs_own_workspace": false
    }
@@ -288,7 +288,7 @@
   "top_similarities": [
    {
     "tracked_file": "scripts/fetch_model.sh",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/lost-in-transcription-sp-nh/build/lost-in-transcription-runtime/examples/minimal/pack_submission.sh",
+    "candidate": "<other-d45905>/.../pack_submission.sh",
     "jaccard": 0.1,
     "shared_lines": 2,
     "candidate_lines": 9,
@@ -297,7 +297,7 @@
    },
    {
     "tracked_file": "scripts/fetch_model.sh",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/lost-in-transcription-sp-nh/build/lost-in-transcription-runtime/examples/template/pack_submission.sh",
+    "candidate": "<other-3a6eca>/.../pack_submission.sh",
     "jaccard": 0.1,
     "shared_lines": 2,
     "candidate_lines": 9,
@@ -306,7 +306,7 @@
    },
    {
     "tracked_file": "airlock/__init__.py",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/api-cloud-ai-hackathon-2026/repo/trustlens/__init__.py",
+    "candidate": "<other-54e7d9>/.../__init__.py",
     "jaccard": 0.0909,
     "shared_lines": 1,
     "candidate_lines": 2,
@@ -315,7 +315,7 @@
    },
    {
     "tracked_file": "airlock/__init__.py",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/allthingsagentichackathon/repo/costwarden/__init__.py",
+    "candidate": "<other-6ede08>/.../__init__.py",
     "jaccard": 0.0909,
     "shared_lines": 1,
     "candidate_lines": 2,
@@ -324,7 +324,7 @@
    },
    {
     "tracked_file": "airlock/__init__.py",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/remedy_AUD-203_20260827T1830Z/tree/royaltyscope/__init__.py",
+    "candidate": "<other-5f1812>/.../__init__.py",
     "jaccard": 0.0909,
     "shared_lines": 1,
     "candidate_lines": 2,
@@ -333,7 +333,7 @@
    },
    {
     "tracked_file": "airlock/__init__.py",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v3_20260829T1330Z/baseline_tree/royaltyscope/__init__.py",
+    "candidate": "<other-befe93>/.../__init__.py",
     "jaccard": 0.0909,
     "shared_lines": 1,
     "candidate_lines": 2,
@@ -342,7 +342,7 @@
    },
    {
     "tracked_file": "airlock/__init__.py",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v3_20260829T1330Z/candidate_tree/royaltyscope/__init__.py",
+    "candidate": "<other-946651>/.../__init__.py",
     "jaccard": 0.0909,
     "shared_lines": 1,
     "candidate_lines": 2,
@@ -351,7 +351,7 @@
    },
    {
     "tracked_file": "airlock/__init__.py",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v3_20260829T1330Z/work/baseline/royaltyscope/__init__.py",
+    "candidate": "<other-d324b0>/.../__init__.py",
     "jaccard": 0.0909,
     "shared_lines": 1,
     "candidate_lines": 2,
@@ -360,7 +360,7 @@
    },
    {
     "tracked_file": "airlock/__init__.py",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v3_20260829T1330Z/work/candidate/royaltyscope/__init__.py",
+    "candidate": "<other-0ed6ef>/.../__init__.py",
     "jaccard": 0.0909,
     "shared_lines": 1,
     "candidate_lines": 2,
@@ -369,7 +369,7 @@
    },
    {
     "tracked_file": "airlock/__init__.py",
-    "candidate": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/agentic-cinema/audit/runs/indep_audit_v4_20260829T1430Z/scratch_X5/control/royaltyscope/__init__.py",
+    "candidate": "<other-55fe83>/.../__init__.py",
     "jaccard": 0.0909,
     "shared_lines": 1,
     "candidate_lines": 2,
@@ -378,10 +378,10 @@
    }
   ],
   "focus_roots": [
-   "/data/wj/wj_code/dl_hackathon"
+   "<other-368565>/.../dl_hackathon"
   ],
   "excluded_prefixes": [
-   "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/upai-hackdays/repo"
+   "<repo>"
   ],
   "suffixes": [
    ".md",
@@ -398,7 +398,7 @@
   "candidates_sharing_a_line": 20949,
   "unreadable_count": 0,
   "unreadable_sample": [],
-  "self_workspace": "/data/wj/wj_code/dl_hackathon/devpost_dirs/workspaces/upai-hackdays",
+  "self_workspace": "<workspace>",
   "hits": [],
   "hit_count": 0,
   "flagged_count": 0,
