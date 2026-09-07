@@ -29,11 +29,37 @@ def _lib_order(envj):
     return [("Pillow" if m == "PIL" else m) for m in named + rest]
 
 
+def _netfiles(envj):
+    """The files the import sweep flags as opening a network connection."""
+    seen = envj["network_capability"]["stdlib_network_modules_imported"].values()
+    return "`" + "`, `".join(sorted({f for fs in seen for f in fs})) + "`"
+
+
+def _ev(ed, arm, lib):
+    """A library version as one arm of env_drift.json recorded it."""
+    return ed["arms"][arm]["installed"][lib]
+
+
+def _c(ed, key):
+    """A [pinned, unpinned] pair out of env_drift.json's drift_cost block."""
+    return ed["drift_cost"][key]
+
+
+def _g(x):
+    return f"{x:g}"
+
+
+def _budgets(ed, side):
+    b = _c(ed, "budgets_violated")[side]
+    return ", ".join(f"{x:g}" for x in b) if b else "none"
+
+
 def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac, fair, fairc,
-           drop=None):
-    # `drop` defaults to the file on disk so the existing call sites are
-    # unchanged; the control at the end of main() passes a corrupted copy.
+           drop=None, envd=None):
+    # `drop` and `envd` default to the files on disk so the existing call sites
+    # are unchanged; the controls at the end of main() pass corrupted copies.
     d = drop if drop is not None else load("loader_span_drop.json")
+    ed = envd if envd is not None else load("env_drift.json")
     h = det["by_threshold_hybrid"]["0.2"]
     m = det["by_threshold_model_only"]["0.2"]
     # ---- rule 8 fairness helpers
@@ -275,14 +301,54 @@ def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac, fair, fa
          f"recall reads **{d['recall_if_all_discarded_are_misses'] * 100:.2f}%** rather "
          f"than {d['recall_reported'] * 100:.2f}% — "
          f"**{d['overstatement_percentage_points']:.2f}** points"),
+        # ---- the environment the numbers came from (evidence/env_drift.json).
+        # Two arms of the same code, weights, corpus, seed and torch build; only
+        # the library versions move. Left column is this repository's pin.
+        ("measured with **transformers " + _ev(ed, "reference", "transformers") + "**",
+         f"measured with **transformers {_ev(ed, 'reference', 'transformers')}**"),
+        ("resolved to **" + _ev(ed, "latest_unpinned", "transformers") + "** on "
+         + ed["generated_at"][:10],
+         f"resolved to **{_ev(ed, 'latest_unpinned', 'transformers')}** on "
+         f"{ed['generated_at'][:10]}"),
+        ("| identifier recall | **93.96%** | 86.63% |",
+         f"| identifier recall | **{pct(_c(ed, 'identifier_recall')[0])}** | "
+         f"{pct(_c(ed, 'identifier_recall')[1])} |"),
+        ("| documents that still leak | **13.27%** | 26.94% |",
+         f"| documents that still leak | **{pct(_c(ed, 'doc_leak_rate')[0])}** | "
+         f"{pct(_c(ed, 'doc_leak_rate')[1])} |"),
+        ("| gate ranking AUC | 0.7498 | 0.6273 |",
+         f"| gate ranking AUC | {_g(_c(ed, 'gate_ranking_auc')[0])} | "
+         f"{_g(_c(ed, 'gate_ranking_auc')[1])} |"),
+        ("| calibration error (ECE) | 0.0105 | 0.112 |",
+         f"| calibration error (ECE) | {_g(_c(ed, 'ece_posterior_mean')[0])} | "
+         f"{_g(_c(ed, 'ece_posterior_mean')[1])} |"),
+        ("| deciles where the certified bound holds | 11/11 | 2/11 |",
+         "| deciles where the certified bound holds | "
+         f"{_c(ed, 'reliability_bins_where_upper_bound_is_conservative')[0]} | "
+         f"{_c(ed, 'reliability_bins_where_upper_bound_is_conservative')[1]} |"),
+        ("| leak budgets violated | none | 0.045, 0.06, 0.09, 0.12, 0.16 |",
+         f"| leak budgets violated | {_budgets(ed, 0)} | {_budgets(ed, 1)} |"),
+        ("stops holding at 5 of the 9 budgets tested",
+         f"stops holding at {len(_c(ed, 'budgets_violated')[1])} of the "
+         f"{len(ed['arms']['reference']['headline']['budgets_tested'])} budgets tested"),
+        ("`" + ed["coexistence_probe"]["transformers_requires_tokenizers"][0] + "`",
+         "`" + ed["coexistence_probe"]["transformers_requires_tokenizers"][0] + "`"),
+        # the import sweep's own verdict, and the file that moved it. Left
+        # unchecked, a repository that quietly grows a second network caller
+        # keeps reading as if it had not.
+        ("**REVIEW** rather than **NO_NETWORK_CLIENT**",
+         f"**{envj['network_capability']['verdict']}** rather than "
+         "**NO_NETWORK_CLIENT**"),
+        ("the file it flags is " + _netfiles(envj),
+         "the file it flags is " + _netfiles(envj)),
     ]
 
 
 def run(readme_text, det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac,
-        fair, fairc, drop=None):
+        fair, fairc, drop=None, envd=None):
     bad = []
     for quoted, derived in claims(det, gate, gaps, checks_total, deploy, abl, envj,
-                                  lma, lmac, fair, fairc, drop):
+                                  lma, lmac, fair, fairc, drop, envd):
         if quoted != derived:
             bad.append((quoted, derived, "value moved"))
         elif quoted not in readme_text:
@@ -350,6 +416,11 @@ def main():
     env_corrupt = copy.deepcopy(envj)
     env_corrupt["libraries"].pop("pyarrow")
     env_corrupt["external_binaries"].pop("ffmpeg")
+    # and the flattering direction on the network sweep: a clean verdict with
+    # nothing flagged, which is what a repository would look like if it stopped
+    # reporting its own network callers.
+    env_corrupt["network_capability"]["verdict"] = "NO_NETWORK_CLIENT"
+    env_corrupt["network_capability"]["stdlib_network_modules_imported"] = {}
     ctrl4 = run(readme, det, gate, gaps, len(CHECKS) + 1, deploy, abl, env_corrupt, lma, lmac,
                 fair, fairc)
     if len(ctrl4) < 3:
@@ -436,6 +507,25 @@ def main():
               f"{len(ctrl9)} claim(s), expected at least 5")
         return 1
     print(f"control: erasing the loader's discarded spans trips {len(ctrl9)} claim(s)")
+    # a tenth, on env_drift.json: none of the nine above reads it, so all nine
+    # pass vacuously over the environment table. It makes the unpinned arm cost
+    # nothing -- the flattering direction, and the one that would let the pin be
+    # quietly dropped -- and must therefore be caught.
+    envd_corrupt = copy.deepcopy(load("env_drift.json"))
+    cost = envd_corrupt["drift_cost"]
+    for k in ("identifier_recall", "doc_leak_rate", "typed_recall", "identifiers_leaked",
+              "docs_with_leak", "gate_ranking_auc", "ece_posterior_mean",
+              "reliability_bins_where_upper_bound_is_conservative", "budgets_violated"):
+        cost[k] = [cost[k][0], cost[k][0]]
+    envd_corrupt["arms"]["latest_unpinned"]["installed"]["transformers"] = \
+        envd_corrupt["arms"]["reference"]["installed"]["transformers"]
+    ctrl10 = run(readme, det, gate, gaps, len(CHECKS), deploy, abl, envj, lma, lmac,
+                 fair, fairc, None, envd_corrupt)
+    if len(ctrl10) < 6:
+        print("CONTROL FAILED: erasing the cost of an unpinned install tripped only "
+              f"{len(ctrl10)} claim(s), expected at least 6")
+        return 1
+    print(f"control: erasing the cost of an unpinned install trips {len(ctrl10)} claim(s)")
     return 1 if bad else 0
 
 

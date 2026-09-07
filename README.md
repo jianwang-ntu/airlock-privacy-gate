@@ -217,8 +217,8 @@ repository rather than by reading the metrics:
   redaction threshold and it must be refitted. With 2,000 calibration documents
   the tightest certifiable risk is ~4.4%; below that budget Airlock forwards
   nothing rather than claiming a bound it cannot support.
-- **No third-party API is called anywhere in this repository.** The forwarded
-  leg was exercised against a larger model on the same machine standing in for
+- **No third-party inference API is called anywhere in this repository.**
+  The forwarded leg was exercised against a larger model on the same machine standing in for
   the hosted one (`airlock/route.py::HostedStandIn`), so the loop is real
   end-to-end without anything leaving the host. Pointing it at a real provider
   is a one-function adapter that has not been exercised here.
@@ -239,6 +239,7 @@ python3 tests/run_checks.py        # 21 controls
 python3 tests/check_readme_numbers.py   # every number below, re-read from evidence/
 python3 tests/check_learned_model_ablation.py   # controls for the rule 3 counterfactual
 python3 tests/check_ux_numbers.py       # every figure in "Using it", re-derived
+python3 tests/check_env_pins.py         # the environment, asserted not assumed
 
 python3 -m airlock.cli --text "Please wire GBP 12,400 to IBAN DE89370400440532013000 \
 for Meera Subramanian; card 4111 1111 1111 1111 must not be charged."
@@ -254,6 +255,38 @@ python3 scripts/render_demo_video.py    # re-render demo/airlock-demo.mp4
 `scripts/demo_run.py` runs two documents end to end — one the gate forwards,
 one it refuses — and writes exactly what happened to `evidence/demo_run.json`,
 including the answers and the integrity report.
+
+### The environment these numbers came from
+
+Every figure in this README was measured with **transformers 5.5.4**, and
+`requirements.txt` pins that version rather than ranging it. The range the line
+used to carry, `>=4.40`, resolved to **5.16.1** on 2026-09-07. Holding the code,
+the weights, the corpus, the seed and the torch build fixed and moving only the
+library:
+
+| | pinned | unpinned |
+|---|---|---|
+| identifier recall | **93.96%** | 86.63% |
+| documents that still leak | **13.27%** | 26.94% |
+| gate ranking AUC | 0.7498 | 0.6273 |
+| calibration error (ECE) | 0.0105 | 0.112 |
+| deciles where the certified bound holds | 11/11 | 2/11 |
+| leak budgets violated | none | 0.045, 0.06, 0.09, 0.12, 0.16 |
+
+The last row is the one that matters. Airlock's claim is not that it redacts
+well — it is that a document it agrees to forward carries less leak risk than
+the number the operator set. Under the unpinned install that guarantee
+**stops holding at 5 of the 9 budgets tested**, and nothing announces it:
+the model still loads, still redacts, and still prints a risk.
+
+`tokenizers` gets no line of its own in `requirements.txt` because transformers
+5.5.4 declares `tokenizers<=0.23.0,>=0.22.0` and refuses to import outside it; the probe
+establishing that is in the same evidence file.
+`scripts/measure_env_drift.py` produces all of the above into
+`evidence/env_drift.json`, `tests/check_env_pins.py` fails if the environment
+you are in is not the one these numbers came from, and this table is checked
+against the evidence by `tests/check_readme_numbers.py` like every other number
+here.
 
 ## Using it
 
@@ -457,11 +490,16 @@ version:
 - **No hosted inference API is called anywhere in this project.** Measured, not
   asserted: 25 vendor client packages were looked for in the import graph and
   none is present, and no provider endpoint or credential appears in the
-  source. The network is used in three places, all downloads and none of them
-  inference — the corpus from `huggingface.co`, our own release weights from
-  `github.com`, and the licence lookups in `scripts/measure_third_party.py`
-  (`--offline` skips those). `transformers.from_pretrained` also fetches a
-  checkpoint on first use if you hand it a hub id instead of a local path.
+  source. The network is used in four places, all of them downloads or metadata
+  lookups and none of them inference — the corpus from `huggingface.co`, our own
+  release weights from `github.com`, the licence lookups in
+  `scripts/measure_third_party.py` (`--offline` skips those), and the version
+  lookups in `scripts/measure_env_drift.py`, which asks PyPI what an unpinned
+  install resolves to today. That last one is why the sweep now returns
+  **REVIEW** rather than **NO_NETWORK_CLIENT**: it flags every file that imports
+  a network module, and the file it flags is `scripts/measure_env_drift.py`.
+  Nothing in `airlock/` imports one. `transformers.from_pretrained` also fetches
+  a checkpoint on first use if you hand it a hub id instead of a local path.
   After `scripts/fetch_model.sh` the gate needs no network at all.
 
 ## Originality

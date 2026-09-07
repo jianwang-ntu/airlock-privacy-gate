@@ -1,6 +1,23 @@
 # Runtime: the detector, the gate and the answering models.
+#
+# transformers is PINNED, not ranged. 5.5.4 is the version every number in this
+# repository was measured with, and the range this line used to carry does not
+# reproduce them: with the code, the weights, the corpus, the seed and torch all
+# held fixed, recall and the calibrated leak budget both move, and the budget
+# guarantee the gate exists to give stops holding. Measured by
+# scripts/measure_env_drift.py into evidence/env_drift.json, quoted in the
+# README under "The environment these numbers came from".
+#
+# tokenizers gets no line of its own: transformers 5.5.4 declares
+# tokenizers>=0.22.0,<=0.23.0 and refuses to import outside it, so this pin
+# already constrains it. tests/check_env_pins.py asserts the exact version
+# anyway, because "inside the window the pin allows" is not "the version the
+# numbers came from". Run that check before trusting any figure here.
+#
+# torch is left ranged: it was held fixed across every arm, so nothing here
+# measured it either way.
 torch>=2.2
-transformers>=4.40
+transformers==5.5.4
 
 # scripts/prepare_data.py -- one-off parquet -> JSONL conversion of the corpus.
 pandas>=2.0

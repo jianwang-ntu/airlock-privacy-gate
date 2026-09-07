@@ -1,0 +1,278 @@
+{
+  "generated_at": "2026-09-07T01:26:25Z",
+  "what": "What an unpinned install resolves to today and what it does to the numbers. Every arm holds the code, the weights, the corpus, the seed and torch fixed and moves only library versions.",
+  "shipped_evidence_measured_with": {
+    "transformers": "5.5.4",
+    "tokenizers": "0.22.2",
+    "safetensors": "0.7.0",
+    "torch": "2.10.0",
+    "python": "3.13.9"
+  },
+  "pypi_latest_at_measurement": {
+    "transformers": {
+      "latest": "5.16.1",
+      "requires_python": ">=3.10.0"
+    },
+    "tokenizers": {
+      "latest": "0.23.2",
+      "requires_python": ">=3.10"
+    },
+    "safetensors": {
+      "latest": "0.8.0",
+      "requires_python": ">=3.10"
+    }
+  },
+  "requirements_txt_declared": {
+    "torch": ">=2.2",
+    "transformers": "==5.5.4",
+    "pandas": ">=2.0",
+    "pyarrow": ">=14",
+    "Pillow": ">=10",
+    "scipy": ">=1.11"
+  },
+  "arms": {
+    "reference": {
+      "installed": {
+        "transformers": "5.5.4",
+        "tokenizers": "0.22.2",
+        "safetensors": "0.7.0",
+        "torch": "2.10.0",
+        "python": "3.13.9"
+      },
+      "pip_install_args": [],
+      "reproduces_shipped_evidence": {
+        "detector_blocks": {
+          "by_threshold_hybrid[0.2]": true,
+          "by_threshold_model_only[0.2]": true,
+          "regex_baseline": true,
+          "checksum_validators_only": true
+        },
+        "gate_blocks": {
+          "split": true,
+          "documents": true,
+          "redaction_threshold": true,
+          "forward_everything_leak_rate": true,
+          "calibration": true,
+          "ranking_auc_raw_statistic": true,
+          "risk_coverage": true,
+          "reliability_deciles": true,
+          "ece_posterior_mean": true,
+          "ece_upper_bound": true,
+          "reliability_bins_where_upper_bound_is_conservative": true,
+          "caveat": true
+        },
+        "all": true
+      },
+      "headline": {
+        "identifier_recall": 0.9396,
+        "typed_recall": 0.9043,
+        "doc_leak_rate": 0.1327,
+        "identifiers_leaked": 491,
+        "docs_with_leak": 290,
+        "over_redaction_rate_upper_bound": 0.2672,
+        "gate_ranking_auc": 0.7498,
+        "ece_posterior_mean": 0.0105,
+        "reliability_bins_where_upper_bound_is_conservative": "11/11",
+        "budgets_tested": [
+          0.045,
+          0.06,
+          0.09,
+          0.12,
+          0.16,
+          0.2,
+          0.3,
+          0.5,
+          1.0
+        ],
+        "budgets_violated": []
+      }
+    },
+    "latest_unpinned": {
+      "installed": {
+        "transformers": "5.16.1",
+        "tokenizers": "0.23.2",
+        "safetensors": "0.8.0",
+        "torch": "2.10.0",
+        "python": "3.13.9"
+      },
+      "pip_install_args": [
+        "transformers==5.16.1",
+        "tokenizers==0.23.2",
+        "safetensors==0.8.0"
+      ],
+      "reproduces_shipped_evidence": {
+        "detector_blocks": {
+          "by_threshold_hybrid[0.2]": false,
+          "by_threshold_model_only[0.2]": false,
+          "regex_baseline": true,
+          "checksum_validators_only": true
+        },
+        "gate_blocks": {
+          "split": true,
+          "documents": true,
+          "redaction_threshold": true,
+          "forward_everything_leak_rate": false,
+          "calibration": true,
+          "ranking_auc_raw_statistic": false,
+          "risk_coverage": false,
+          "reliability_deciles": false,
+          "ece_posterior_mean": false,
+          "ece_upper_bound": false,
+          "reliability_bins_where_upper_bound_is_conservative": false,
+          "caveat": true
+        },
+        "all": false
+      },
+      "headline": {
+        "identifier_recall": 0.8663,
+        "typed_recall": 0.8346,
+        "doc_leak_rate": 0.2694,
+        "identifiers_leaked": 1087,
+        "docs_with_leak": 589,
+        "over_redaction_rate_upper_bound": 0.2553,
+        "gate_ranking_auc": 0.6273,
+        "ece_posterior_mean": 0.112,
+        "reliability_bins_where_upper_bound_is_conservative": "2/11",
+        "budgets_tested": [
+          0.045,
+          0.06,
+          0.09,
+          0.12,
+          0.16,
+          0.2,
+          0.3,
+          0.5,
+          1.0
+        ],
+        "budgets_violated": [
+          0.045,
+          0.06,
+          0.09,
+          0.12,
+          0.16
+        ]
+      }
+    },
+    "reference_new_safetensors": {
+      "installed": {
+        "transformers": "5.5.4",
+        "tokenizers": "0.22.2",
+        "safetensors": "0.8.0",
+        "torch": "2.10.0",
+        "python": "3.13.9"
+      },
+      "pip_install_args": [
+        "safetensors==0.8.0"
+      ],
+      "reproduces_shipped_evidence": {
+        "detector_blocks": {
+          "by_threshold_hybrid[0.2]": true,
+          "by_threshold_model_only[0.2]": true,
+          "regex_baseline": true,
+          "checksum_validators_only": true
+        },
+        "gate_blocks": {
+          "split": true,
+          "documents": true,
+          "redaction_threshold": true,
+          "forward_everything_leak_rate": true,
+          "calibration": true,
+          "ranking_auc_raw_statistic": true,
+          "risk_coverage": true,
+          "reliability_deciles": true,
+          "ece_posterior_mean": true,
+          "ece_upper_bound": true,
+          "reliability_bins_where_upper_bound_is_conservative": true,
+          "caveat": true
+        },
+        "all": true
+      },
+      "headline": {
+        "identifier_recall": 0.9396,
+        "typed_recall": 0.9043,
+        "doc_leak_rate": 0.1327,
+        "identifiers_leaked": 491,
+        "docs_with_leak": 290,
+        "over_redaction_rate_upper_bound": 0.2672,
+        "gate_ranking_auc": 0.7498,
+        "ece_posterior_mean": 0.0105,
+        "reliability_bins_where_upper_bound_is_conservative": "11/11",
+        "budgets_tested": [
+          0.045,
+          0.06,
+          0.09,
+          0.12,
+          0.16,
+          0.2,
+          0.3,
+          0.5,
+          1.0
+        ],
+        "budgets_violated": []
+      }
+    }
+  },
+  "coexistence_probe": {
+    "transformers_requires_tokenizers": [
+      "tokenizers<=0.23.0,>=0.22.0"
+    ],
+    "ran": true,
+    "tokenizers_forced": "0.23.2",
+    "import_transformers_exit_code": 1,
+    "imports": false,
+    "error_line": "ImportError: tokenizers>=0.22.0,<=0.23.0 is required for a normal functioning of this module, but found tokenizers==0.23.2.",
+    "stderr_tail": [
+      "raise ImportError(",
+      "f\"{requirement} is required for a normal functioning of this module, but found {pkg}=={got_ver}.{hint}\"",
+      ")",
+      "ImportError: tokenizers>=0.22.0,<=0.23.0 is required for a normal functioning of this module, but found tokenizers==0.23.2.",
+      "Try: `pip install transformers -U` or `pip install -e '.[dev]'` if you're working with git main"
+    ]
+  },
+  "drift_cost": {
+    "arm": "latest_unpinned",
+    "identifier_recall": [
+      0.9396,
+      0.8663
+    ],
+    "doc_leak_rate": [
+      0.1327,
+      0.2694
+    ],
+    "typed_recall": [
+      0.9043,
+      0.8346
+    ],
+    "identifiers_leaked": [
+      491,
+      1087
+    ],
+    "docs_with_leak": [
+      290,
+      589
+    ],
+    "gate_ranking_auc": [
+      0.7498,
+      0.6273
+    ],
+    "ece_posterior_mean": [
+      0.0105,
+      0.112
+    ],
+    "reliability_bins_where_upper_bound_is_conservative": [
+      "11/11",
+      "2/11"
+    ],
+    "budgets_violated": [
+      [],
+      [
+        0.045,
+        0.06,
+        0.09,
+        0.12,
+        0.16
+      ]
+    ]
+  },
+  "caveat": "One machine, one Python, one torch build. It measures that the unpinned range is not the measured environment and what that costs here; it does not enumerate every version in the range."
+}

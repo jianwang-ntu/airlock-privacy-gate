@@ -16,6 +16,9 @@ echo "## tests/run_checks.py"
 python3 tests/run_checks.py 2>&1 | grep -viE "loading weights|it/s\]" | tail -3
 echo "## tests/check_readme_numbers.py"
 python3 tests/check_readme_numbers.py 2>&1 | tail -2
+echo "## tests/check_env_pins.py"
+python3 tests/check_env_pins.py 2>&1 | tail -3
+echo "## tests/check_env_pins.py exit $?"
 echo "## airlock.cli"
 python3 -m airlock.cli --text "From: Meera Subramanian <meera.s@example.co.uk>. Please transfer GBP 12,400 to IBAN DE89370400440532013000; card 4111 1111 1111 1111 must not be charged. Call +44 7700 900123." 2>&1 | grep -viE "loading weights|it/s\]"
 echo "# workdir left at $DIR"

@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-06T18:33:59Z",
+ "generated_at": "2026-09-07T01:38:11Z",
  "what": "Controls for scripts/ablate_learned_model.py -- the rule 3 counterfactual. A1 and A2 hand the harness a perfect ranking and a perfectly wrong one, so 'the no-ML gate scored badly' can be told apart from 'the scorer scores everything badly'. A7 is run in the direction that hurts this project.",
  "script": "scripts/ablate_learned_model.py",
  "script_sha256": "0bf7c4c22099c11c679f32d57af69751638ea1536e1f431e5533c6c66481dad9",

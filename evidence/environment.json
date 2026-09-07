@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-06T11:52:08Z",
+  "generated_at": "2026-09-07T01:33:27Z",
   "what": "Requirements 5 (Technology Stack), derived from the source rather than transcribed. Libraries are the third-party top-level modules our own .py files import; each version is read in its own subprocess with that module imported first.",
   "python": {
     "version": "3.13.9",
@@ -11,7 +11,7 @@
     "machine": "x86_64",
     "release": "5.15.0-170-generic"
   },
-  "source_files_parsed": 35,
+  "source_files_parsed": 43,
   "source_files": [
     "airlock/__init__.py",
     "airlock/baseline.py",
@@ -29,24 +29,32 @@
     "scripts/__init__.py",
     "scripts/ablate_learned_model.py",
     "scripts/ablate_posterior.py",
+    "scripts/check_label_vocab.py",
     "scripts/demo_run.py",
     "scripts/eval_gate.py",
     "scripts/fit_gate.py",
     "scripts/measure_contribution.py",
     "scripts/measure_corpus_gaps.py",
     "scripts/measure_deploy_cost.py",
+    "scripts/measure_env_drift.py",
     "scripts/measure_environment.py",
     "scripts/measure_fairness.py",
     "scripts/measure_originality.py",
+    "scripts/measure_span_drop.py",
+    "scripts/measure_sustained_load.py",
     "scripts/measure_third_party.py",
+    "scripts/measure_ux.py",
     "scripts/prepare_data.py",
     "scripts/record_demo.py",
     "scripts/render_demo_video.py",
     "tests/__init__.py",
+    "tests/check_env_pins.py",
     "tests/check_fairness_measurement.py",
     "tests/check_learned_model_ablation.py",
     "tests/check_originality_scan.py",
     "tests/check_readme_numbers.py",
+    "tests/check_sustained_load.py",
+    "tests/check_ux_numbers.py",
     "tests/run_checks.py"
   ],
   "libraries": {
@@ -61,6 +69,7 @@
     },
     "pandas": {
       "files": [
+        "scripts/check_label_vocab.py",
         "scripts/prepare_data.py"
       ],
       "import": "OK",
@@ -92,7 +101,8 @@
         "airlock/detect.py",
         "airlock/route.py",
         "airlock/train.py",
-        "scripts/measure_deploy_cost.py"
+        "scripts/measure_deploy_cost.py",
+        "scripts/measure_sustained_load.py"
       ],
       "import": "OK",
       "version": "2.10.0+cu128",
@@ -113,6 +123,13 @@
     }
   },
   "external_binaries": {
+    "--text": {
+      "files": [
+        "scripts/measure_ux.py"
+      ],
+      "present": false,
+      "error": "FileNotFoundError"
+    },
     "bash": {
       "files": [
         "scripts/record_demo.py"
@@ -140,7 +157,8 @@
     "git": {
       "files": [
         "scripts/measure_contribution.py",
-        "scripts/measure_originality.py"
+        "scripts/measure_originality.py",
+        "scripts/measure_ux.py"
       ],
       "present": true,
       "first_line": "unknown option: -version",
@@ -150,7 +168,7 @@
   "requirements_txt": {
     "declared": {
       "torch": ">=2.2",
-      "transformers": ">=4.40",
+      "transformers": "==5.5.4",
       "pandas": ">=2.0",
       "pyarrow": ">=14",
       "Pillow": ">=10",
@@ -240,7 +258,11 @@
       "webbrowser",
       "xmlrpc"
     ],
-    "stdlib_network_modules_imported": {},
+    "stdlib_network_modules_imported": {
+      "urllib": [
+        "scripts/measure_env_drift.py"
+      ]
+    },
     "stdlib_modules_imported": [
       "argparse",
       "ast",
@@ -251,6 +273,7 @@
       "datetime",
       "fcntl",
       "hashlib",
+      "importlib",
       "json",
       "math",
       "os",
@@ -269,9 +292,10 @@
       "sys",
       "tempfile",
       "termios",
-      "time"
+      "time",
+      "urllib"
     ],
-    "files_scanned": 35,
-    "verdict": "NO_NETWORK_CLIENT"
+    "files_scanned": 43,
+    "verdict": "REVIEW"
   }
 }
