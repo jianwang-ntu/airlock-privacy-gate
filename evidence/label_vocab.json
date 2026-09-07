@@ -1,0 +1,75 @@
+{
+  "what": "PII_TYPES in airlock/labels.py re-derived from the corpus parquet",
+  "source": "gretelai/synthetic_pii_finance_multilingual (Apache-2.0), English split",
+  "derived_from": [
+    "English_test.parquet",
+    "English_train.parquet"
+  ],
+  "corpus_sha256": {
+    "English_train.parquet": "2858af81ec59d8528f81059facb099ac33e6b47caf2501da3eac113bccfee9c7",
+    "English_test.parquet": "c02b06d3c5b7c375525136d6f74acc52ab8fc07fa863d0aa50734910ec0ef2ad"
+  },
+  "per_split": {
+    "train": {
+      "rows": 26019,
+      "spans": 118965,
+      "distinct_labels": 29
+    },
+    "test": {
+      "rows": 2891,
+      "spans": 12853,
+      "distinct_labels": 29
+    }
+  },
+  "declared_types": 29,
+  "derived_types": 29,
+  "matches": true,
+  "in_corpus_not_declared": [],
+  "declared_not_in_corpus": [],
+  "span_counts_by_type": {
+    "name": 36024,
+    "company": 35340,
+    "street_address": 22251,
+    "date": 9188,
+    "phone_number": 5262,
+    "email": 2889,
+    "time": 2427,
+    "first_name": 1613,
+    "date_of_birth": 1454,
+    "swift_bic_code": 1166,
+    "customer_id": 1052,
+    "last_name": 1008,
+    "employee_id": 928,
+    "bban": 896,
+    "iban": 853,
+    "credit_card_security_code": 827,
+    "bank_routing_number": 814,
+    "account_pin": 806,
+    "passport_number": 803,
+    "credit_card_number": 762,
+    "ssn": 760,
+    "driver_license_number": 733,
+    "ipv4": 703,
+    "ipv6": 606,
+    "api_key": 551,
+    "date_time": 548,
+    "user_name": 541,
+    "password": 508,
+    "local_latlng": 505
+  },
+  "non_identifying": [
+    "company",
+    "date",
+    "date_time",
+    "time"
+  ],
+  "identifying": 25,
+  "bio_labels": 59,
+  "checks": {
+    "pass": 11,
+    "fail": 0,
+    "broken": 0,
+    "skip": 0
+  },
+  "note": "Span labels and counts only. No document text is read or written here."
+}
