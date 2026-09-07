@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-06T11:52:21Z",
+  "generated_at": "2026-09-07T02:45:51Z",
   "what": "Third-party inventory for UPAI-Hackdays rule 6 (Intellectual Property), derived from this working tree and this host, not transcribed.",
   "publisher_licenses_pinned_at": "evidence/publisher_licenses.json",
   "source_files_parsed": {
-    "py": 35,
+    "py": 43,
     "sh": 3
   },
   "python_libraries": {
@@ -60,6 +60,7 @@
       "license_declared": "License :: OSI Approved :: BSD License",
       "license_declared_from": "METADATA Classifier",
       "imported_by": [
+        "scripts/check_label_vocab.py",
         "scripts/prepare_data.py"
       ]
     },
@@ -187,7 +188,8 @@
         "airlock/detect.py",
         "airlock/route.py",
         "airlock/train.py",
-        "scripts/measure_deploy_cost.py"
+        "scripts/measure_deploy_cost.py",
+        "scripts/measure_sustained_load.py"
       ]
     },
     "transformers": {
@@ -364,7 +366,8 @@
       "copyright_files_star_license": "GPL-2",
       "used_by": [
         "scripts/measure_contribution.py",
-        "scripts/measure_originality.py"
+        "scripts/measure_originality.py",
+        "scripts/measure_ux.py"
       ]
     },
     "grep": {
@@ -621,7 +624,11 @@
       "websockets"
     ],
     "vendor_clients_imported": [],
-    "stdlib_network_modules_imported": {},
+    "stdlib_network_modules_imported": {
+      "urllib.request": [
+        "scripts/measure_env_drift.py"
+      ]
+    },
     "url_literals": {
       "https://github.com/jianwang-ntu/airlock-privacy-gate.git": [
         "scripts/verify_clean_clone.sh"
@@ -634,6 +641,9 @@
       ],
       "https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual/resolve/main/data": [
         "scripts/train_all.sh"
+      ],
+      "https://pypi.org/pypi/": [
+        "scripts/measure_env_drift.py"
       ]
     },
     "from_pretrained_literal_arguments": {

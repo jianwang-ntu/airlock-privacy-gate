@@ -142,7 +142,7 @@ def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac, fair, fa
         ("`last_name` alone is 52.56%",
          f"`last_name` alone is {pct(h['per_type']['last_name']['recall'])}"),
         ("(78 instances)", f"({h['per_type']['last_name']['gold']} instances)"),
-        ("**21/21**", f"**{checks_total}/{checks_total}**"),
+        ("**26/26**", f"**{checks_total}/{checks_total}**"),
         # deployment cost -- the runs are keyed by (device, threads), not by order
         ("| CPU, 1 thread | **1.59** |", f"| CPU, 1 thread | **{dep(('cpu', 1))}** |"),
         ("| CPU, 4 threads | **4.18** |", f"| CPU, 4 threads | **{dep(('cpu', 4))}** |"),
@@ -192,7 +192,7 @@ def claims(det, gate, gaps, checks_total, deploy, abl, envj, lma, lmac, fair, fa
         # the suite size the README advertises. `checks_total` was threaded
         # through this function and then never used, so "19 controls" sat
         # unchecked while the suite grew to 21.
-        ("python3 tests/run_checks.py        # 21 controls",
+        ("python3 tests/run_checks.py        # 26 controls",
          f"python3 tests/run_checks.py        # {checks_total} controls"),
         # Requirements 5: the library list is the import graph, not a memory
         ("`torch`, `transformers`, `pyarrow`, `pandas`, `Pillow`, `scipy`",

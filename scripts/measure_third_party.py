@@ -252,19 +252,40 @@ def _resolve_list(tree, varname):
     return last
 
 
+SUBPROCESS_RUNNERS = {"run", "Popen", "call", "check_call", "check_output"}
+
+
+def _subprocess_local_names(tree) -> dict[str, str]:
+    """Local name -> subprocess name, for `from subprocess import run [as r]`."""
+    names: dict[str, str] = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and node.module == "subprocess":
+            for a in node.names:
+                names[a.asname or a.name] = a.name
+    return names
+
+
 def binaries_from_py(files: list[str]) -> dict[str, set[str]]:
+    """A call counts only if it is qualified (`subprocess.run([...])`) or its
+    bare name was imported from subprocess in that file. Accepting every
+    unqualified `run([...])` reported `--text` as a binary: that is the first
+    element of the argv `scripts/measure_ux.py` hands to its OWN `run()`."""
     out: dict[str, set[str]] = {}
     for rel in files:
         tree = ast.parse(open(os.path.join(ROOT, rel), encoding="utf-8").read(), rel)
+        local = _subprocess_local_names(tree)
         for node in ast.walk(tree):
             if not isinstance(node, ast.Call):
                 continue
             fn = node.func
             name = getattr(fn, "attr", None) or getattr(fn, "id", None)
-            if name not in {"run", "Popen", "call", "check_call", "check_output"}:
-                continue
             mod = getattr(getattr(fn, "value", None), "id", None)
-            if mod not in (None, "subprocess"):
+            if mod == "subprocess":
+                if name not in SUBPROCESS_RUNNERS:
+                    continue
+            elif mod is None and local.get(name) in SUBPROCESS_RUNNERS:
+                pass
+            else:
                 continue
             for arg in node.args[:1]:
                 argv = arg

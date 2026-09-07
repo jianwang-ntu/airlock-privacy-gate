@@ -301,6 +301,107 @@ def c_evidence_matches_disk():
         "upper bound was optimistic in at least one reliability bin"
 
 
+# --- the external-binary derivation, and the shadowed `run()` that fooled it ---
+# evidence/environment.json once listed `--text` as an external binary: the
+# extractor accepted every unqualified `run([...])`, and scripts/measure_ux.py
+# calls its OWN `run()` helper with an argv whose first element is `--text`.
+# The version probe then published a binary that does not exist, and
+# submission/check_fields.py crashed on the entry that had no version line.
+
+def _binary_names(src, fn):
+    import tempfile
+    d = tempfile.mkdtemp()
+    open(os.path.join(d, "m.py"), "w", encoding="utf-8").write(src)
+    mod = sys.modules[fn.__module__]
+    was, mod.ROOT = mod.ROOT, d
+    try:
+        return set(fn(["m.py"]))
+    finally:
+        mod.ROOT = was
+
+
+def _extractors():
+    from scripts.measure_environment import external_binaries
+    from scripts.measure_third_party import binaries_from_py
+    return (("measure_environment", external_binaries),
+            ("measure_third_party", binaries_from_py))
+
+
+_EB_CASES = (
+    ("qualified-call-is-a-binary",
+     'import subprocess\nsubprocess.run(["ffmpeg", "-version"])\n', {"ffmpeg"}),
+    ("from-import-is-a-binary",
+     'from subprocess import run\nrun(["git", "status"])\n', {"git"}),
+    ("aliased-from-import-is-a-binary",
+     'from subprocess import run as r\nr(["dpkg", "-S", "x"])\n', {"dpkg"}),
+)
+
+
+def c_external_binaries_finds_real_calls():
+    for who, fn in _extractors():
+        for name, src, want in _EB_CASES:
+            got = _binary_names(src, fn)
+            if got != want:
+                return f"{who}/{name}: expected {sorted(want)}, got {sorted(got)}"
+    return True
+
+
+def c_external_binaries_ignores_local_run():
+    """CONTROL for the bug itself: a local helper named `run` is not subprocess."""
+    src = 'def run(argv, cwd):\n    pass\nrun(["--text", "x"], ".")\n'
+    for who, fn in _extractors():
+        got = _binary_names(src, fn)
+        if got:
+            return f"{who}: a shadowed run() leaked {sorted(got)}"
+    return True
+
+
+def c_external_binaries_control_shadow_is_reachable():
+    """The control above is only worth reading if the same file, with the call
+    qualified, DOES yield a binary -- otherwise it could pass by parsing
+    nothing at all."""
+    src = ('import subprocess\ndef run(argv, cwd):\n    pass\n'
+           'run(["--text", "x"], ".")\nsubprocess.run(["bash", "-c", "x"])\n')
+    for who, fn in _extractors():
+        got = _binary_names(src, fn)
+        if got != {"bash"}:
+            return f"{who}: expected exactly ['bash'], got {sorted(got)}"
+    return True
+
+
+def _published_binaries():
+    out = {}
+    for f in ("environment.json", "third_party.json"):
+        out[f] = json.load(open(os.path.join(ROOT, "evidence", f),
+                                encoding="utf-8"))["external_binaries"]
+    return out
+
+
+def _flag_shaped(published):
+    return sorted({b for names in published.values() for b in names
+                   if b.startswith("-")})
+
+
+def c_published_binaries_are_plausible():
+    """No published external binary may be a command-line flag."""
+    bad = _flag_shaped(_published_binaries())
+    return True if not bad else f"flag-shaped binaries published: {bad}"
+
+
+def c_published_binaries_control_flag_is_caught():
+    """CONTROL: the same predicate, over the SAME published dicts with one flag
+    injected, must trip. Derived from the artifact rather than from a literal --
+    a control that only inspects a hand-written list can pass while the real
+    check reads nothing."""
+    published = _published_binaries()
+    for f in published:
+        published[f] = {**published[f], "--injected": {"present": False}}
+    caught = _flag_shaped(published)
+    if caught != ["--injected"]:
+        return f"injecting a flag into the published dicts trips {caught}"
+    return True
+
+
 CHECKS = [
     ("alignment/char-spans-become-BIO-tags", c_alignment),
     ("alignment/CONTROL-shifted-spans-change-tags", c_alignment_control),
@@ -325,6 +426,16 @@ CHECKS = [
     ("ablation/CONTROL-reversed-ranking-surfaces-the-leaks",
      c_coverage_control_reversed_scores),
     ("evidence/README-numbers-are-on-disk", c_evidence_matches_disk),
+    ("env/external-binaries-finds-real-subprocess-calls",
+     c_external_binaries_finds_real_calls),
+    ("env/CONTROL-shadowed-local-run-is-not-subprocess",
+     c_external_binaries_ignores_local_run),
+    ("env/CONTROL-that-control-can-still-see-a-real-call",
+     c_external_binaries_control_shadow_is_reachable),
+    ("env/no-published-external-binary-is-a-flag",
+     c_published_binaries_are_plausible),
+    ("env/CONTROL-a-flag-is-recognisable-as-one",
+     c_published_binaries_control_flag_is_caught),
 ]
 
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-07T01:33:27Z",
+  "generated_at": "2026-09-07T02:41:27Z",
   "what": "Requirements 5 (Technology Stack), derived from the source rather than transcribed. Libraries are the third-party top-level modules our own .py files import; each version is read in its own subprocess with that module imported first.",
   "python": {
     "version": "3.13.9",
@@ -123,13 +123,6 @@
     }
   },
   "external_binaries": {
-    "--text": {
-      "files": [
-        "scripts/measure_ux.py"
-      ],
-      "present": false,
-      "error": "FileNotFoundError"
-    },
     "bash": {
       "files": [
         "scripts/record_demo.py"

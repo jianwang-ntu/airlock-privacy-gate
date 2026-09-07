@@ -179,7 +179,7 @@ no quantisation, on a host that was not idle-guaranteed. The answering model is
 not in this path at all, so a document the gate refuses costs far more end to
 end than any number here.
 
-`python3 tests/run_checks.py` → **21/21**, each accepting check paired with a
+`python3 tests/run_checks.py` → **26/26**, each accepting check paired with a
 control that must fail for it to mean anything.
 
 ## What this is *not*
@@ -235,7 +235,7 @@ bash scripts/fetch_model.sh        # the exact weights every number here was mea
 #   or
 bash scripts/train_all.sh          # rebuild from the corpus: ~4 minutes on one L40S
 
-python3 tests/run_checks.py        # 21 controls
+python3 tests/run_checks.py        # 26 controls
 python3 tests/check_readme_numbers.py   # every number below, re-read from evidence/
 python3 tests/check_learned_model_ablation.py   # controls for the rule 3 counterfactual
 python3 tests/check_ux_numbers.py       # every figure in "Using it", re-derived
@@ -490,17 +490,23 @@ version:
 - **No hosted inference API is called anywhere in this project.** Measured, not
   asserted: 25 vendor client packages were looked for in the import graph and
   none is present, and no provider endpoint or credential appears in the
-  source. The network is used in four places, all of them downloads or metadata
+  source. The network is used in three places, all of them downloads or metadata
   lookups and none of them inference — the corpus from `huggingface.co`, our own
-  release weights from `github.com`, the licence lookups in
-  `scripts/measure_third_party.py` (`--offline` skips those), and the version
-  lookups in `scripts/measure_env_drift.py`, which asks PyPI what an unpinned
-  install resolves to today. That last one is why the sweep now returns
+  release weights from `github.com`, and the version lookups in
+  `scripts/measure_env_drift.py`, which asks PyPI what an unpinned install
+  resolves to today. That last one is why the sweep now returns
   **REVIEW** rather than **NO_NETWORK_CLIENT**: it flags every file that imports
   a network module, and the file it flags is `scripts/measure_env_drift.py`.
-  Nothing in `airlock/` imports one. `transformers.from_pretrained` also fetches
-  a checkpoint on first use if you hand it a hub id instead of a local path.
-  After `scripts/fetch_model.sh` the gate needs no network at all.
+  Nothing in
+  `airlock/` imports one. `scripts/measure_third_party.py` does not reach the
+  network at all — it reads licences from distribution metadata already
+  installed and from `dpkg`, and prints a `curl` line per model so a reader can
+  reproduce the publisher's own record without ever running one. An earlier
+  version of this paragraph credited that script with licence lookups behind an
+  `--offline` flag; it has no such flag and never had one.
+  `transformers.from_pretrained` also fetches a checkpoint on first use if you
+  hand it a hub id instead of a local path. After `scripts/fetch_model.sh` the
+  gate needs no network at all.
 
 ## Originality
 
